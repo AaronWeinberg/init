@@ -55,11 +55,14 @@ winget uninstall "Your Phone"
 ## Peripherals ##
 <# SoundSwitch #> Start-Process "https://github.com/Belphemur/SoundSwitch/releases/download/v6.1.0/SoundSwitch_v6.1.0.19729_Release_Installer.exe"
 <# WD19 Dock #>   Start-Process "https://www.dell.com/support/home/en-us/product-support/product/dell-wd19tb-dock/drivers"
+<# DS4Windows #>  Start-Process "https://github.com/Ryochan7/DS4Windows/releases/latest"
 <# LGhub #>       Start-Process "https://www.logitechg.com/en-us/innovation/g-hub.html"
 
 ## Setup ##
+<# Alt Drag #>    Start-Process "https://stefansundin.github.io/altdrag/"
 <# Ctrl2Cap #>    Start-Process "https://docs.microsoft.com/en-us/sysinternals/downloads/ctrl2cap"
 <# Dell Update #> Start-Process "https://www.dell.com/support/home/en-us/drivers/DriversDetails?driverId=GRVPK"
+<# Fira Font #>   Start-Process "https://fonts.google.com/specimen/Fira+Code"
 <# PwshUpdate #>  Start-Process "https://4bes.nl/2019/06/30/get-pwshupdates-check-if-there-is-a-powershell-update-available-and-install-it/"
 <# Veracrypt #>   Start-Process "https://sourceforge.net/projects/veracrypt/files/latest/download"
 <# VS Code #>     Start-Process "https://code.visualstudio.com/docs/?dv=win"
