@@ -14,9 +14,6 @@
   Allow Twitter embedded tweets: Disabled;
   Engine used in address bar:    DuckDuckGo;
 
-### Brave / Chrome / Edge ###
-  <Browser>://flags --> Force Dark Mode For Web Content --> Enable with selective inversion of non-image elements
-
 
 ### ### ### ### ### ### ### ### ### ### ### ### ###
                       Linux
