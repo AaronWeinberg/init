@@ -5,6 +5,7 @@ Set-ExecutionPolicy Unrestricted
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
+winget install startallback
 
 
 ### Bloatware ###
@@ -33,6 +34,7 @@ winget uninstall "Windows Camera"
 winget uninstall "Windows Maps"
 winget uninstall "Windows Voice Recorder"
 winget uninstall "Xbox"
+winget uninstall "Xbox Game Bar"
 winget uninstall "Xbox Game Bar Plugin"
 winget uninstall "Xbox Game Speech Window"
 winget uninstall "Xbox Identity Provider"
