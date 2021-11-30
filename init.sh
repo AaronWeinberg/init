@@ -29,8 +29,7 @@ if [ ! grep -q 'update(){' $HOME/.bashrc ]; then
   sudo apt update; # download updates
   sudo apt -y upgrade; # install updates without y/n prompt
   ncu -g -u # update global packages
-  nvm install --lts; # download lts node version
-  nvm use --lts; # switch to lts node version
+  nvm install --lts; # download and switch to lts node version
 }" >> $HOME/.bashrc;
 fi # if update() function not in .bashrc, add it
 
