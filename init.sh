@@ -26,10 +26,11 @@ mkdir -p $DEVPATH; # make dev path
 if [ ! grep -q 'update(){' $HOME/.bashrc ]; then
   echo -e "\nupdate(){
   if [ -d $WINPATH ]; then sudo hwclock --hctosys; fi # if on WSL, set Linux clock to system clock
-  sudo apt update; # Download updates
-  sudo apt -y upgrade; # Install updates without y/n prompt
-  ncu -g -u # Update global packages
-  nvm install node; # Update node
+  sudo apt update; # download updates
+  sudo apt -y upgrade; # install updates without y/n prompt
+  ncu -g -u # update global packages
+  nvm install --lts; # download lts node version
+  nvm use --lts; # switch to lts node version
 }" >> $HOME/.bashrc;
 fi # if update() function not in .bashrc, add it
 
