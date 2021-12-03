@@ -22,8 +22,9 @@
 ### Config ###
 # Appearance:
   Window colors: Dark;
-  Settings --> Appearance --> Auto-hide the Dock: Enabled;
-  Position on screen: Bottom;
+  Settings --> Battery -->
+    Automatic Brightness: Off
+    Show Battery Percentage: On
 
 # Drop Down Terminal X:
   Shortcut: F1;
@@ -36,7 +37,7 @@
   # Ctrl2caps:
     gnome-tweak-tools --> Keyboard and Mouse --> Additional Layout Options --> Caps Lock Behavior --> Caps Lock is also a Ctrl
 
-### Gnome Extensions
+# Gnome Extensions
   Drop Down Terminal X;
   system-monitor;
 
