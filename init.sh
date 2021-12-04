@@ -4,7 +4,8 @@
 
 
 ### Variables ###
-CRON='0 * * * * sudo apt update && sudo apt -y upgrade && nvm install-latest-npm && nvm install --lts';
+CRON='0 * * * * sudo apt update && sudo apt -y upgrade';
+SUDOCRON='0 * * * * nvm install-latest-npm && nvm install --lts';
 DEVPATH=~/Development;
 EMAIL='aaron.weinberg@gmail.com'
 NAME='Aaron Weinberg';
@@ -14,12 +15,13 @@ sudo apt -y upgrade; # install updates without y/n prompt
 
 
 ### Apps ###
-sudo apt -y i
+sudo apt -y install
   byobu
   gnome-tweaks
-  powertop;
+  powertop
+  steam-installer;
 sudo snap install
-  code --classic
+  code --classic;
   
 # Chrome #
 if ! dpkg -l | grep google-chrome-stable; then
@@ -49,9 +51,17 @@ if [ ! -a ~/.vimrc ]; then
 fi
 
 
-### Cron ###
+### sudo Cron ###
 if ! pgrep cron; then sudo cron start; fi # start Cron if stopped
 sudo crontab -l > mycron; # write out current crontab
+if ! grep -q $SUDOCRON mycron; then
+  echo $SUDOCRON >> mycron; # echo new cron into cron file
+  sudo crontab mycron; # install new cron file
+fi
+rm mycron;
+
+### Cron ###
+crontab -l > mycron; # write out current crontab
 if ! grep -q $CRON mycron; then
   echo $CRON >> mycron; # echo new cron into cron file
   sudo crontab mycron; # install new cron file
