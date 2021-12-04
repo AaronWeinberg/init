@@ -2,7 +2,7 @@
                       General
 ### ### ### ### ### ### ### ### ### ### ### ### ###
 
-### Brave ###
+# Brave:
   # On Startup:                    Open the New Tab Page;
   # Theme:                         Slinky Elegant;
   # Use Wide Address Bar:          Enabled;
