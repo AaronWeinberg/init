@@ -51,7 +51,8 @@ if [ ! -a ~/.vimrc ]; then
 fi
 
 
-### sudo Cron ###
+### Cron Jobs ###
+# sudo Cron #
 if ! pgrep cron; then sudo cron start; fi # start Cron if stopped
 sudo crontab -l > mycron; # write out current crontab
 if ! grep -q $SUDOCRON mycron; then
@@ -60,7 +61,7 @@ if ! grep -q $SUDOCRON mycron; then
 fi
 rm mycron;
 
-### Cron ###
+# Cron #
 crontab -l > mycron; # write out current crontab
 if ! grep -q $CRON mycron; then
   echo $CRON >> mycron; # echo new cron into cron file
@@ -90,5 +91,9 @@ if [ ! -d ~/.nvm ]; then
   nvm install-latest-npm;
   npm update -g;
 fi
+
+### Settings ###
+gsettings set org.gnome.shell.extensions.desktop-icons show-home false # hide home folder
+gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false # hide trash icon
 
 exec bash; # refresh shell ### WARN ### No command can follow this
