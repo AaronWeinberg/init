@@ -50,7 +50,7 @@ byobu-enable; # set Byobu as default terminal
 
 
 ### VIM ###
-if [ ! -a ~/.vimrc ]; then 
+if [ ! -f ~/.vimrc ]; then 
   touch ~/.vimrc; # create .vimrc
   echo 'set belloff=all' >> ~/.vimrc; # turn off bell
   echo 'set number' >> ~/.vimrc; # show line numbers
@@ -58,19 +58,19 @@ fi
 
 
 ### Cron Jobs ###
+# Cron #
+crontab -l > mycron; # write out current crontab
+if ! grep -q $CRON mycron; then
+  echo $CRON >> mycron; # echo new cron into cron file
+  sudo crontab mycron; # install new cron file
+fi
+rm mycron;
+
 # sudo Cron #
 if ! pgrep cron; then sudo cron start; fi # start Cron if stopped
 sudo crontab -l > mycron; # write out current crontab
 if ! grep -q $SUDOCRON mycron; then
   echo $SUDOCRON >> mycron; # echo new cron into cron file
-  sudo crontab mycron; # install new cron file
-fi
-rm mycron;
-
-# Cron #
-crontab -l > mycron; # write out current crontab
-if ! grep -q $CRON mycron; then
-  echo $CRON >> mycron; # echo new cron into cron file
   sudo crontab mycron; # install new cron file
 fi
 rm mycron;
