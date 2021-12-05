@@ -15,7 +15,7 @@ sudo apt -y upgrade; # install updates without y/n prompt
 
 
 ### Apps ###
-sudo apt -y install
+sudo apt install -y
   byobu
   chrome-gnome-shell
   curl
@@ -25,7 +25,16 @@ sudo apt -y install
   htop
   powertop
   steam-installer
+  ttf-mscorefonts-installer
   vim;
+
+sudo apt purge -y
+  kerneloops
+  ubuntu-report
+  popularity-contest
+  apport
+  whoopsie;
+
 sudo snap install
   code --classic;
   
