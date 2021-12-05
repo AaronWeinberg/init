@@ -104,6 +104,14 @@ npm i -g npm-check-updates;
 
 
 ### Settings ###
+gsettings set org.gnome.system.location enabled true # turn on location services
+gsettings set org.gnome.desktop.datetime automatic-timezone true # turn on automatic timezone setting
+gsettings set org.gnome.desktop.screensaver picture-uri 'file:///usr/share/backgrounds/Milky_Way_by_Paulo_Jos%C3%A9_Oliveira_Amaro.jpg'
+gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/Milky_Way_by_Paulo_Jos%C3%A9_Oliveira_Amaro.jpg'
+gsettings set org.gnome.desktop.input-sources xkb-options ['caps:ctrl_modifier'] # caps -> ctrl
+gsettings set org.gnome.shell.extensions.dash-to-dock autohide true # autohide
+gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 38
+gsettings set org.gnome.shell.extensions.dash-to-dock multi-monitor true # display on all monitors
 gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize' # minimize on click
 gsettings set org.gnome.shell.extensions.desktop-icons show-home false # hide home folder
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false # hide trash icon
