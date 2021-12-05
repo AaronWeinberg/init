@@ -1,5 +1,5 @@
 ### ### ### ### ### ### ###
-### Initial Linux Setup ###
+#   Initial Linux Setup   #
 ### ### ### ### ### ### ###
 
 
