@@ -27,6 +27,7 @@ sudo apt install -y
   byobu
   chrome-gnome-shell
   curl
+  dconf-editor
   git
   gnome-tweaks
   google-chrome-stable
