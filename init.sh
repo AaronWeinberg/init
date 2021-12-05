@@ -5,6 +5,10 @@
 
 ### Variables ###
 CRON='0 * * * * sudo apt update && sudo apt -y upgrade && rm -rf ~/.local/share/Trash/*';
+TCASE='set completion-ignore-case On';
+TBELL='set bell-style none';
+VBELL='set belloff=all';
+VNUM='set number';
 DEVPATH=~/Development;
 EMAIL='aaron.weinberg@gmail.com'
 NAME='Aaron Weinberg';
@@ -18,6 +22,7 @@ sudo apt -y upgrade; # install updates without y/n prompt
 sudo apt-get install curl python-software-properties
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
+# apt #
 sudo apt install -y
   byobu
   chrome-gnome-shell
@@ -40,6 +45,7 @@ sudo apt purge -y
   ubuntu-report
   whoopsie;
 
+# snap #
 #sudo snap install
 #  code --classic;
   
@@ -59,27 +65,24 @@ sudo apt install -y balena-etcher-electron
 
 
 ### Terminal Setup ###
-if [ ! -f ~/.inputrc ]; then
-  touch ~/.inputrc;
-  echo 'set completion-ignore-case On' >> ~/.inputrc;
-  echo 'set bell-style none' >> ~/.inputrc;
-fi
+# .inputrc #
+touch ~/.inputrc
+if ! grep -q $TCASE ~/.inputrc; then echo TCASE >> ~/.inputrc; fi
+if ! grep -q $TBELL ~/.inputrc; then echo TBELL >> ~/.inputrc; fi
 
-if [ ! -d $DEVPATH ]; then echo -e "\ncd $DEVPATH # Set default path" >> ~/.bashrc; fi # set dev path
+# .bashrc #
 mkdir -p $DEVPATH; # make dev path
+if ! grep -q "cd $DEVPATH" ~/.bashrc; then echo "cd $DEVPATH" >> ~/.bashrc; fi # set dev path
 
+# vim #
+touch ~/.vimrc
+if ! grep -q $VBELL ~/.vimrc; then echo $VBELL >> ~/.vimrc; fi
+if ! grep -q $VNUM ~/.vimrc; then echo $VNUM >> ~/.vimrc; fi
+
+# byobu #
 byobu-enable; # set Byobu as default terminal
 
-
-### VIM ###
-if [ ! -f ~/.vimrc ]; then 
-  touch ~/.vimrc;
-  echo 'set belloff=all' >> ~/.vimrc;
-  echo 'set number' >> ~/.vimrc;
-fi
-
-
-### Cron Jobs ###
+# cron #
 if ! pgrep cron; then sudo cron start; fi # start Cron if stopped
 crontab -l > mycron; # write out current crontab
 if ! grep -q $CRON mycron; then
@@ -88,19 +91,16 @@ if ! grep -q $CRON mycron; then
 fi
 rm mycron;
 
-
-### Git ###
+# git #
 git config --global user.name $NAME;
 git config --global user.email $EMAIL;
 
-
-### SSH ###
+# ssh ##
 mkdir ~/.ssh;
 touch ~/.ssh/id_ed25519;
 touch ~/.ssh/id_ed25519.pub;
 
-
-### Global Packages ###
+# global npm packages #
 npm i -g npm-check-updates;
 
 
