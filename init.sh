@@ -4,8 +4,8 @@
 
 
 ### Variables ###
-CRON='0 * * * * sudo apt update && sudo apt -y upgrade && rm -rf ~/.local/share/Trash/*';
-SUDOCRON='0 * * * * nvm install-latest-npm && nvm install --lts';
+SUDOCRON='0 * * * * sudo apt update && sudo apt -y upgrade && rm -rf ~/.local/share/Trash/*';
+CRON='0 * * * * nvm install-latest-npm && nvm install --lts';
 DEVPATH=~/Development;
 EMAIL='aaron.weinberg@gmail.com'
 NAME='Aaron Weinberg';
@@ -21,6 +21,7 @@ sudo apt install -y
   curl
   git
   gnome-tweaks
+  google-chrome-stable
   gparted
   htop
   powertop
