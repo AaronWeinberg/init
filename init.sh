@@ -4,7 +4,7 @@
 
 
 ### Variables ###
-CRON='0 * * * * sudo apt update && sudo apt -y upgrade';
+CRON='0 * * * * sudo apt update && sudo apt -y upgrade && rm -rf ~/.local/share/Trash/*';
 SUDOCRON='0 * * * * nvm install-latest-npm && nvm install --lts';
 DEVPATH=~/Development;
 EMAIL='aaron.weinberg@gmail.com'
@@ -37,6 +37,12 @@ sudo apt purge -y
 
 sudo snap install
   code --classic;
+  
+# Balena Etcher #
+sudo apt install -y libfprint-2-tod1 apt-transport-https
+curl -1sLf \
+   'https://dl.cloudsmith.io/public/balena/etcher/setup.deb.sh' \
+   | sudo -E bash
   
 # Chrome #
 if ! dpkg -l | grep google-chrome-stable; then
