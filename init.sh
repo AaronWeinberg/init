@@ -98,6 +98,11 @@ git config --global user.name $NAME;
 git config --global user.email $EMAIL;
 
 
+### SSH ###
+mkdir ~/.ssh;
+touch ~/.ssh/id_ed25519;
+touch ~/.ssh/id_ed25519.pub;
+
 
 ### NVM + NPM + Node ###
 if [ ! -d ~/.nvm ]; then
