@@ -20,5 +20,6 @@
 ### ### ### ### ### ### ### ### ### ### ### ### ###
 #                    Windows                      #
 
+from elevated terminal: Set-ExecutionPolicy Unrestricted
 Run init.ps1  
 Task Scheduler → import update.xml  
