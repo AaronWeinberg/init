@@ -118,6 +118,7 @@ npm i -g eslint;
 
 
 ### Settings ###
+gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize' # minimize on click
 gsettings set org.gnome.shell.extensions.desktop-icons show-home false # hide home folder
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false # hide trash icon
 
