@@ -17,9 +17,15 @@ sudo apt -y upgrade; # install updates without y/n prompt
 ### Apps ###
 sudo apt -y install
   byobu
+  chrome-gnome-shell
+  curl
+  git
   gnome-tweaks
+  gparted
+  htop
   powertop
-  steam-installer;
+  steam-installer
+  vim;
 sudo snap install
   code --classic;
   
@@ -75,10 +81,6 @@ git config --global user.name $NAME;
 git config --global user.email $EMAIL;
 
 
-### Global Packages ###
-npm i -g npm-check-updates;
-npm i -g eslint;
-
 
 ### NVM + NPM + Node ###
 if [ ! -d ~/.nvm ]; then
@@ -91,6 +93,12 @@ if [ ! -d ~/.nvm ]; then
   nvm install-latest-npm;
   npm update -g;
 fi
+
+
+### Global Packages ###
+npm i -g npm-check-updates;
+npm i -g eslint;
+
 
 ### Settings ###
 gsettings set org.gnome.shell.extensions.desktop-icons show-home false # hide home folder
