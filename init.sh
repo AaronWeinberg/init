@@ -41,8 +41,10 @@ sudo snap install
 # Balena Etcher #
 sudo apt install -y libfprint-2-tod1 apt-transport-https
 curl -1sLf \
-   'https://dl.cloudsmith.io/public/balena/etcher/setup.deb.sh' \
-   | sudo -E bash
+  'https://dl.cloudsmith.io/public/balena/etcher/setup.deb.sh' \
+  | sudo -E bash
+sudo apt-get update
+sudo apt-get install balena-etcher-electron
   
 # Chrome #
 if ! dpkg -l | grep google-chrome-stable; then
