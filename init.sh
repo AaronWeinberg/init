@@ -29,10 +29,10 @@ sudo apt install -y
   vim;
 
 sudo apt purge -y
-  kerneloops
-  ubuntu-report
-  popularity-contest
   apport
+  kerneloops
+  popularity-contest
+  ubuntu-report
   whoopsie;
 
 sudo snap install
@@ -46,16 +46,16 @@ curl -1sLf \
   
 # Chrome #
 if ! dpkg -l | grep google-chrome-stable; then
-  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; # download chrome
-  sudo dpkg -i google-chrome-stable_current_amd64.deb; # install chrome
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
+  sudo dpkg -i google-chrome-stable_current_amd64.deb;
 fi
 
 
 ### Terminal Setup ###
 if [ ! -f ~/.inputrc ]; then
-  touch ~/.inputrc; # create .inputrc
-  echo 'set completion-ignore-case On' >> ~/.inputrc; # ignore case-sensitive autocomplete for terminal
-  echo 'set bell-style none' >> ~/.inputrc; # turn off bell for terminal
+  touch ~/.inputrc;
+  echo 'set completion-ignore-case On' >> ~/.inputrc;
+  echo 'set bell-style none' >> ~/.inputrc;
 fi
 
 if [ ! -d $DEVPATH ]; then echo -e "\ncd $DEVPATH # Set default path" >> ~/.bashrc; fi # set dev path
@@ -66,14 +66,15 @@ byobu-enable; # set Byobu as default terminal
 
 ### VIM ###
 if [ ! -f ~/.vimrc ]; then 
-  touch ~/.vimrc; # create .vimrc
-  echo 'set belloff=all' >> ~/.vimrc; # turn off bell
-  echo 'set number' >> ~/.vimrc; # show line numbers
+  touch ~/.vimrc;
+  echo 'set belloff=all' >> ~/.vimrc;
+  echo 'set number' >> ~/.vimrc;
 fi
 
 
 ### Cron Jobs ###
 # Cron #
+if ! pgrep cron; then sudo cron start; fi # start Cron if stopped
 crontab -l > mycron; # write out current crontab
 if ! grep -q $CRON mycron; then
   echo $CRON >> mycron; # echo new cron into cron file
@@ -82,11 +83,10 @@ fi
 rm mycron;
 
 # sudo Cron #
-if ! pgrep cron; then sudo cron start; fi # start Cron if stopped
-sudo crontab -l > mycron; # write out current crontab
+sudo crontab -l > mycron;
 if ! grep -q $SUDOCRON mycron; then
-  echo $SUDOCRON >> mycron; # echo new cron into cron file
-  sudo crontab mycron; # install new cron file
+  echo $SUDOCRON >> mycron;
+  sudo crontab mycron;
 fi
 rm mycron;
 
