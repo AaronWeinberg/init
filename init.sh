@@ -14,6 +14,7 @@ sudo apt -y upgrade; # install updates without y/n prompt
 
 
 ### Apps ###
+# Node #
 sudo apt-get install curl python-software-properties
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
