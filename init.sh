@@ -107,5 +107,3 @@ if ! grep -q "$CRON" mycron; then
   sudo crontab mycron; # install new cron file
 fi
 rm mycron
-
-exec bash; # refresh shell ### WARN ### No command can follow this
