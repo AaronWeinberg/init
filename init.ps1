@@ -17,7 +17,6 @@ winget install 9NBLGGH4MSV6 --accept-package-agreements # Ubuntu
 
 # Bloatware #
 winget uninstall "Cortana"
-winget uninstall "Disney+"
 winget uninstall "Feedback Hub"
 winget uninstall "Get Help"
 winget uninstall "Groove Music"
@@ -36,7 +35,6 @@ winget uninstall "MSN Weather"
 winget uninstall "Office"
 winget uninstall "OneDrive"
 winget uninstall "Power Automate"
-winget uninstall "Spotify Music"
 winget uninstall "Windows Alarms & Clock"
 winget uninstall "Windows Camera"
 winget uninstall "Windows Maps"
