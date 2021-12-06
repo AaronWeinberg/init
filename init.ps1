@@ -1,4 +1,4 @@
-### Modules ###
+# Modules #
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')) # install Chocolatey if not already installed
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
@@ -12,9 +12,10 @@ winget install Valve.Steam --accept-package-agreements
 winget install Microsoft.VisualStudioCode --accept-package-agreements
 winget install Dell.CommandUpdate --accept-package-agreements
 winget install Balena.Etcher --accept-package-agreements
+winget install AntoineAflalo.SoundSwitch --accept-package-agreements
 winget install 9NBLGGH4MSV6 --accept-package-agreements # Ubuntu
 
-### Bloatware ###
+# Bloatware #
 winget uninstall "Cortana"
 winget uninstall "Disney+"
 winget uninstall "Feedback Hub"
