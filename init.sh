@@ -14,7 +14,7 @@ DEVPATH=~/Development;
 
 ### Apps ###
 # Node #
-sudo apt install -y curl python-software-properties
+sudo apt install -y curl software-properties-common
 curl -sL \
   'https://deb.nodesource.com/setup_16.x' \
   | sudo -E bash;
@@ -44,14 +44,16 @@ sudo apt install -y steam-installer;
 sudo apt install -y ttf-mscorefonts-installer;
 sudo apt install -y vim;
 
+# snap #
+sudo snap install code --classic;
+
+# remove #
 sudo apt purge -y apport;
 sudo apt purge -y kerneloops;
 sudo apt purge -y popularity-contest;
 sudo apt purge -y ubuntu-report;
 sudo apt purge -y whoopsie;
-
-# snap #
-sudo snap install code --classic;
+sudo apt autoremove -y;
 
 
 ### Terminal Setup ###
@@ -97,6 +99,7 @@ gsettings set org.gnome.shell.extensions.dash-to-dock multi-monitor true # displ
 gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize' # minimize on click
 gsettings set org.gnome.shell.extensions.desktop-icons show-home false # hide home folder
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false # hide trash icon
+
 
 # cron #
 if ! pgrep cron; then sudo cron start; fi # start Cron if stopped
