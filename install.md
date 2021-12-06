@@ -20,7 +20,10 @@
 ### ### ### ### ### ### ### ### ### ### ### ### ###
 #                    Windows                      #
 
-Microsoft Store -> update all apps (restart);  
-Run init.ps1  
+Windows updates (several restarts)  
+Microsoft Store -> update all apps  
+File Explorer Options -> View -> Check "Show hidden files" +++ Uncheck "Hide extensions for known file types"
+From elevated Powershell -> Set-Execution-Policy Unrestricted
+.\init.ps1  
 Save update.ps1 to C:\Users\aaron\Documents\  
 Task Scheduler → import update.xml  
