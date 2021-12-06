@@ -4,7 +4,7 @@
 
 
 ### Variables ###
-CRON='0 0 * * * sudo apt update && sudo apt -y upgrade && rm -rf /home/aaron/.local/share/Trash/*';
+CRON='0 0 * * * sudo apt update && sudo apt -y upgrade && sudo apt autoremove -y && npm update -g && rm -rf /home/aaron/.local/share/Trash/*';
 TCASE='set completion-ignore-case On';
 TBELL='set bell-style none';
 VBELL='set belloff=all';
@@ -13,10 +13,11 @@ DEVPATH=~/Development;
 
 
 ### Apps ###
+sudo apt install -y curl
+
 # Node #
-sudo apt install -y curl software-properties-common
-curl -sL \
-  'https://deb.nodesource.com/setup_16.x' \
+curl -fsSL \
+  'https://deb.nodesource.com/setup_lts.x' \
   | sudo -E bash;
 
 # Balena Etcher #
@@ -84,7 +85,7 @@ touch ~/.ssh/id_ed25519;
 touch ~/.ssh/id_ed25519.pub;
 
 # global npm packages #
-npm install -g npm-check-updates;
+sudo npm install -g npm-check-updates;
 
 
 ### Settings ###
