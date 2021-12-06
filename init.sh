@@ -70,7 +70,9 @@ if ! grep -q "$TBELL" ~/.inputrc; then echo -e "\n$TBELL" >> ~/.inputrc; fi
 # .bashrc #
 mkdir -p $DEVPATH; # make dev path
 if ! grep -q "cd $DEVPATH" ~/.bashrc; then echo -e "\ncd $DEVPATH\n" >> ~/.bashrc; fi # set dev path
-if ! grep -q 'update(){' ~/.bashrc; then echo -e "update(){$UPDATE}\n" >> ~/.bashrc; fi # custom update function
+if ! grep -q 'update(){' ~/.bashrc; then echo -e "update(){
+  $UPDATE
+}\n" >> ~/.bashrc; fi # custom update function
 
 # .vimrc #
 touch ~/.vimrc
