@@ -27,3 +27,5 @@ From elevated Powershell -> Set-Execution-Policy Unrestricted
 .\init.ps1  
 Save update.ps1 to C:\Users\aaron\Documents\  
 Task Scheduler → import update.xml  
+Download fonts -> extract -> drag + drop onto Settings / Personalization / Fonts  
+Download Ctrl2Cap -> extract -> Open elevated cmd prompt -> navigate to extracted folder -> run 'ctrl2cap /install'
