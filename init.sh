@@ -4,7 +4,8 @@
 
 
 ### Variables ###
-CRON='0 0 * * * sudo apt update && sudo apt -y upgrade && sudo apt autoremove -y && npm update -g && rm -rf /home/aaron/.local/share/Trash/*';
+CRONTIME='0 0 * * * ';
+UPDATE='sudo apt update && sudo apt -y upgrade && sudo apt autoremove -y && sudo npm update -g && rm -rf /home/aaron/.local/share/Trash/*';
 TCASE='set completion-ignore-case On';
 TBELL='set bell-style none';
 VBELL='set belloff=all';
@@ -48,6 +49,9 @@ sudo apt install -y vim;
 # snap #
 sudo snap install code --classic;
 
+# npm #
+sudo npm install -g npm-check-updates;
+
 # remove #
 sudo apt purge -y apport;
 sudo apt purge -y kerneloops;
@@ -60,17 +64,18 @@ sudo apt autoremove -y;
 ### Terminal Setup ###
 # .inputrc #
 touch ~/.inputrc
-if ! grep -q "$TCASE" ~/.inputrc; then echo "$TCASE" >> ~/.inputrc; fi
-if ! grep -q "$TBELL" ~/.inputrc; then echo "$TBELL" >> ~/.inputrc; fi
+if ! grep -q "$TCASE" ~/.inputrc; then echo -e "\n$TCASE" >> ~/.inputrc; fi
+if ! grep -q "$TBELL" ~/.inputrc; then echo -e "\n$TBELL" >> ~/.inputrc; fi
 
 # .bashrc #
 mkdir -p $DEVPATH; # make dev path
-if ! grep -q "cd $DEVPATH" ~/.bashrc; then echo "cd $DEVPATH" >> ~/.bashrc; fi # set dev path
+if ! grep -q "cd $DEVPATH" ~/.bashrc; then echo -e "\ncd $DEVPATH\n" >> ~/.bashrc; fi # set dev path
+if ! grep -q 'update(){' ~/.bashrc; then echo -e "update(){$UPDATE}\n" >> ~/.bashrc; fi # custom update function
 
-# vim #
+# .vimrc #
 touch ~/.vimrc
-if ! grep -q "$VBELL" ~/.vimrc; then echo "$VBELL" >> ~/.vimrc; fi
-if ! grep -q "$VNUM" ~/.vimrc; then echo "$VNUM" >> ~/.vimrc; fi
+if ! grep -q "$VBELL" ~/.vimrc; then echo -e "\n$VBELL" >> ~/.vimrc; fi
+if ! grep -q "$VNUM" ~/.vimrc; then echo -e "\n$VNUM" >> ~/.vimrc; fi
 
 # byobu #
 byobu-enable; # set Byobu as default terminal
@@ -83,9 +88,6 @@ git config --global user.email "aaron.weinberg@gmail.com";
 mkdir -p ~/.ssh;
 touch ~/.ssh/id_ed25519;
 touch ~/.ssh/id_ed25519.pub;
-
-# global npm packages #
-sudo npm install -g npm-check-updates;
 
 
 ### Settings ###
@@ -106,8 +108,8 @@ gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false # hide tr
 if ! pgrep cron; then sudo cron start; fi # start Cron if stopped
 sudo -i
 sudo crontab -l > mycron; # write out current sudo crontab
-if ! grep -q "$CRON" mycron; then
-  echo "$CRON" >> mycron; # echo new cron into cron file
+if ! grep -q "$UPDATE" mycron; then
+  echo "$CRONTIME$UPDATE" >> mycron; # echo new cron into cron file
   sudo crontab mycron; # install new cron file
 fi
 rm mycron
