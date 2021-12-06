@@ -4,7 +4,7 @@
 
 
 ### Variables ###
-CRON='0 * * * * sudo apt update && sudo apt -y upgrade && rm -rf ~/.local/share/Trash/*';
+CRON='0 0 * * * sudo apt update && sudo apt -y upgrade && rm -rf /home/aaron/.local/share/Trash/*';
 TCASE='set completion-ignore-case On';
 TBELL='set bell-style none';
 VBELL='set belloff=all';
