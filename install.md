@@ -20,6 +20,7 @@
 ### ### ### ### ### ### ### ### ### ### ### ### ###
 #                    Windows                      #
 
-from elevated terminal: Set-ExecutionPolicy Unrestricted
+Microsoft Store -> update all apps (restart);  
 Run init.ps1  
+Save update.ps1 to C:\Users\aaron\Documents\  
 Task Scheduler → import update.xml  
