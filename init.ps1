@@ -14,6 +14,7 @@ winget install Dell.CommandUpdate --accept-package-agreements
 winget install Balena.Etcher --accept-package-agreements
 winget install AntoineAflalo.SoundSwitch --accept-package-agreements
 winget install 9NBLGGH4MSV6 --accept-package-agreements # Ubuntu
+winget install 9MZ1SNWT0N5D --accept-package-agreements # Powershell
 
 # Bloatware #
 winget uninstall "Cortana"
