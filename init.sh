@@ -16,15 +16,19 @@ DEVPATH=~/Development;
 ### Apps ###
 sudo apt install -y curl
 
-# Node #
-curl -fsSL \
-  'https://deb.nodesource.com/setup_lts.x' \
-  | sudo -E bash;
-
 # Balena Etcher #
 sudo apt install -y libfprint-2-tod1 apt-transport-https;
 curl -1sLf \
   'https://dl.cloudsmith.io/public/balena/etcher/setup.deb.sh' \
+  | sudo -E bash;
+
+# Chrome #
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
+sudo dpkg -i google-chrome-stable_current_amd64.deb;
+
+# Node #
+curl -fsSL \
+  'https://deb.nodesource.com/setup_lts.x' \
   | sudo -E bash;
 
 sudo apt update; # download updates
@@ -38,7 +42,6 @@ sudo apt install -y dconf-cli;
 sudo apt install -y dconf-editor;
 sudo apt install -y git;
 sudo apt install -y gnome-tweaks;
-sudo apt install -y google-chrome-stable;
 sudo apt install -y gparted;
 sudo apt install -y htop;
 sudo apt install -y nodejs;
