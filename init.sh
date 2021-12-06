@@ -68,8 +68,8 @@ sudo apt install -y balena-etcher-electron
 ### Terminal Setup ###
 # .inputrc #
 touch ~/.inputrc
-if ! grep -q $TCASE ~/.inputrc; then echo TCASE >> ~/.inputrc; fi
-if ! grep -q $TBELL ~/.inputrc; then echo TBELL >> ~/.inputrc; fi
+if ! grep -q "$TCASE" ~/.inputrc; then echo "$TCASE" >> ~/.inputrc; fi
+if ! grep -q "$TBELL" ~/.inputrc; then echo "$TBELL" >> ~/.inputrc; fi
 
 # .bashrc #
 mkdir -p $DEVPATH; # make dev path
@@ -77,8 +77,8 @@ if ! grep -q "cd $DEVPATH" ~/.bashrc; then echo "cd $DEVPATH" >> ~/.bashrc; fi #
 
 # vim #
 touch ~/.vimrc
-if ! grep -q $VBELL ~/.vimrc; then echo $VBELL >> ~/.vimrc; fi
-if ! grep -q $VNUM ~/.vimrc; then echo $VNUM >> ~/.vimrc; fi
+if ! grep -q "$VBELL" ~/.vimrc; then echo "$VBELL" >> ~/.vimrc; fi
+if ! grep -q "$VNUM" ~/.vimrc; then echo "$VNUM" >> ~/.vimrc; fi
 
 # byobu #
 byobu-enable; # set Byobu as default terminal
@@ -97,7 +97,7 @@ git config --global user.name $NAME;
 git config --global user.email $EMAIL;
 
 # ssh ##
-mkdir ~/.ssh;
+mkdir -p ~/.ssh;
 touch ~/.ssh/id_ed25519;
 touch ~/.ssh/id_ed25519.pub;
 
