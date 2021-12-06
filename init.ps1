@@ -5,14 +5,14 @@ wsl --install
 winget list --accept-source-agreements # installs winget
 
 # Winget #
-winget install Google.Chrome
-winget install Mozilla.Firefox
-winget install Logitech.GHUB
-winget install Valve.Steam
-winget install Microsoft.VisualStudioCode
-winget install Dell.CommandUpdate
-winget install Balena.Etcher
-winget install 9NBLGGH4MSV6 # Ubuntu
+winget install Google.Chrome --accept-package-agreements
+winget install Mozilla.Firefox --accept-package-agreements
+winget install Logitech.GHUB --accept-package-agreements
+winget install Valve.Steam --accept-package-agreements
+winget install Microsoft.VisualStudioCode --accept-package-agreements
+winget install Dell.CommandUpdate --accept-package-agreements
+winget install Balena.Etcher --accept-package-agreements
+winget install 9NBLGGH4MSV6 --accept-package-agreements # Ubuntu
 
 ### Bloatware ###
 winget uninstall "Cortana"
