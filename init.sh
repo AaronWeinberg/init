@@ -40,6 +40,7 @@ sudo apt install -y byobu;
 sudo apt install -y chrome-gnome-shell;
 sudo apt install -y dconf-cli;
 sudo apt install -y dconf-editor;
+sudo apt install -y fonts-firacode;
 sudo apt install -y git;
 sudo apt install -y gnome-tweaks;
 sudo apt install -y gparted;
