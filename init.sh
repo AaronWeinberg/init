@@ -85,6 +85,7 @@ if ! grep -q "$VNUM" ~/.vimrc; then echo -e "\n$VNUM" >> ~/.vimrc; fi
 
 # byobu #
 byobu-enable; # set Byobu as default terminal
+byobu-enable-prompt # color theme for prompt
 
 # git #
 git config --global user.name "Aaron Weinberg";
