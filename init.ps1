@@ -1,10 +1,16 @@
-# Modules #
+# modules #
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')) # install Chocolatey if not already installed
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
-winget list --accept-source-agreements # installs winget
+winget list --accept-source-agreements # installs wingete
 
-# Winget #
+# choco #
+choco upgrade chocolatey
+choco install firacode
+choco install nvidia-display-driver
+choco upgrade nvidia-display-driver
+
+# winget #
 winget install Google.Chrome --accept-package-agreements
 winget install Mozilla.Firefox --accept-package-agreements
 winget install Logitech.GHUB --accept-package-agreements
@@ -16,7 +22,7 @@ winget install AntoineAflalo.SoundSwitch --accept-package-agreements
 winget install 9NBLGGH4MSV6 --accept-package-agreements # Ubuntu
 winget install 9MZ1SNWT0N5D --accept-package-agreements # Powershell
 
-# Bloatware #
+# bloatware #
 winget uninstall "Cortana"
 winget uninstall "Feedback Hub"
 winget uninstall "Get Help"
@@ -47,3 +53,6 @@ winget uninstall "Xbox Game Speech Window"
 winget uninstall "Xbox Identity Provider"
 winget uninstall "Xbox TCUI"
 winget uninstall "Your Phone"
+
+Get-Command -Module PSWindowsUpdate | Out-Null
+Install-WindowsUpdate -AcceptAll # windows update -no prompt -no auto-restart
