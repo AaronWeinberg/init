@@ -93,11 +93,10 @@ git config --global user.name "Aaron Weinberg";
 git config --global user.email "aaron.weinberg@gmail.com";
 
 # ssh ##
+rm -rf ~/.ssh;
 mkdir -p ~/.ssh;
-touch ~/.ssh/id_ed25519;
-touch ~/.ssh/id_ed25519.pub;
-sudo chmod 600 ~/.ssh/id_ed25519;
-sudo chmod 600 ~/.ssh/id_ed25519.pub;
+touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
+sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
 
 
 ### Settings ###
