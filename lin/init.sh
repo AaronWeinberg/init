@@ -10,6 +10,7 @@ TCASE='set completion-ignore-case On';
 TBELL='set bell-style none';
 VBELL='set belloff=all';
 VNUM='set number';
+PS1='\033[1;37m\W\033[0m$(__git_ps1 "|\033[0;33m%s\033[0m")\\n > '
 DEVPATH=~/Development;
 
 
@@ -75,6 +76,7 @@ if ! grep -q "$TBELL" ~/.inputrc; then echo -e "\n$TBELL" >> ~/.inputrc; fi
 # .bashrc #
 mkdir -p $DEVPATH; # make dev path
 if ! grep -q "cd $DEVPATH" ~/.bashrc; then echo -e "\ncd $DEVPATH\n" >> ~/.bashrc; fi # set dev path
+if ! grep -q "PS1='$PS1'" ~/.bashrc; then echo -e "PS1='$PS1'\n" >> ~/.bashrc; fi # new prompt
 if ! grep -q 'update(){' ~/.bashrc; then echo -e "update(){
   $UPDATE
 }\n" >> ~/.bashrc; fi # custom update function
