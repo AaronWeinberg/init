@@ -57,6 +57,7 @@ sudo snap install code --classic;
 
 # npm #
 sudo npm install -g npm-check-updates;
+sudo npm install -g eslint;
 
 # remove #
 sudo apt purge -y apport;
