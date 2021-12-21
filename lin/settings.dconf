@@ -1,13 +1,17 @@
 [apps/update-manager]
-launch-count=1
-launch-time=int64 1639024271
+first-run=false
+launch-count=2
+launch-time=int64 1639667815
+show-details=true
+window-height=442
+window-width=645
 
 [ca/desrt/dconf-editor]
-saved-pathbar-path='/org/gnome/desktop/applications/office/'
-saved-view='/org/gnome/desktop/applications/office/'
+saved-pathbar-path='/org/gnome/shell/extensions/just-perfection/'
+saved-view='/org/gnome/shell/extensions/just-perfection/'
 show-warning=false
 window-height=500
-window-is-maximized=false
+window-is-maximized=true
 window-width=540
 
 [com/github/amezin/ddterm]
@@ -34,7 +38,7 @@ window-size=1.0
 release-check-time=uint32 1639024263
 
 [org/gnome/control-center]
-last-panel='power'
+last-panel='user-accounts'
 
 [org/gnome/desktop/background]
 picture-uri='file:///usr/share/backgrounds/Milky_Way_by_Paulo_Jos%C3%A9_Oliveira_Amaro.jpg'
@@ -48,19 +52,25 @@ xkb-options=['caps:ctrl_modifier']
 
 [org/gnome/desktop/interface]
 enable-animations=true
-enable-hot-corners=false
+enable-hot-corners=true
 font-hinting='slight'
 gtk-im-module='gtk-im-context-simple'
 gtk-theme='Yaru-dark'
 
 [org/gnome/desktop/notifications]
-application-children=['firefox-firefox', 'google-chrome', 'org-gnome-shell-portalhelper', 'code-code', 'gnome-power-panel', 'org-gnome-shell-extensions']
+application-children=['firefox-firefox', 'google-chrome', 'org-gnome-shell-portalhelper', 'code-code', 'gnome-power-panel', 'org-gnome-shell-extensions', 'update-manager', 'gnome-network-panel', 'steam', 'ca-desrt-dconf-editor']
+
+[org/gnome/desktop/notifications/application/ca-desrt-dconf-editor]
+application-id='ca.desrt.dconf-editor.desktop'
 
 [org/gnome/desktop/notifications/application/code-code]
 application-id='code_code.desktop'
 
 [org/gnome/desktop/notifications/application/firefox-firefox]
 application-id='firefox_firefox.desktop'
+
+[org/gnome/desktop/notifications/application/gnome-network-panel]
+application-id='gnome-network-panel.desktop'
 
 [org/gnome/desktop/notifications/application/gnome-power-panel]
 application-id='gnome-power-panel.desktop'
@@ -73,6 +83,18 @@ application-id='org.gnome.Shell.Extensions.desktop'
 
 [org/gnome/desktop/notifications/application/org-gnome-shell-portalhelper]
 application-id='org.gnome.Shell.PortalHelper.desktop'
+
+[org/gnome/desktop/notifications/application/steam]
+application-id='steam.desktop'
+
+[org/gnome/desktop/notifications/application/update-manager]
+application-id='update-manager.desktop'
+
+[org/gnome/desktop/peripherals/keyboard]
+numlock-state=true
+
+[org/gnome/desktop/peripherals/touchpad]
+two-finger-scrolling-enabled=true
 
 [org/gnome/desktop/privacy]
 disable-microphone=false
@@ -88,8 +110,16 @@ network-monitor-gio-name=''
 [org/gnome/gedit/preferences/editor]
 scheme='Yaru-dark'
 
+[org/gnome/nautilus/preferences]
+default-folder-viewer='icon-view'
+search-filter-time-type='last_modified'
+
+[org/gnome/nautilus/window-state]
+initial-size=(890, 550)
+maximized=false
+
 [org/gnome/settings-daemon/plugins/color]
-night-light-last-coordinates=(32.914398560115188, -96.863500000000002)
+night-light-last-coordinates=(32.915700719942407, -96.8917)
 
 [org/gnome/settings-daemon/plugins/power]
 ambient-enabled=false
@@ -98,24 +128,29 @@ sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
 command-history=['r']
-enabled-extensions=['just-perfection-desktop@just-perfection', 'autohide-battery@sitnik.ru', 'ddterm@amezin.github.com']
+enabled-extensions=['ddterm@amezin.github.com', 'just-perfection-desktop@just-perfection', 'autohide-battery@sitnik.ru', 'sound-output-device-chooser@kgshank.net', 'dash-to-dock@micxgx.gmail.com']
 favorite-apps=@as []
 welcome-dialog-last-shown-version='40.5'
 
 [org/gnome/shell/extensions/dash-to-dock]
-autohide=true
+autohide-in-fullscreen=true
+background-opacity=0.80000000000000004
 click-action='minimize'
-dash-max-icon-size=38
-dock-fixed=false
+dash-max-icon-size=48
 dock-position='BOTTOM'
+height-fraction=0.90000000000000002
 multi-monitor=true
+show-favorites=false
+show-mounts=false
+show-show-apps-button=false
 show-trash=false
+transparency-mode='DYNAMIC'
 
 [org/gnome/shell/extensions/ding]
 show-home=false
 
 [org/gnome/shell/extensions/just-perfection]
-accessibility-menu=false
+accessibility-menu=true
 activities-button=false
 activities-button-icon-monochrome=false
 activities-button-label=false
@@ -128,8 +163,8 @@ dash=false
 dash-icon-size=0
 double-super-to-appgrid=false
 gesture=false
-hot-corner=false
-keyboard-layout=false
+hot-corner=true
+keyboard-layout=true
 osd=false
 panel=true
 panel-arrow=true
@@ -139,14 +174,14 @@ panel-notification-icon=true
 power-icon=true
 ripple-box=false
 search=false
-show-apps-button=false
+show-apps-button=true
 startup-status=0
 theme=true
 type-to-search=true
-window-demands-attention-focus=false
+window-demands-attention-focus=true
 window-picker-icon=true
 window-preview-caption=false
-window-preview-close-button=false
+window-preview-close-button=true
 workspace=false
 workspace-background-corner-size=15
 workspace-popup=false
@@ -171,4 +206,15 @@ custom-colors=[(0.090196078431372562, 0.078431372549019607, 0.12941176470588237,
 selected-color=(true, 0.090196078431372562, 0.078431372549019607, 0.12941176470588237, 1.0)
 
 [org/gtk/settings/file-chooser]
+date-format='regular'
+location-mode='path-bar'
 show-hidden=true
+show-size-column=true
+show-type-column=true
+sidebar-width=161
+sort-column='name'
+sort-directories-first=true
+sort-order='ascending'
+type-format='category'
+window-position=(359, 138)
+window-size=(1203, 902)
