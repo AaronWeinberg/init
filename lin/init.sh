@@ -10,7 +10,7 @@ TCASE='set completion-ignore-case On';
 TBELL='set bell-style none';
 VBELL='set belloff=all';
 VNUM='set number';
-PS1='\033[1;37m\W\033[0m$(__git_ps1 "|\033[0;33m%s\033[0m")\\n > '
+PS1='\033[0;32m\W\033[0m$(__git_ps1 "|\033[0;33m%s\033[0m")\\n > '
 DEVPATH=~/Development;
 
 
