@@ -3,7 +3,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 New-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation' -Name 'RealTimeIsUniversal' -PropertyType 'QWord' -Value 00000001 # Timezone Fix
-winget list --accept-source-agreements # installs wingete
+winget list --accept-source-agreements # installs winget
 
 # choco #
 choco upgrade chocolatey
