@@ -20,13 +20,7 @@ Windows updates (several restarts) \
 Microsoft Store -> update all apps \
 File Explorer Options -> View -> Check 'Show hidden files' +++ Uncheck 'Hide extensions for known file types' \
 From elevated Powershell -> Set-Execution-Policy Unrestricted \
-.\init.ps1 \
-Save update.ps1 to C:\Users\aaron\Documents\ \
+Download \PowerShell into C:\Users\aaron\Documents\ \
+.C:\Users\aaron\PowerShell\Scripts\init.ps1 \
 Task Scheduler → import update.xml \
-Download Ctrl2Cap -> extract -> Open elevated cmd prompt -> navigate to extracted folder -> run 'ctrl2cap /install' \
-
-## Windows Terminal
-delete all profiles except powershell and ubuntu
-in 'defaults' section: Color Scheme: One Half Dar, Font: Fira Code, Bold Font with Bright Colors, Acrylic: enabled, Opacity: 50, Scrollbar: Hidden \
-open settings.json -> under 'actions' add: \
-  { "command": { "action": "globalSummon", "desktop": "toCurrent", "launchmode": "fullscreen", "monitor": "any", "name": "_quake", "toggleVisibility": true }, "keys": "f1" }, \
+Download Ctrl2Cap -> extract -> Open elevated cmd prompt -> navigate to extracted folder -> run 'ctrl2cap /install'
