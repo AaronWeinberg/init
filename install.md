@@ -8,9 +8,11 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/init.sh && 
 #                    Windows                      #
 
 Windows updates (several restarts) \
-Microsoft Store -> update all apps \
+Microsoft Store -> update all apps
+
+(Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/win/init.ps1").Content | out-file -filepath ".\Documents\init.ps1"
+
+.C:\Users\aaron\PowerShell\Scripts\init.ps1
+
 File Explorer Options -> View -> Check 'Show hidden files' +++ Uncheck 'Hide extensions for known file types' \
-From elevated Powershell -> Set-Execution-Policy Unrestricted \
-Download \PowerShell into C:\Users\aaron\Documents\ \
-.C:\Users\aaron\PowerShell\Scripts\init.ps1 \
-Download Ctrl2Cap -> extract -> Open elevated cmd prompt -> navigate to extracted folder -> run 'ctrl2cap /install'
+extract Ctrl2Cap from Downloads -> Open elevated cmd prompt -> navigate to extracted folder -> run 'ctrl2cap /install'
