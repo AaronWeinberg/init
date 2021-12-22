@@ -8,8 +8,9 @@ winget list --accept-source-agreements # installs winget
 
 # settings #
 Start-Process -Path "https://download.sysinternals.com/files/Ctrl2Cap.zip" # download ctrl2cap
-Expand-Archive -Path C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\Users\aaron\Downloads\ -Force
-PS C:\Users\aaron\Downloads\Ctrl2Cap # unzip ctrl2cap
+Expand-Archive -Path C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\Users\aaron\Downloads\Ctrl2Cap -Force # unzip ctrl2cap
+cd C:\Users\aaron\Downloads\Ctrl2Cap
+cmd.exe --% /c ctrl2cap /install # install ctrl2cap
 SCHTASKS /CREATE /SC DAILY /TN "AutoUpdate" /TR "powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1" /ST 00:00 /RU aaron /RL HIGHEST # create autoUpdate task
 choco feature enable -n=allowGlobalConfirmation # enable chocolatey global confirm
 
