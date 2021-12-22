@@ -1,7 +1,7 @@
 ### ### ### ### ### ### ### ### ### ### ### ### ###
 #                   Linux                         #
 
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/init.sh && sudo chmod +x init.sh && ./init.sh && sudo apt install -y dconf-cli && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/settings.dconf && dconf load / < settings.dconf
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/init.sh && sudo chmod +x init.sh && ./init.sh
 
 
 ### ### ### ### ### ### ### ### ### ### ### ### ###
