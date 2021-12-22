@@ -1,4 +1,5 @@
 # modules #
+Set-ExecutionPolicy Unrestricted
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')) # install Chocolatey if not already installed
 choco feature enable -n=allowGlobalConfirmation # enable chocolatey global confirm
 Install-Module -Name PSWindowsUpdate -Force
@@ -6,6 +7,7 @@ wsl --install
 winget list --accept-source-agreements # installs winget
 
 # settings #
+Start-Process -Path "https://download.sysinternals.com/files/Ctrl2Cap.zip" # download ctrl2cap
 SCHTASKS /CREATE /SC DAILY /TN "AutoUpdate" /TR "powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1" /ST 00:00 /RU aaron /RL HIGHEST # create autoUpdate task
 choco feature enable -n=allowGlobalConfirmation # enable chocolatey global confirm
 
