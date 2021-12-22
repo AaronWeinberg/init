@@ -1,9 +1,7 @@
 #                   Linux                         #
     wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/init.sh && sudo chmod +x init.sh && ./init.sh
 
-### ### ### ### ### ### ### ### ### ### ### ### ###
 #                    Windows                      #
-
 Windows updates (several restarts) \
 Microsoft Store -> update all apps
 
