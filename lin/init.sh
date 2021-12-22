@@ -75,11 +75,6 @@ sudo apt autoremove -y;
 
 
 ### Setup ###
-# .inputrc #
-touch ~/.inputrc
-if ! grep -q "$TCASE" ~/.inputrc; then echo -e "\n$TCASE" >> ~/.inputrc; fi
-if ! grep -q "$TBELL" ~/.inputrc; then echo -e "\n$TBELL" >> ~/.inputrc; fi
-
 # .bashrc #
 mkdir -p $DEVPATH; # make dev path
 if ! grep -q "cd $DEVPATH" ~/.bashrc; then echo -e "\ncd $DEVPATH\n" >> ~/.bashrc; fi # set dev path
@@ -88,6 +83,11 @@ if ! grep -q 'update(){' ~/.bashrc; then echo -e "update(){
   $UPDATE
 }\n" >> ~/.bashrc; fi # custom update function
 
+# .inputrc #
+touch ~/.inputrc
+if ! grep -q "$TCASE" ~/.inputrc; then echo -e "\n$TCASE" >> ~/.inputrc; fi
+if ! grep -q "$TBELL" ~/.inputrc; then echo -e "\n$TBELL" >> ~/.inputrc; fi
+
 # .vimrc #
 touch ~/.vimrc
 if ! grep -q "$VBELL" ~/.vimrc; then echo -e "\n$VBELL" >> ~/.vimrc; fi
@@ -95,6 +95,10 @@ if ! grep -q "$VNUM" ~/.vimrc; then echo -e "\n$VNUM" >> ~/.vimrc; fi
 
 # byobu #
 byobu-enable; # set Byobu as default terminal
+
+# dconf #
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/settings.dconf;
+dconf load / < settings.dconf;
 
 # git #
 git config --global user.name "Aaron Weinberg";
