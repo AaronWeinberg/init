@@ -5,6 +5,10 @@ Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 
+# settings #
+SCHTASKS /CREATE /SC DAILY /TN "AutoUpdate" /TR "powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1" /ST 00:00 /RU aaron /RL HIGHEST # create autoUpdate task
+choco feature enable -n=allowGlobalConfirmation # enable chocolatey global confirm
+
 # choco #
 choco upgrade chocolatey
 choco install firacode
