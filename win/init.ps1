@@ -6,9 +6,11 @@ Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 
-# powershell config/scripts #
+# powershell + terminal config/scripts #
 New-Item -Path 'C:\Users\aaron\Documents\PowerShell\Scripts' -ItemType Directory
-
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/win/Microsoft.PowerShell_profile.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/win/update.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/win/settings.json' | out-file -Path C:\Users\aaron\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
 
 # ctrl2cap #
 Start-Process -Path 'https://download.sysinternals.com/files/Ctrl2Cap.zip' # download ctrl2cap
