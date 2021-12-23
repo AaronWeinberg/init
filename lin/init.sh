@@ -64,6 +64,8 @@ sudo snap install code --classic;
 # npm #
 sudo npm install -g npm-check-updates;
 sudo npm install -g eslint;
+sudo npm install -g prettier;
+sudo npm install -g eslint-config-prettier;
 
 # remove #
 sudo apt purge -y apport;
@@ -74,7 +76,11 @@ sudo apt purge -y whoopsie;
 sudo apt autoremove -y;
 
 
-### Setup ###
+### Settings ###
+# config files #
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/.eslintrc
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/.prettierrc
+
 # .bashrc #
 mkdir -p $DEVPATH; # make dev path
 if ! grep -q "cd $DEVPATH" ~/.bashrc; then echo -e "\ncd $DEVPATH\n" >> ~/.bashrc; fi # set dev path
