@@ -6,15 +6,21 @@ Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 
-# settings #
-Start-Process -Path "https://download.sysinternals.com/files/Ctrl2Cap.zip" # download ctrl2cap
+# powershell config/scripts #
+New-Item -Path 'C:\Users\aaron\Documents\PowerShell\Scripts' -ItemType Directory
+
+
+# ctrl2cap #
+Start-Process -Path 'https://download.sysinternals.com/files/Ctrl2Cap.zip' # download ctrl2cap
 Expand-Archive -Path C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\Users\aaron\Downloads\Ctrl2Cap -Force # unzip ctrl2cap
 cd C:\Users\aaron\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install # install ctrl2cap
-SCHTASKS /CREATE /SC DAILY /TN "AutoUpdate" /TR "powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1" /ST 00:00 /RU "NT AUTHORITY\SYSTEM" /RL HIGHEST # create autoUpdate task
+
+# settings #
+SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
 choco feature enable -n=allowGlobalConfirmation # enable chocolatey global confirm
 
-# choco #
+# chocolatey #
 choco upgrade chocolatey
 choco install firacode
 choco install nvidia-display-driver
@@ -33,35 +39,35 @@ winget install 9NBLGGH4MSV6 --accept-package-agreements # Ubuntu
 winget install 9MZ1SNWT0N5D --accept-package-agreements # Powershell
 
 # bloatware #
-winget uninstall "Cortana"
-winget uninstall "Feedback Hub"
-winget uninstall "Get Help"
-winget uninstall "Groove Music"
-winget uninstall "Killer Control Center"
-winget uninstall "Mail and Calendar"
-winget uninstall "Microsoft News"
-winget uninstall "Microsoft OneDrive"
-winget uninstall "Microsoft People"
-winget uninstall "Microsoft Solitaire Collection"
-winget uninstall "Microsoft Sticky Notes"
-winget uninstall "Microsoft Teams"
-winget uninstall "Microsoft Tips"
-winget uninstall "Microsoft To Do"
-winget uninstall "Movies & TV"
-winget uninstall "MSN Weather"
-winget uninstall "Office"
-winget uninstall "OneDrive"
-winget uninstall "Power Automate"
-winget uninstall "Windows Alarms & Clock"
-winget uninstall "Windows Camera"
-winget uninstall "Windows Maps"
-winget uninstall "Windows Voice Recorder"
-winget uninstall "Xbox"
-winget uninstall "Xbox Game Bar Plugin"
-winget uninstall "Xbox Game Speech Window"
-winget uninstall "Xbox Identity Provider"
-winget uninstall "Xbox TCUI"
-winget uninstall "Your Phone"
+winget uninstall 'Cortana'
+winget uninstall 'Feedback Hub'
+winget uninstall 'Get Help'
+winget uninstall 'Groove Music'
+winget uninstall 'Killer Control Center'
+winget uninstall 'Mail and Calendar'
+winget uninstall 'Microsoft News'
+winget uninstall 'Microsoft OneDrive'
+winget uninstall 'Microsoft People'
+winget uninstall 'Microsoft Solitaire Collection'
+winget uninstall 'Microsoft Sticky Notes'
+winget uninstall 'Microsoft Teams'
+winget uninstall 'Microsoft Tips'
+winget uninstall 'Microsoft To Do'
+winget uninstall 'Movies & TV'
+winget uninstall 'MSN Weather'
+winget uninstall 'Office'
+winget uninstall 'OneDrive'
+winget uninstall 'Power Automate'
+winget uninstall 'Windows Alarms & Clock'
+winget uninstall 'Windows Camera'
+winget uninstall 'Windows Maps'
+winget uninstall 'Windows Voice Recorder'
+winget uninstall 'Xbox'
+winget uninstall 'Xbox Game Bar Plugin'
+winget uninstall 'Xbox Game Speech Window'
+winget uninstall 'Xbox Identity Provider'
+winget uninstall 'Xbox TCUI'
+winget uninstall 'Your Phone'
 
 Get-Command -Module PSWindowsUpdate | Out-Null
 Install-WindowsUpdate -AcceptAll # windows update -no prompt -no auto-restart
