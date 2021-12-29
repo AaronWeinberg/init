@@ -6,10 +6,11 @@
 ### Variables ###
 CRONTIME='0 0 * * * ';
 UPDATE='sudo apt update && sudo apt -y upgrade && sudo apt autoremove -y && sudo npm update -g && rm -rf /home/aaron/.local/share/Trash/*';
-TCASE='set completion-ignore-case On';
-TBELL='set bell-style none';
-VBELL='set belloff=all';
-VNUM='set number';
+MOUSE='set-option -g mouse on'; # enables mouse scrolling in Byobu by default
+TCASE='set completion-ignore-case On'; # ignore case in path
+TBELL='set bell-style none'; # disable audible bell
+VBELL='set belloff=all'; # disable audible bell
+VNUM='set number'; # puts number next to each line in VIM
 PS1='\033[0;32m\W\033[0m$(__git_ps1 "|\033[0;33m%s\033[0m")\\n > '
 DEVPATH=~/Development;
 
@@ -101,6 +102,7 @@ if ! grep -q "$VNUM" ~/.vimrc; then echo -e "\n$VNUM" >> ~/.vimrc; fi
 
 # byobu #
 byobu-enable; # set Byobu as default terminal
+if ! grep -q "$MOUSE" ~/.byobu/.tmux.conf; then echo -e "\n$MOUSE" >> ~/.byobu/.tmux.conf; fi
 
 # dconf #
 wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/settings.dconf;
