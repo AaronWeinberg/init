@@ -18,12 +18,6 @@ DEVPATH=~/Development;
 ### Apps ###
 sudo apt install -y curl
 
-# Balena Etcher #
-sudo apt install -y libfprint-2-tod1 apt-transport-https;
-curl -1sLf \
-  'https://dl.cloudsmith.io/public/balena/etcher/setup.deb.sh' \
-  | sudo -E bash;
-
 # Chrome #
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
 sudo dpkg -i google-chrome-stable_current_amd64.deb;
@@ -43,7 +37,6 @@ sudo dpkg -i ~/Downloads/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd6
 sudo pam-auth-update;
 
 # apt #
-sudo apt install -y balena-etcher-electron;
 sudo apt install -y byobu;
 sudo apt install -y chrome-gnome-shell;
 sudo apt install -y dconf-cli;
