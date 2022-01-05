@@ -6,11 +6,11 @@ Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 
+# dev path
 mkdir C:\Users\aaron\Development
-# TODO: add .ssh
-# TODO: change default PS directory to ~/Development
-# TODO: add global npm packages (prettier, eslint, npm, npm-check-updates)
-# TODO: download .eslintrc and .prettierrc to ~/
+
+# .ssh
+ssh-keygen -t ed25519 -C 'aaron.weinberg@.com'
 
 # powershell + terminal config/scripts #
 New-Item -Path 'C:\Users\aaron\Documents\PowerShell\Scripts' -ItemType Directory
@@ -78,6 +78,9 @@ winget uninstall 'Xbox Game Speech Window'
 winget uninstall 'Xbox Identity Provider'
 winget uninstall 'Xbox TCUI'
 winget uninstall 'Your Phone'
+
+# TODO: add global npm packages (prettier, eslint, npm, npm-check-updates)
+# TODO: download .eslintrc and .prettierrc to ~/
 
 Get-Command -Module PSWindowsUpdate | Out-Null
 Install-WindowsUpdate -AcceptAll # windows update -no prompt -no auto-restart
