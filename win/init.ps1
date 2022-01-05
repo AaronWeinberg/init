@@ -6,6 +6,12 @@ Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 
+mkdir C:\Users\aaron\Development
+# TODO: add .ssh
+# TODO: change default PS directory to ~/Development
+# TODO: add global npm packages (prettier, eslint, npm, npm-check-updates)
+# TODO: download .eslintrc and .prettierrc to ~/
+
 # powershell + terminal config/scripts #
 New-Item -Path 'C:\Users\aaron\Documents\PowerShell\Scripts' -ItemType Directory
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/win/Microsoft.PowerShell_profile.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
@@ -30,6 +36,8 @@ choco upgrade nvidia-display-driver
 
 # winget #
 winget install Google.Chrome --accept-package-agreements
+winget install Git.Git --accept-package-agreements
+winget install OpenJS.NodeJS.LTS --accept-package-agreements
 winget install Mozilla.Firefox --accept-package-agreements
 winget install Logitech.GHUB --accept-package-agreements
 winget install Valve.Steam --accept-package-agreements
