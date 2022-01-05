@@ -6,10 +6,10 @@ Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 
-# dev path
+# dev path #
 mkdir C:\Users\aaron\Development
 
-# .ssh
+# .ssh #
 ssh-keygen -t ed25519 -C 'aaron.weinberg@.com'
 
 # powershell + terminal config/scripts #
@@ -17,6 +17,8 @@ New-Item -Path 'C:\Users\aaron\Documents\PowerShell\Scripts' -ItemType Directory
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/win/Microsoft.PowerShell_profile.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/win/update.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/win/settings.json' | out-file -Path C:\Users\aaron\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/.eslintrc' | out-file -Path C:\Users\aaron\.eslintrc
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/.prettierrc' | out-file -Path C:\Users\aaron\.prettierrc
 
 # ctrl2cap #
 Start-Process -Path 'https://download.sysinternals.com/files/Ctrl2Cap.zip' # download ctrl2cap
@@ -47,6 +49,10 @@ winget install Balena.Etcher --accept-package-agreements
 winget install AntoineAflalo.SoundSwitch --accept-package-agreements
 winget install 9NBLGGH4MSV6 --accept-package-agreements # Ubuntu
 winget install 9MZ1SNWT0N5D --accept-package-agreements # Powershell
+
+# TODO: reload terminal so npm works
+# npm -g #
+npm i -g eslint prettier npm-check-updates
 
 # bloatware #
 winget uninstall 'Cortana'
@@ -79,8 +85,6 @@ winget uninstall 'Xbox Identity Provider'
 winget uninstall 'Xbox TCUI'
 winget uninstall 'Your Phone'
 
-# TODO: add global npm packages (prettier, eslint, npm, npm-check-updates)
-# TODO: download .eslintrc and .prettierrc to ~/
-
+# windows update #
 Get-Command -Module PSWindowsUpdate | Out-Null
 Install-WindowsUpdate -AcceptAll # windows update -no prompt -no auto-restart
