@@ -72,8 +72,8 @@ sudo apt autoremove -y;
 
 ### Settings ###
 # config files #
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/.eslintrc
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/.prettierrc
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.eslintrc
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.prettierrc
 
 # .bashrc #
 mkdir -p $DEVPATH; # make dev path
@@ -98,8 +98,9 @@ byobu-enable; # set Byobu as default terminal
 if ! grep -q "$MOUSE" ~/.byobu/.tmux.conf; then echo -e "\n$MOUSE" >> ~/.byobu/.tmux.conf; fi
 
 # dconf #
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/lin/settings.dconf;
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/config/settings.dconf;
 dconf load / < settings.dconf;
+rm settings.dconf
 
 # git #
 git config --global user.name "Aaron Weinberg";
