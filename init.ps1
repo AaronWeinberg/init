@@ -54,6 +54,10 @@ winget install 9MZ1SNWT0N5D --accept-package-agreements # Powershell
 # npm -g #
 npm i -g eslint prettier npm-check-updates
 
+# git #
+git config --global user.name "Aaron Weinberg"
+git config --global user.email "aaron.weinberg@gmail.com"
+
 # bloatware #
 winget uninstall 'Cortana'
 winget uninstall 'Feedback Hub'
