@@ -26,6 +26,9 @@ Expand-Archive -Path C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\U
 cd C:\Users\aaron\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install # install ctrl2cap
 
+# razer synapse
+Start-Process -Path 'https://rzr.to/synapse-3-pc-download'
+
 # settings #
 SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
 choco feature enable -n=allowGlobalConfirmation # enable chocolatey global confirm
