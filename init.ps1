@@ -15,7 +15,7 @@ ssh-keygen -t ed25519 -C 'aaron.weinberg@.com'
 # powershell + terminal config/scripts #
 New-Item -Path 'C:\Users\aaron\Documents\PowerShell\Scripts' -ItemType Directory
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/Microsoft.PowerShell_profile.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update.ps1' | out-file -Path C:\Users\aaron\Development\update.ps1
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/settings.json' | out-file -Path C:\Users\aaron\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.eslintrc' | out-file -Path C:\Users\aaron\.eslintrc
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.prettierrc' | out-file -Path C:\Users\aaron\.prettierrc
@@ -31,7 +31,6 @@ Start-Process -Path 'https://rzr.to/synapse-3-pc-download'
 
 # settings #
 SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
-choco feature enable -n=allowGlobalConfirmation # enable chocolatey global confirm
 
 # chocolatey #
 choco upgrade chocolatey
