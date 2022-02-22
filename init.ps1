@@ -1,3 +1,7 @@
+$startStr = 'Function update {'
+$endStr = '}'
+$modulePath = 'C:\Users\aaron\Documents\PowerShell\Modules\update\update.psm1'
+
 # modules #
 Set-ExecutionPolicy Unrestricted
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')) # install Chocolatey if not already installed
@@ -5,6 +9,11 @@ choco feature enable -n=allowGlobalConfirmation # enable chocolatey global confi
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
+## 'update' module
+$startStr > $modulePath
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update' >> $modulePath
+$endStr >> $modulePath
+Import-Module update -Force
 
 # dev path #
 mkdir C:\Users\aaron\Development
@@ -15,8 +24,7 @@ ssh-keygen -t ed25519 -C 'aaron.weinberg@.com'
 # powershell + terminal config/scripts #
 New-Item -Path 'C:\Users\aaron\Documents\PowerShell\Scripts' -ItemType Directory
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/Microsoft.PowerShell_profile.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Modules\update\update.psm1
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update' | out-file -Path C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/settings.json' | out-file -Path C:\Users\aaron\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.eslintrc' | out-file -Path C:\Users\aaron\.eslintrc
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.prettierrc' | out-file -Path C:\Users\aaron\.prettierrc
@@ -46,9 +54,9 @@ winget install Microsoft.PowerShell --accept-package-agreements
 winget install 9NBLGGH4MSV6 --accept-package-agreements # Ubuntu
 
 # settings #
-Import-Module update -Force
 SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
 
+# TODO: empty recycle bin automatically
 # TODO: reload terminal so npm works
 # npm -g #
 npm i -g eslint eslint-config-prettier prettier npm-check-updates typescript
