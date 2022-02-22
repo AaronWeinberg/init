@@ -15,7 +15,8 @@ ssh-keygen -t ed25519 -C 'aaron.weinberg@.com'
 # powershell + terminal config/scripts #
 New-Item -Path 'C:\Users\aaron\Documents\PowerShell\Scripts' -ItemType Directory
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/Microsoft.PowerShell_profile.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update.ps1' | out-file -Path C:\Users\aaron\Development\update.ps1
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Modules\update\update.psm1
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/settings.json' | out-file -Path C:\Users\aaron\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.eslintrc' | out-file -Path C:\Users\aaron\.eslintrc
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.prettierrc' | out-file -Path C:\Users\aaron\.prettierrc
@@ -25,9 +26,6 @@ Start-Process -Path 'https://download.sysinternals.com/files/Ctrl2Cap.zip' # dow
 Expand-Archive -Path C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\Users\aaron\Downloads\Ctrl2Cap -Force # unzip ctrl2cap
 cd C:\Users\aaron\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install # install ctrl2cap
-
-# settings #
-SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
 
 # chocolatey #
 choco install firacode
@@ -44,8 +42,12 @@ winget install Microsoft.VisualStudioCode --accept-package-agreements
 winget install Dell.CommandUpdate --accept-package-agreements
 winget install Balena.Etcher --accept-package-agreements
 winget install AntoineAflalo.SoundSwitch --accept-package-agreements
+winget install Microsoft.PowerShell --accept-package-agreements
 winget install 9NBLGGH4MSV6 --accept-package-agreements # Ubuntu
-winget install 9MZ1SNWT0N5D --accept-package-agreements # Powershell
+
+# settings #
+Import-Module update -Force
+SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
 
 # TODO: reload terminal so npm works
 # npm -g #
