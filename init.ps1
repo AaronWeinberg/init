@@ -26,17 +26,13 @@ Expand-Archive -Path C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\U
 cd C:\Users\aaron\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install # install ctrl2cap
 
-# razer synapse
-Start-Process -Path 'https://rzr.to/synapse-3-pc-download'
-
 # settings #
 SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
 
 # chocolatey #
-choco upgrade chocolatey
 choco install firacode
 choco install nvidia-display-driver
-choco upgrade nvidia-display-driver
+choco install razer-synapse-3
 
 # winget #
 winget install Google.Chrome --accept-package-agreements
@@ -53,7 +49,7 @@ winget install 9MZ1SNWT0N5D --accept-package-agreements # Powershell
 
 # TODO: reload terminal so npm works
 # npm -g #
-npm i -g eslint prettier npm-check-updates
+npm i -g eslint eslint-config-prettier prettier npm-check-updates typescript
 
 # git #
 git config --global user.name "Aaron Weinberg"
