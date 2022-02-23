@@ -14,6 +14,7 @@ $startStr > $modulePath
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update' >> $modulePath
 $endStr >> $modulePath
 Import-Module update -Force
+Remove-Item $modulePath
 
 # dev path #
 mkdir C:\Users\aaron\Development
