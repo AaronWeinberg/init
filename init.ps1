@@ -1,5 +1,3 @@
-$startStr = 'Function update {'
-$endStr = '}'
 $modulePath = 'C:\Users\aaron\Documents\PowerShell\Modules\update\update.psm1'
 
 # modules #
@@ -9,10 +7,10 @@ choco feature enable -n=allowGlobalConfirmation # enable chocolatey global confi
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
-## 'update' module
-$startStr > $modulePath
+## add 'update' module
+'Function update {' > $modulePath
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update' >> $modulePath
-$endStr >> $modulePath
+'}' >> $modulePath
 Import-Module update -Force
 Remove-Item $modulePath
 
@@ -42,17 +40,15 @@ choco install nvidia-display-driver
 choco install razer-synapse-3
 
 # winget #
-winget install Google.Chrome --accept-package-agreements
-winget install Git.Git --accept-package-agreements
-winget install OpenJS.NodeJS.LTS --accept-package-agreements
-winget install Mozilla.Firefox --accept-package-agreements
-winget install Valve.Steam --accept-package-agreements
-winget install Microsoft.VisualStudioCode --accept-package-agreements
-winget install Dell.CommandUpdate --accept-package-agreements
 winget install Balena.Etcher --accept-package-agreements
-winget install AntoineAflalo.SoundSwitch --accept-package-agreements
-winget install Microsoft.PowerShell --accept-package-agreements
-winget install 9NBLGGH4MSV6 --accept-package-agreements # Ubuntu
+winget install Canonical.Ubuntu --accept-package-agreements
+winget install Dell.CommandUpdate --accept-package-agreements
+winget install Git.Git --accept-package-agreements
+winget install Google.Chrome --accept-package-agreements
+winget install Microsoft.VisualStudioCode --accept-package-agreements
+winget install Mozilla.Firefox --accept-package-agreements
+winget install OpenJS.NodeJS.LTS --accept-package-agreements
+winget install Valve.Steam --accept-package-agreements
 
 # settings #
 SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
