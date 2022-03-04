@@ -10,7 +10,7 @@ MOUSE='set-option -g mouse on'; # enables mouse scrolling in Byobu by default
 TCASE='set completion-ignore-case On'; # ignore case in path
 TBELL='set bell-style none'; # disable audible bell
 VBELL='set belloff=all'; # disable audible bell
-VNUM='set number'; # puts number next to each line in VIM
+VNUM='set linenumbers'; # puts number next to each line in NANO
 PS1=PS1='\e[0;32m\w\e[m $(__git_ps1 "| \033[0;33m%s\033[0m")\n > '
 DEVPATH=~/Development;
 
@@ -50,7 +50,6 @@ sudo apt install -y nodejs;
 sudo apt install -y powertop;
 sudo apt install -y steam-installer;
 sudo apt install -y ttf-mscorefonts-installer;
-sudo apt install -y vim;
 
 # snap #
 sudo snap install code --classic;
@@ -89,10 +88,9 @@ touch ~/.inputrc
 if ! grep -q "$TCASE" ~/.inputrc; then echo -e "\n$TCASE" >> ~/.inputrc; fi
 if ! grep -q "$TBELL" ~/.inputrc; then echo -e "\n$TBELL" >> ~/.inputrc; fi
 
-# .vimrc #
-touch ~/.vimrc
-if ! grep -q "$VBELL" ~/.vimrc; then echo -e "\n$VBELL" >> ~/.vimrc; fi
-if ! grep -q "$VNUM" ~/.vimrc; then echo -e "\n$VNUM" >> ~/.vimrc; fi
+# .nanorc #
+touch ~/.nanorc
+if ! grep -q "$VNUM" ~/.nanorc; then echo -e "\n$VNUM" >> ~/.nanorc; fi
 
 # byobu #
 byobu-enable; # set Byobu as default terminal
