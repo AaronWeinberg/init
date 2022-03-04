@@ -9,7 +9,6 @@ UPDATE='sudo apt update && sudo apt -y upgrade && sudo npm update -g && sudo apt
 MOUSE='set-option -g mouse on'; # enables mouse scrolling in Byobu by default
 TCASE='set completion-ignore-case On'; # ignore case in path
 TBELL='set bell-style none'; # disable audible bell
-VBELL='set belloff=all'; # disable audible bell
 VNUM='set linenumbers'; # puts number next to each line in NANO
 PS1=PS1='\e[0;32m\w\e[m $(__git_ps1 "| \033[0;33m%s\033[0m")\n > '
 DEVPATH=~/Development;
