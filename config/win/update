@@ -3,4 +3,5 @@ Get-Command -Module PSWindowsUpdate | Out-Null
 Install-WindowsUpdate -AcceptAll # windows update -no prompt -no auto-restart
 winget upgrade --all
 choco upgrade all
-npm update -g
+npm install -g npm@latest
+ncu -ug
