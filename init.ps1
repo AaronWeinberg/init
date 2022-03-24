@@ -8,9 +8,7 @@ Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 ## add 'update' module
-'Function update {' > $modulePath
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update' >> $modulePath
-'}' >> $modulePath
 Import-Module update -Force
 Remove-Item $modulePath
 
