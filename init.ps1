@@ -81,6 +81,12 @@ winget uninstall 'Xbox Game Bar Plugin'
 winget uninstall 'Xbox Game Speech Window'
 winget uninstall 'Xbox Identity Provider'
 winget uninstall 'Your Phone'
+winget uninstall Microsoft.Paint_8wekyb3d8bbwe
+winget uninstall Microsoft.WindowsNotepad_8wekyb3d8bbwe
+winget uninstall RivetNetworks.KillerControlCenter_rh07ty8m5nkag
+winget uninstall NVIDIACorp.NVIDIAControlPanel_56jybvy8sckqj
+winget uninstall MozillaMaintenanceService
+winget uninstall WavesAudio.MaxxAudioProforDell2020_fh4rh281wavaa
 
 # windows update #
 Get-Command -Module PSWindowsUpdate | Out-Null
