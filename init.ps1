@@ -1,7 +1,6 @@
 $modulePath = 'C:\Users\aaron\Documents\PowerShell\Modules\update\update.psm1'
 
 # modules #
-Set-ExecutionPolicy Unrestricted
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
@@ -11,7 +10,7 @@ Import-Module update -Force
 Remove-Item $modulePath
 
 # dev path #
-mkdir C:\Users\aaron\Development
+mkdir C:\Users\aaron\Development | Out-Null
 
 # .ssh #
 ssh-keygen -t ed25519 -C 'aaron.weinberg@.com'
@@ -83,7 +82,6 @@ winget uninstall 'Xbox'
 winget uninstall 'Xbox Game Bar Plugin'
 winget uninstall 'Xbox Game Speech Window'
 winget uninstall 'Xbox Identity Provider'
-winget uninstall 'Xbox TCUI'
 winget uninstall 'Your Phone'
 
 # windows update #
