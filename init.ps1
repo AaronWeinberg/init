@@ -2,8 +2,6 @@ $modulePath = 'C:\Users\aaron\Documents\PowerShell\Modules\update\update.psm1'
 
 # modules #
 Set-ExecutionPolicy Unrestricted
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')) # install Chocolatey if not already installed
-choco feature enable -n=allowGlobalConfirmation # enable chocolatey global confirm
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
@@ -32,16 +30,13 @@ Expand-Archive -Path C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\U
 cd C:\Users\aaron\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install # install ctrl2cap
 
-# chocolatey #
-choco install nvidia-display-driver
-choco install razer-synapse-3
-
 # winget #
 winget install Balena.Etcher --accept-package-agreements
 winget install Canonical.Ubuntu --accept-package-agreements
 winget install Dell.CommandUpdate --accept-package-agreements
 winget install Git.Git --accept-package-agreements
 winget install Google.Chrome --accept-package-agreements
+winget install Microsoft.PowerShell --accept-package-agreements
 winget install Microsoft.VisualStudioCode --accept-package-agreements
 winget install Mozilla.Firefox --accept-package-agreements
 winget install OpenJS.NodeJS.LTS --accept-package-agreements
