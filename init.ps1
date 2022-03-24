@@ -30,7 +30,7 @@ cd C:\Users\aaron\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install # install ctrl2cap
 
 # winget #
-#winget install Canonical.Ubuntu --accept-package-agreements
+winget install Canonical.Ubuntu --accept-package-agreements
 winget install Dell.CommandUpdate --accept-package-agreements
 winget install Git.Git --accept-package-agreements
 winget install Google.Chrome --accept-package-agreements
