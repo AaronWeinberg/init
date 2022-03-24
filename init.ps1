@@ -30,8 +30,7 @@ cd C:\Users\aaron\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install # install ctrl2cap
 
 # winget #
-winget install Balena.Etcher --accept-package-agreements
-winget install Canonical.Ubuntu --accept-package-agreements
+#winget install Canonical.Ubuntu --accept-package-agreements
 winget install Dell.CommandUpdate --accept-package-agreements
 winget install Git.Git --accept-package-agreements
 winget install Google.Chrome --accept-package-agreements
@@ -40,7 +39,6 @@ winget install Microsoft.VisualStudioCode --accept-package-agreements
 winget install Mozilla.Firefox --accept-package-agreements
 winget install OpenJS.NodeJS.LTS --accept-package-agreements
 winget install Valve.Steam --accept-package-agreements
-winget install FabioSpampinato.Noty --accept-package-agreements # firacode font
 
 # settings #
 SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
