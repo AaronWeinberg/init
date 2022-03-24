@@ -1,7 +1,6 @@
 Function update {
   Clear-RecycleBin -Force
   winget upgrade --all
-  choco upgrade all
   npm install -g npm@latest
   ncu -ug
   Get-Command -Module PSWindowsUpdate | Out-Null
