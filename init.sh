@@ -35,9 +35,9 @@ fi;
 sudo apt install -y curl;
 
 # Node #
-curl -fsSL \
-  'https://deb.nodesource.com/setup_lts.x' \
-  | sudo -E bash;
+#curl -fsSL \
+#  'https://deb.nodesource.com/setup_lts.x' \
+#  | sudo -E bash;
 
 # apt #
 sudo apt install -y byobu;
@@ -75,8 +75,8 @@ sudo apt autoremove -y;
 
 ### Settings ###
 # config files #
-wget $DEVPATH https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.eslintrc
-wget $DEVPATH https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.prettierrc
+#wget $DEVPATH https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.eslintrc
+#wget $DEVPATH https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.prettierrc
 
 # .bashrc #
 mkdir -p $DEVPATH; # make dev path
