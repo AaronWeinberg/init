@@ -27,11 +27,10 @@ winget install Mozilla.Firefox --accept-package-agreements
 winget install OpenJS.NodeJS.LTS --accept-package-agreements
 winget install Valve.Steam --accept-package-agreements
 
-# settings #
-
+# TODO: empty recycle bin automatically
+# auto update #
 SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\OneDrive\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
 
-# TODO: empty recycle bin automatically
 # TODO: reload terminal so npm works
 # npm -g #
 npm i -g eslint eslint-config-prettier prettier npm-check-updates typescript
