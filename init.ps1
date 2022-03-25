@@ -1,27 +1,15 @@
-$modulePath = 'C:\Users\aaron\Documents\PowerShell\Modules\update\update.psm1'
-
 # modules #
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 ## add 'update' module
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update' >> $modulePath
 Import-Module update -Force
-Remove-Item $modulePath
-
-# dev path #
-mkdir C:\Users\aaron\Development | Out-Null
 
 # .ssh #
-ssh-keygen -t ed25519 -C 'aaron.weinberg@.com'
+ssh-keygen -t ed25519 -C 'aaron.weinberg@gmail.com'
 
 # powershell + terminal config/scripts #
-New-Item -Path 'C:\Users\aaron\Documents\PowerShell\Scripts' -ItemType Directory
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/Microsoft.PowerShell_profile.ps1' | out-file -Path C:\Users\aaron\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/update' | out-file -Path C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/settings.json' | out-file -Path C:\Users\aaron\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.eslintrc' | out-file -Path C:\Users\aaron\.eslintrc
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.prettierrc' | out-file -Path C:\Users\aaron\.prettierrc
 
 # ctrl2cap #
 Start-Process -Path 'https://download.sysinternals.com/files/Ctrl2Cap.zip' # download ctrl2cap
@@ -41,7 +29,8 @@ winget install OpenJS.NodeJS.LTS --accept-package-agreements
 winget install Valve.Steam --accept-package-agreements
 
 # settings #
-SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
+
+SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\OneDrive\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
 
 # TODO: empty recycle bin automatically
 # TODO: reload terminal so npm works
