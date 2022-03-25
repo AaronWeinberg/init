@@ -75,8 +75,8 @@ sudo apt autoremove -y;
 
 ### Settings ###
 # config files #
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.eslintrc
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.prettierrc
+wget $DEVPATH https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.eslintrc
+wget $DEVPATH https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.prettierrc
 
 # .bashrc #
 mkdir -p $DEVPATH; # make dev path
