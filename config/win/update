@@ -1,8 +1,0 @@
-Function update {
-  Clear-RecycleBin -Force
-  winget upgrade --all
-  npm install -g npm@latest
-  ncu -ug
-  Get-Command -Module PSWindowsUpdate | Out-Null
-  Install-WindowsUpdate -AcceptAll # windows update -no prompt -no auto-restart
-}
