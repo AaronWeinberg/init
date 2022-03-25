@@ -51,7 +51,6 @@ sudo apt install -y gparted;
 sudo apt install -y htop;
 sudo apt install -y nodejs;
 sudo apt install -y powertop;
-sudo apt install -y steam-installer;
 sudo apt install -y ttf-mscorefonts-installer;
 
 # snap #
