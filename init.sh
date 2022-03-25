@@ -2,6 +2,8 @@
 #   Initial Linux Setup   #
 ### ### ### ### ### ### ###
 
+sudo apt update; # download updates
+sudo apt upgrade -y; # install updates without y/n prompt
 
 ### Variables ###
 CRONTIME='0 0 * * * ';
@@ -11,21 +13,17 @@ TCASE='set completion-ignore-case On'; # ignore case in path
 TBELL='set bell-style none'; # disable audible bell
 VNUM='set linenumbers'; # puts number next to each line in NANO
 DEVPATH=~/Development;
-# No clue why PS1 is different on wsl vs desktop ubuntu. 20.04 vs 21.10??
-if [ -d "/mnt/c" ]; then
-  PROMPT='\e[0;32m\w\e[m $(__git_ps1 "| \033[0;33m%s\033[0m")\n > ';
-else
-  PROMPT='^[[0;32m\W^[[0m$(__git_ps1 "|^[[0;33m%s^[[0m")\n > ';
-fi;
 
-
-sudo apt update; # download updates
-sudo apt upgrade -y; # install updates without y/n prompt
 
 ### Apps ###
 
-# Ubuntu-only apps #
-if [ ! -d "/mnt/c" ]; then
+# Ubuntu-only apps + config#
+if [ -d "/mnt/c" ]; then
+  # No clue why PS1 is different on wsl vs desktop ubuntu. 20.04 vs 21.10??
+  PROMPT='\e[0;32m\w\e[m $(__git_ps1 "| \033[0;33m%s\033[0m")\n > '; # WSL Prompt
+else
+  PROMPT='^[[0;32m\W^[[0m$(__git_ps1 "|^[[0;33m%s^[[0m")\n > '; # Desktop Ubuntu Prompt
+  
   # Chrome #
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
   sudo dpkg -i google-chrome-stable_current_amd64.deb;
