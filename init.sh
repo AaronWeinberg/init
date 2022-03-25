@@ -10,8 +10,14 @@ MOUSE='set-option -g mouse on'; # enables mouse scrolling in Byobu by default
 TCASE='set completion-ignore-case On'; # ignore case in path
 TBELL='set bell-style none'; # disable audible bell
 VNUM='set linenumbers'; # puts number next to each line in NANO
-PROMPT='^[[0;32m\W^[[0m$(__git_ps1 "|^[[0;33m%s^[[0m")\n > ';
 DEVPATH=~/Development;
+# No clue why PS1 is different on wsl vs desktop ubuntu. 20.04 vs 21.10??
+if [ -d "/mnt/c" ]; then
+  PROMPT='\e[0;32m\w\e[m $(__git_ps1 "| \033[0;33m%s\033[0m")\n > ';
+else
+  PROMPT='^[[0;32m\W^[[0m$(__git_ps1 "|^[[0;33m%s^[[0m")\n > ';
+fi;
+
 
 sudo apt update; # download updates
 sudo apt upgrade -y; # install updates without y/n prompt
