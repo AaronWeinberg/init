@@ -13,27 +13,31 @@ VNUM='set linenumbers'; # puts number next to each line in NANO
 PS1='\e[0;32m\w\e[m $(__git_ps1 "| \033[0;33m%s\033[0m")\n > '
 DEVPATH=~/Development;
 
+sudo apt update; # download updates
+sudo apt upgrade -y; # install updates without y/n prompt
 
 ### Apps ###
-sudo apt install -y curl
 
-# Chrome #
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
-sudo dpkg -i google-chrome-stable_current_amd64.deb;
+# Ubuntu-only apps #
+if [ ! -d "/mnt/c" ]; then
+  # Chrome #
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
+  sudo dpkg -i google-chrome-stable_current_amd64.deb;
+  rm google-chrome-stable_current_amd64.deb;
+  
+  # fingerprint #
+  sudo apt install libfprint-2-tod1;
+  wget http://dell.archive.canonical.com/updates/pool/public/libf/libfprint-2-tod1-goodix/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb
+  sudo dpkg -i ~/Downloads/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
+  sudo pam-auth-update;
+fi;
+
+sudo apt install -y curl;
 
 # Node #
 curl -fsSL \
   'https://deb.nodesource.com/setup_lts.x' \
   | sudo -E bash;
-
-sudo apt update; # download updates
-sudo apt upgrade -y; # install updates without y/n prompt
-
-# fingerprint #
-sudo apt install libfprint-2-tod1;
-wget http://dell.archive.canonical.com/updates/pool/public/libf/libfprint-2-tod1-goodix/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb
-sudo dpkg -i ~/Downloads/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
-sudo pam-auth-update;
 
 # apt #
 sudo apt install -y byobu;
