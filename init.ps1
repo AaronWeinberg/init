@@ -2,8 +2,7 @@
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
-## add 'update' module
-Import-Module update -Force
+Import-Module update -Force # add 'update' module
 
 # .ssh #
 ssh-keygen -t ed25519 -C 'aaron.weinberg@gmail.com'
@@ -12,10 +11,10 @@ ssh-keygen -t ed25519 -C 'aaron.weinberg@gmail.com'
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/settings.json' | out-file -Path C:\Users\aaron\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
 
 # ctrl2cap #
-Start-Process -Path 'https://download.sysinternals.com/files/Ctrl2Cap.zip' # download ctrl2cap
-Expand-Archive -Path C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\Users\aaron\Downloads\Ctrl2Cap -Force # unzip ctrl2cap
+Start-Process -Path 'https://download.sysinternals.com/files/Ctrl2Cap.zip'
+Expand-Archive -Path C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\Users\aaron\Downloads\Ctrl2Cap -Force # unzip
 cd C:\Users\aaron\Downloads\Ctrl2Cap
-cmd.exe --% /c ctrl2cap /install # install ctrl2cap
+cmd.exe --% /c ctrl2cap /install
 
 # winget #
 winget install Canonical.Ubuntu --accept-package-agreements
@@ -73,7 +72,6 @@ winget uninstall 'Your Phone'
 winget uninstall Microsoft.Paint_8wekyb3d8bbwe
 winget uninstall Microsoft.WindowsNotepad_8wekyb3d8bbwe
 winget uninstall RivetNetworks.KillerControlCenter_rh07ty8m5nkag
-winget uninstall NVIDIACorp.NVIDIAControlPanel_56jybvy8sckqj
 winget uninstall MozillaMaintenanceService
 winget uninstall WavesAudio.MaxxAudioProforDell2020_fh4rh281wavaa
 
