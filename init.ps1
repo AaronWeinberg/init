@@ -1,4 +1,5 @@
 # modules #
+Install−PackageProvider −Name Nuget −Force
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
