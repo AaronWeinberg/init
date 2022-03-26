@@ -11,8 +11,8 @@ ssh-keygen -t ed25519 -C 'aaron.weinberg@gmail.com'
 curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/settings.json' | out-file -Path C:\Users\aaron\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
 
 # ctrl2cap #
-Start-Process -Path 'https://download.sysinternals.com/files/Ctrl2Cap.zip'
-Expand-Archive -Path C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\Users\aaron\Downloads\Ctrl2Cap -Force # unzip
+Start-Process -FilePath 'https://download.sysinternals.com/files/Ctrl2Cap.zip'
+Expand-Archive -LiteralPath C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\Users\aaron\Downloads\Ctrl2Cap -Force # unzip
 cd C:\Users\aaron\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install
 
@@ -29,22 +29,15 @@ winget install Valve.Steam --accept-package-agreements
 
 # TODO: empty recycle bin automatically
 # auto update #
-SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\OneDrive\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
-
-# TODO: reload terminal so npm works
-# npm -g #
-npm i -g eslint eslint-config-prettier prettier npm-check-updates typescript
-
-# git #
-git config --global user.name "Aaron Weinberg"
-git config --global user.email "aaron.weinberg@gmail.com"
+# SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\OneDrive\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
 
 # bloatware #
 winget uninstall 'Cortana'
 winget uninstall 'Feedback Hub'
 winget uninstall 'Get Help'
-winget uninstall 'Groove Music'
-winget uninstall 'Killer Control Center'
+winget uninstall 'Groove Music' # Windows Home only
+winget uninstall 'Killer Control Center' # Windows Home only
+winget uninstall 'Killer Intelligence Center'
 winget uninstall 'Mail and Calendar'
 winget uninstall 'Microsoft News'
 winget uninstall 'Microsoft OneDrive'
@@ -54,25 +47,24 @@ winget uninstall 'Microsoft Sticky Notes'
 winget uninstall 'Microsoft Teams'
 winget uninstall 'Microsoft Tips'
 winget uninstall 'Microsoft To Do'
-winget uninstall 'Movies & TV'
+winget uninstall 'Movies & TV' # Windows Home only
+winget uninstall 'Mozilla Maintenance Service'
 winget uninstall 'MSN Weather'
+winget uninstall 'NotePad'
+winget uninstall 'NVIDIA Control Panel'
 winget uninstall 'Office'
-winget uninstall 'OneDrive'
+winget uninstall 'Paint'
 winget uninstall 'Power Automate'
 winget uninstall 'Windows Alarms & Clock'
 winget uninstall 'Windows Camera'
 winget uninstall 'Windows Maps'
-winget uninstall 'Windows Voice Recorder'
+winget uninstall 'Windows Voice Recorder' # Windows Home only
 winget uninstall 'Xbox'
 winget uninstall 'Xbox Game Bar Plugin'
 winget uninstall 'Xbox Game Speech Window'
 winget uninstall 'Xbox Identity Provider'
 winget uninstall 'Your Phone'
-winget uninstall Microsoft.Paint_8wekyb3d8bbwe
-winget uninstall Microsoft.WindowsNotepad_8wekyb3d8bbwe
-winget uninstall RivetNetworks.KillerControlCenter_rh07ty8m5nkag
-winget uninstall MozillaMaintenanceService
-winget uninstall WavesAudio.MaxxAudioProforDell2020_fh4rh281wavaa
+winget uninstall WavesAudio.MaxxAudioProforDell2020_fh4rh281wavaa # Windows Home only
 
 # windows update #
 Get-Command -Module PSWindowsUpdate | Out-Null
