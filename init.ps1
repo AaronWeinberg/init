@@ -7,9 +7,6 @@ Import-Module update -Force # add 'update' module
 # .ssh #
 ssh-keygen -t ed25519 -C 'aaron.weinberg@gmail.com'
 
-# powershell + terminal config/scripts #
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/win/settings.json' | out-file -Path C:\Users\aaron\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
-
 # ctrl2cap #
 Start-Process -FilePath 'https://download.sysinternals.com/files/Ctrl2Cap.zip'
 Expand-Archive -LiteralPath C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\Users\aaron\Downloads\Ctrl2Cap -Force # unzip
