@@ -29,6 +29,7 @@ winget install Valve.Steam --accept-package-agreements
 # SCHTASKS /CREATE /SC DAILY /TN 'AutoUpdate' /TR 'powershell.exe -file C:\Users\aaron\OneDrive\Documents\PowerShell\Scripts\update.ps1' /ST 00:00 /RU 'NT AUTHORITY\SYSTEM' /RL HIGHEST # create autoUpdate task
 
 # bloatware #
+winget uninstall 'Clipchamp'
 winget uninstall 'Cortana'
 winget uninstall 'Feedback Hub'
 winget uninstall 'Get Help'
@@ -52,6 +53,7 @@ winget uninstall 'NVIDIA Control Panel'
 winget uninstall 'Office'
 winget uninstall 'Paint'
 winget uninstall 'Power Automate'
+winget uninstall 'Waves MaxxAudio Pro for Dell 2020'
 winget uninstall 'Windows Alarms & Clock'
 winget uninstall 'Windows Camera'
 winget uninstall 'Windows Maps'
@@ -61,7 +63,6 @@ winget uninstall 'Xbox Game Bar Plugin'
 winget uninstall 'Xbox Game Speech Window'
 winget uninstall 'Xbox Identity Provider'
 winget uninstall 'Your Phone'
-winget uninstall WavesAudio.MaxxAudioProforDell2020_fh4rh281wavaa # Windows Home only
 
 # windows update #
 Get-Command -Module PSWindowsUpdate | Out-Null
