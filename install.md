@@ -9,19 +9,19 @@
 * configure/run Dell Command Update
 * uninstall Dell Support Assist OS Recovery
 * unpin all apps from taskbar
-Widgets: remove unnecessary + make watchlist large
-Services: Stop + disable Nvidia container service
-Nvidia Control Panel:
-  context menu: disable
-  desktop icon: disable
+* Widgets: remove unnecessary + make watchlist large
+* Services: Stop + disable Nvidia container service
+* Nvidia Control Panel:
+1. context menu: disable
+2. desktop icon: disable
 
-Settings App:
-  System:
-    Display: NIght light: on
-    Notifications:
-      Notifications from apps: disable all
-      Notifications: disable
-      Offer suggestions: disable
+## Settings App:
+### System:
+* Display: NIght light: on
+* Notifications:
+1. Notifications from apps: disable all
+2. Notifications: disable
+3. Offer suggestions: disable
   Bluetooth: Connect Keyboard, mouse, controller
   Personalization:
     Themes:
