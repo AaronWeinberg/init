@@ -2,13 +2,13 @@
     wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh && rm init.sh
 
 #                    Windows                      #
-# Windows updates (several restarts) \
-# Microsoft Store -> update all apps
+* Windows updates (several restarts) \
+* Microsoft Store -> update all apps
 
-# open/sync OneDrive
-# configure/run Dell Command Update
-# uninstall Dell Support Assist OS Recovery
-# unpin all apps from taskbar
+* open/sync OneDrive
+* configure/run Dell Command Update
+* uninstall Dell Support Assist OS Recovery
+* unpin all apps from taskbar
 Widgets: remove unnecessary + make watchlist large
 Services: Stop + disable Nvidia container service
 Nvidia Control Panel:
