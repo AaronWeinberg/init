@@ -4,6 +4,9 @@ wsl --install
 winget list --accept-source-agreements # installs winget
 Import-Module update -Force # add 'update' module
 
+# Dev Path #
+mkdir C:\Users\aaron\Development
+
 # .ssh #
 ssh-keygen -t ed25519 -C 'aaron.weinberg@gmail.com' # Line endings must be LF, not CRLF on Windows
 
