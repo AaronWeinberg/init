@@ -5,7 +5,7 @@ winget list --accept-source-agreements # installs winget
 Import-Module update -Force # add 'update' module
 
 # .ssh #
-ssh-keygen -t ed25519 -C 'aaron.weinberg@gmail.com'
+ssh-keygen -t ed25519 -C 'aaron.weinberg@gmail.com' # Line endings must be LF, not CRLF on Windows
 
 # ctrl2cap #
 Start-Process -FilePath 'https://download.sysinternals.com/files/Ctrl2Cap.zip'
