@@ -51,7 +51,6 @@ winget uninstall 'Microsoft To Do'
 winget uninstall 'Movies & TV' # Windows Home only
 winget uninstall 'Mozilla Maintenance Service'
 winget uninstall 'MSN Weather'
-winget uninstall 'NotePad'
 winget uninstall 'NVIDIA Control Panel'
 winget uninstall 'Office'
 winget uninstall 'Paint'
