@@ -6,6 +6,7 @@
 * Microsoft Store -> update all apps
 
 * open/sync OneDrive
+* delete ShellNew registry keys for .lnk and .zip
 * configure/run Dell Command Update
 * uninstall Dell Support Assist OS Recovery
 * unpin all apps from taskbar
