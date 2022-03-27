@@ -36,6 +36,11 @@
   * Taskbar:
     * Taskbar Apps: Disable search/taskview/widgets/chat
     * Taskbar corner overflow: enable all
+    * Other System Tray Icons:
+      * Hidden icon menu: disable
+      * Safely Remove Hardware: disable
+      * Bluetooth: disable
+      * Windows Security notification: disable
   * Apps:
     * Default apps:
       * Chrome for web stuff
@@ -54,10 +59,6 @@
   * Windows Update:
     * Advanced Options: Notify when restart is required
     * Windows insider program: Join - beta channel
-
-## Taskbar:
-* remove Bluetooth icon
-* Windows Security notification options: disable all
 
 ## Run from Powershell after above settings have been changed
 
