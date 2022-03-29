@@ -19,6 +19,8 @@ DEVPATH=~/Development;
 
 # Ubuntu-only apps + config#
 if [ -d "/mnt/c" ]; then
+  sudo hwclock -s # sync wsl clock to Windows clock
+
   # No clue why PS1 is different on wsl vs desktop ubuntu. 20.04 vs 21.10??
   PROMPT='\e[0;32m\w\e[m $(__git_ps1 "| \033[0;33m%s\033[0m")\n > '; # WSL Prompt
 else
