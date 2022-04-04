@@ -44,6 +44,9 @@ sudo apt install -y curl;
 # curl -fsSL 'https://deb.nodesource.com/setup_lts.x' | sudo -E bash; # lts
 curl -fsSL 'https://deb.nodesource.com/setup_17.x' | sudo -E bash; # latest
 
+# Heroku-cli #
+curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
 # apt #
 sudo apt install -y byobu;
 sudo apt install -y chrome-gnome-shell;
