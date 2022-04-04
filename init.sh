@@ -7,7 +7,7 @@ sudo apt upgrade -y; # install updates without y/n prompt
 
 ### Variables ###
 CRONTIME='0 0 * * * ';
-UPDATE='sudo apt update && sudo apt -y upgrade && sudo npm update -g && sudo npm i -g npm@latest && sudo apt autoremove -y && rm -rf /home/aaron/.local/share/Trash/*';
+UPDATE='sudo hwclock --hctosys && sudo apt update && sudo apt -y upgrade && sudo npm update -g && sudo npm i -g npm@latest && sudo apt autoremove -y && rm -rf /home/aaron/.local/share/Trash/*';
 MOUSE='set-option -g mouse on'; # enables mouse scrolling in Byobu by default
 TCASE='set completion-ignore-case On'; # ignore case in path
 TBELL='set bell-style none'; # disable audible bell
