@@ -1,19 +1,24 @@
+$ROOT='C:/Users/aaron/'
+
 # modules #
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 Import-Module update -Force # add 'update' module
 
+# config files #
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.gitconfig' | out-file -Path $ROOT/.gitconfig
+
 # Dev Path #
-mkdir C:\Users\aaron\Development
+mkdir $ROOT\Development
 
 # .ssh #
 ssh-keygen -t ed25519 -C 'aaron.weinberg@gmail.com' # Line endings must be LF, not CRLF on Windows
 
 # ctrl2cap #
 Start-Process -FilePath 'https://download.sysinternals.com/files/Ctrl2Cap.zip'
-Expand-Archive -LiteralPath C:\Users\aaron\Downloads\Ctrl2Cap.zip -DestinationPath C:\Users\aaron\Downloads\Ctrl2Cap -Force # unzip
-cd C:\Users\aaron\Downloads\Ctrl2Cap
+Expand-Archive -LiteralPath $ROOT\Downloads\Ctrl2Cap.zip -DestinationPath $ROOT\Downloads\Ctrl2Cap -Force # unzip
+cd $ROOT\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install
 
 # winget #
