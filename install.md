@@ -23,9 +23,7 @@
   * Notifications from apps: disable all
   * Notifications: disable
   * Offer suggestions: disable
-* Bluetooth and Devices: 
-  * Devices: Connect Keyboard, mouse, controller
-  * Printers and Scanners: add mx430
+* Bluetooth and Devices: Devices: Connect Keyboard, mouse, controller
 * Personalization:
   * Themes:
     * Theme: dark
