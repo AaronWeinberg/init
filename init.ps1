@@ -22,15 +22,16 @@ cd $ROOT\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install
 
 # winget #
-winget install Canonical.Ubuntu --accept-package-agreements
-winget install Dell.CommandUpdate --accept-package-agreements
-winget install Git.Git --accept-package-agreements
-winget install Google.Chrome --accept-package-agreements
-winget install Microsoft.PowerShell --accept-package-agreements
-winget install Microsoft.VisualStudioCode --accept-package-agreements
-winget install Mozilla.Firefox --accept-package-agreements
-winget install OpenJS.NodeJS.LTS --accept-package-agreements
-winget install Valve.Steam --accept-package-agreements
+winget install "Canon Inkjet Print Utility" --accept-package-agreements
+winget install "Ubuntu" --accept-package-agreements
+winget install "Dell Command | Update" --accept-package-agreements
+winget install "Git" --accept-package-agreements
+winget install "Google Chrome" --accept-package-agreements
+winget install "PowerShell" --accept-package-agreements
+winget install "Microsoft Visual Studio Code" --accept-package-agreements
+winget install "Mozilla Firefox" --accept-package-agreements
+winget install "Node.js LTS" --accept-package-agreements
+winget install "Steam" --accept-package-agreements
 
 # TODO: empty recycle bin automatically
 # auto update #
