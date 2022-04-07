@@ -14,6 +14,9 @@ TBELL='set bell-style none'; # disable audible bell
 VNUM='set linenumbers'; # puts number next to each line in NANO
 DEVPATH=~/Development;
 
+# config files #
+wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.gitconfig
+
 
 ### Apps ###
 
@@ -107,10 +110,6 @@ if ! grep -q "$MOUSE" ~/.byobu/.tmux.conf; then echo -e "\n$MOUSE" >> ~/.byobu/.
 wget https://raw.githubusercontent.com/AaronWeinberg/init/master/config/settings.dconf;
 dconf load / < settings.dconf;
 rm settings.dconf
-
-# git #
-git config --global user.name "Aaron Weinberg";
-git config --global user.email "aaron.weinberg@gmail.com";
 
 # ssh ##
 rm -rf ~/.ssh;
