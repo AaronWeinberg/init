@@ -36,9 +36,9 @@ sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
 ### Apps ###
 if hostname | grep -q 'Ubuntu'; then
   # Chrome #
-  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
-  sudo apt install ./google-chrome-stable_current_amd64.deb
-  rm google-chrome-stable_current_amd64.deb;
+  wget ~/ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
+  sudo apt install ~/google-chrome-stable_current_amd64.deb
+  rm ~/google-chrome-stable_current_amd64.deb;
 
   # fingerprint #
   sudo apt install libfprint-2-tod1;
