@@ -5,19 +5,18 @@
 sudo apt update; # download updates
 sudo apt upgrade -y; # install updates without y/n prompt
 
-### Variables ###
-CRONTIME='0 0 * * * ';
-MOUSE='set-option -g mouse on'; # enables mouse scrolling in Byobu by default
-
 # dotfiles #
 rm -f ~/.bashrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
+rm -f ~/.dconf && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
 rm -f ~/.gitconfig && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
 rm -f ~/.inputrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
 rm -f ~/.npmrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
-rm -f ~/.vimrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
+rm -f ~/.nanorc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
+rm -f ~/.byobu/.tmux.conf && wget ~/.byobu/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
 
 ### Apps ###
 
+if hostname | grep -q 'Ubuntu'; then
   # Chrome #
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
   sudo dpkg -i google-chrome-stable_current_amd64.deb;
@@ -28,7 +27,7 @@ rm -f ~/.vimrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/m
   wget http://dell.archive.canonical.com/updates/pool/public/libf/libfprint-2-tod1-goodix/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb
   sudo dpkg -i ~/Downloads/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
   sudo pam-auth-update;
-fi;
+fi
 
 sudo apt install -y curl;
 
@@ -71,15 +70,8 @@ sudo apt autoremove -y;
 
 ### Settings ###
 
-# byobu #
 byobu-enable; # set Byobu as default terminal
-if ! grep -q "$MOUSE" ~/.byobu/.tmux.conf; then echo -e "\n$MOUSE" >> ~/.byobu/.tmux.conf; fi
-
-# dconf #
-rm -f ~/.dconf
-wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
-dconf load / < ~/.dconf;
-rm -f ~/.dconf
+dconf load / < ~/.dconf; # load dconf settings
 
 # ssh ##
 rm -rf ~/.ssh;
@@ -92,7 +84,7 @@ if ! pgrep cron; then sudo cron start; fi # start Cron if stopped
 sudo -i
 sudo crontab -l > mycron; # write out current sudo crontab
 if ! grep -q "$UPDATE" mycron; then
-  echo "$CRONTIME$UPDATE" >> mycron; # echo new cron into cron file
+  echo "0 0 * * * $UPDATE" >> mycron; # echo new cron into cron file
   sudo crontab mycron; # install new cron file
 fi
 rm mycron
