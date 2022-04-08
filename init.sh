@@ -28,7 +28,7 @@ byobu-enable; # set Byobu as default terminal
 dconf load / < ~/.dconf; rm ~/.dconf # load dconf settings
 sudo crontab ~/.crontab; rm ~/.crontab; #cron
 
-# ssh ##
+# ssh #
 touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
 sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
 
