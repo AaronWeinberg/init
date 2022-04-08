@@ -118,12 +118,7 @@ fi
 
 cd ~/Development
 
-# Ubuntu-only 
-if [ -d "/mnt/c" ]; then
-  # No clue why PS1 is different on wsl vs desktop ubuntu. 20.04 vs 21.10??
-  PS1='\e[0;32m\w\e[m $(__git_ps1 "| \033[0;33m%s\033[0m")\n > '; # WSL Prompt
-else
-  PS1='^[[0;32m\W^[[0m$(__git_ps1 "|^[[0;33m%s^[[0m")\n > '; # Desktop Ubuntu Prompt
+PS1='\033[1;32m\W\033[0m$(__git_ps1 "|\033[0;33m%s\033[0m") > '
 
 update(){
   sudo apt update && sudo apt -y upgrade && sudo apt autoremove -y && rm -rf /home/aaron/.local/share/Trash/*
