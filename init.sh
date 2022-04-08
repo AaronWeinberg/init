@@ -107,9 +107,9 @@ byobu-enable; # set Byobu as default terminal
 if ! grep -q "$MOUSE" ~/.byobu/.tmux.conf; then echo -e "\n$MOUSE" >> ~/.byobu/.tmux.conf; fi
 
 # dconf #
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/settings.dconf;
-dconf load / < settings.dconf;
-rm settings.dconf
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
+dconf load / < .dconf;
+rm .dconf
 
 # ssh ##
 rm -rf ~/.ssh;
