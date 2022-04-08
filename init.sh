@@ -5,9 +5,14 @@
 sudo apt update; # download updates
 sudo apt upgrade -y; # install updates without y/n prompt
 
-mkdir -p ~/Development # dev path
 
-# dotfiles #
+### Directories ###
+mkdir -p ~/Development # dev path
+mkdir -p ~/.npm-global # global npm
+rm -rf ~/.ssh; mkdir -p ~/.ssh; # ssh
+
+
+### Dotfiles ###
 rm -f ~/.bashrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
 rm -f ~/.crontab && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.crontab
 rm -f ~/.dconf && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
@@ -17,8 +22,18 @@ rm -f ~/.npmrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/m
 rm -f ~/.nanorc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
 rm -f ~/.byobu/.tmux.conf && wget ~/.byobu/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
 
-### Apps ###
 
+### Settings ###
+byobu-enable; # set Byobu as default terminal
+dconf load / < ~/.dconf; rm ~/.dconf # load dconf settings
+sudo crontab ~/.crontab; rm ~/.crontab; #cron
+
+# ssh ##
+touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
+sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
+
+
+### Apps ###
 if hostname | grep -q 'Ubuntu'; then
   # Chrome #
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
@@ -51,6 +66,13 @@ sudo apt install -y nodejs;
 sudo apt install -y powertop;
 sudo apt install -y ttf-mscorefonts-installer;
 
+# npm #
+npm install -g npm-check-updates;
+npm install -g eslint;
+npm install -g eslint-config-prettier;
+npm install -g prettier;
+npm install -g typescript;
+
 # snap #
 sudo snap install code --classic;
 
@@ -61,29 +83,3 @@ sudo apt purge -y popularity-contest;
 sudo apt purge -y ubuntu-report;
 sudo apt purge -y whoopsie;
 sudo apt autoremove -y;
-
-# npm #
-mkdir -p ~/.npm-global
-npm config set prefix '~/.npm-global'
-
-npm install -g npm-check-updates;
-npm install -g eslint;
-npm install -g eslint-config-prettier;
-npm install -g prettier;
-npm install -g typescript;
-
-
-### Settings ###
-
-byobu-enable; # set Byobu as default terminal
-dconf load / < ~/.dconf; # load dconf settings
-
-# cron #
-sudo crontab ~/.crontab
-rm ~/.crontab
-
-# ssh ##
-rm -rf ~/.ssh;
-mkdir -p ~/.ssh;
-touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
-sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
