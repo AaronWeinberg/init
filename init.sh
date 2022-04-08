@@ -5,8 +5,11 @@
 sudo apt update; # download updates
 sudo apt upgrade -y; # install updates without y/n prompt
 
+mkdir -p ~/Development # dev path
+
 # dotfiles #
 rm -f ~/.bashrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
+rm -f ~/.crontab && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.crontab
 rm -f ~/.dconf && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
 rm -f ~/.gitconfig && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
 rm -f ~/.inputrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
@@ -19,7 +22,7 @@ rm -f ~/.byobu/.tmux.conf && wget ~/.byobu/ https://raw.githubusercontent.com/Aa
 if hostname | grep -q 'Ubuntu'; then
   # Chrome #
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
-  sudo dpkg -i google-chrome-stable_current_amd64.deb;
+  sudo apt install ./google-chrome-stable_current_amd64.deb
   rm google-chrome-stable_current_amd64.deb;
 
   # fingerprint #
@@ -29,9 +32,8 @@ if hostname | grep -q 'Ubuntu'; then
   sudo pam-auth-update;
 fi
 
-sudo apt install -y curl;
-
 # Node #
+sudo apt install -y curl;
 # curl -fsSL 'https://deb.nodesource.com/setup_lts.x' | sudo -E bash; # lts
 curl -fsSL 'https://deb.nodesource.com/setup_17.x' | sudo -E bash; # latest
 
@@ -52,13 +54,6 @@ sudo apt install -y ttf-mscorefonts-installer;
 # snap #
 sudo snap install code --classic;
 
-# npm #
-sudo npm install -g npm-check-updates;
-sudo npm install -g eslint;
-sudo npm install -g eslint-config-prettier;
-sudo npm install -g prettier;
-sudo npm install -g typescript;
-
 # remove #
 sudo apt purge -y apport;
 sudo apt purge -y kerneloops;
@@ -67,24 +62,28 @@ sudo apt purge -y ubuntu-report;
 sudo apt purge -y whoopsie;
 sudo apt autoremove -y;
 
+# npm #
+mkdir -p ~/.npm-global
+npm config set prefix '~/.npm-global'
+
+npm install -g npm-check-updates;
+npm install -g eslint;
+npm install -g eslint-config-prettier;
+npm install -g prettier;
+npm install -g typescript;
+
 
 ### Settings ###
 
 byobu-enable; # set Byobu as default terminal
 dconf load / < ~/.dconf; # load dconf settings
 
+# cron #
+sudo crontab ~/.crontab
+rm ~/.crontab
+
 # ssh ##
 rm -rf ~/.ssh;
 mkdir -p ~/.ssh;
 touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
 sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
-
-# cron #
-if ! pgrep cron; then sudo cron start; fi # start Cron if stopped
-sudo -i
-sudo crontab -l > mycron; # write out current sudo crontab
-if ! grep -q "$UPDATE" mycron; then
-  echo "0 0 * * * $UPDATE" >> mycron; # echo new cron into cron file
-  sudo crontab mycron; # install new cron file
-fi
-rm mycron
