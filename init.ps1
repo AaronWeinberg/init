@@ -7,7 +7,7 @@ winget list --accept-source-agreements # installs winget
 Import-Module update -Force # add 'update' module
 
 # config files #
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.gitconfig' | out-file -Path $ROOT/.gitconfig
+curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig' | out-file -Path $ROOT/.gitconfig
 
 # Dev Path #
 mkdir $ROOT\Development

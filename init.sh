@@ -15,7 +15,7 @@ VNUM='set linenumbers'; # puts number next to each line in NANO
 DEVPATH=~/Development;
 
 # config files #
-wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/config/.gitconfig
+wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
 
 
 ### Apps ###
@@ -28,12 +28,12 @@ if [ -d "/mnt/c" ]; then
   PROMPT='\e[0;32m\w\e[m $(__git_ps1 "| \033[0;33m%s\033[0m")\n > '; # WSL Prompt
 else
   PROMPT='^[[0;32m\W^[[0m$(__git_ps1 "|^[[0;33m%s^[[0m")\n > '; # Desktop Ubuntu Prompt
-  
+
   # Chrome #
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
   sudo dpkg -i google-chrome-stable_current_amd64.deb;
   rm google-chrome-stable_current_amd64.deb;
-  
+
   # fingerprint #
   sudo apt install libfprint-2-tod1;
   wget http://dell.archive.canonical.com/updates/pool/public/libf/libfprint-2-tod1-goodix/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb
@@ -107,7 +107,7 @@ byobu-enable; # set Byobu as default terminal
 if ! grep -q "$MOUSE" ~/.byobu/.tmux.conf; then echo -e "\n$MOUSE" >> ~/.byobu/.tmux.conf; fi
 
 # dconf #
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/config/settings.dconf;
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/settings.dconf;
 dconf load / < settings.dconf;
 rm settings.dconf
 
