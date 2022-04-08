@@ -14,7 +14,7 @@ rm -f ~/.bashrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/
 rm -f ~/.gitconfig && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
 rm -f ~/.inputrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
 rm -f ~/.npmrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
-rm -f ~/.vimrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.vimrc
+rm -f ~/.vimrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
 
 ### Apps ###
 
