@@ -7,27 +7,16 @@ sudo apt upgrade -y; # install updates without y/n prompt
 
 ### Variables ###
 CRONTIME='0 0 * * * ';
-UPDATE='sudo hwclock --hctosys && sudo apt update && sudo apt -y upgrade && sudo npm update -g && sudo npm i -g npm@latest && sudo apt autoremove -y && rm -rf /home/aaron/.local/share/Trash/*';
 MOUSE='set-option -g mouse on'; # enables mouse scrolling in Byobu by default
-TCASE='set completion-ignore-case On'; # ignore case in path
-TBELL='set bell-style none'; # disable audible bell
-VNUM='set linenumbers'; # puts number next to each line in NANO
-DEVPATH=~/Development;
 
-# config files #
-wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
-
+# dotfiles #
+rm -f ~/.bashrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
+rm -f ~/.gitconfig && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
+rm -f ~/.inputrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
+rm -f ~/.npmrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
+rm -f ~/.vimrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.vimrc
 
 ### Apps ###
-
-# Ubuntu-only apps + config#
-if [ -d "/mnt/c" ]; then
-  sudo hwclock -s # sync wsl clock to Windows clock
-
-  # No clue why PS1 is different on wsl vs desktop ubuntu. 20.04 vs 21.10??
-  PROMPT='\e[0;32m\w\e[m $(__git_ps1 "| \033[0;33m%s\033[0m")\n > '; # WSL Prompt
-else
-  PROMPT='^[[0;32m\W^[[0m$(__git_ps1 "|^[[0;33m%s^[[0m")\n > '; # Desktop Ubuntu Prompt
 
   # Chrome #
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
@@ -46,9 +35,6 @@ sudo apt install -y curl;
 # Node #
 # curl -fsSL 'https://deb.nodesource.com/setup_lts.x' | sudo -E bash; # lts
 curl -fsSL 'https://deb.nodesource.com/setup_17.x' | sudo -E bash; # latest
-
-# Heroku-cli #
-curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
 # apt #
 sudo apt install -y byobu;
@@ -85,31 +71,15 @@ sudo apt autoremove -y;
 
 ### Settings ###
 
-# .bashrc #
-mkdir -p $DEVPATH; # make dev path
-if ! grep -q "cd $DEVPATH" ~/.bashrc; then echo -e "\ncd $DEVPATH\n" >> ~/.bashrc; fi # set dev path
-if ! grep -q "PS1=$PROMPT" ~/.bashrc; then echo -e "PS1='$PROMPT'\n" >> ~/.bashrc; fi # new prompt
-if ! grep -q 'update(){' ~/.bashrc; then echo -e "update(){
-  $UPDATE
-}\n" >> ~/.bashrc; fi # custom update function
-
-# .inputrc #
-touch ~/.inputrc
-if ! grep -q "$TCASE" ~/.inputrc; then echo -e "\n$TCASE" >> ~/.inputrc; fi
-if ! grep -q "$TBELL" ~/.inputrc; then echo -e "\n$TBELL" >> ~/.inputrc; fi
-
-# .nanorc #
-touch ~/.nanorc
-if ! grep -q "$VNUM" ~/.nanorc; then echo -e "\n$VNUM" >> ~/.nanorc; fi
-
 # byobu #
 byobu-enable; # set Byobu as default terminal
 if ! grep -q "$MOUSE" ~/.byobu/.tmux.conf; then echo -e "\n$MOUSE" >> ~/.byobu/.tmux.conf; fi
 
 # dconf #
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
-dconf load / < .dconf;
-rm .dconf
+rm -f ~/.dconf
+wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
+dconf load / < ~/.dconf;
+rm -f ~/.dconf
 
 # ssh ##
 rm -rf ~/.ssh;
