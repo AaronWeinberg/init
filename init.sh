@@ -36,16 +36,16 @@ sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
 ### Apps ###
 if hostname | grep -q 'Ubuntu'; then
   # Chrome #
-  wget ~/ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
-  sudo apt install ~/google-chrome-stable_current_amd64.deb
-  rm ~/google-chrome-stable_current_amd64.deb;
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
+  sudo apt install google-chrome-stable_current_amd64.deb
+  rm google-chrome-stable_current_amd64.deb;
 
   # fingerprint #
   sudo apt install libfprint-2-tod1;
-  wget ~/ http://dell.archive.canonical.com/updates/pool/public/libf/libfprint-2-tod1-goodix/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
-  sudo dpkg -i ~/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
+  wget http://dell.archive.canonical.com/updates/pool/public/libf/libfprint-2-tod1-goodix/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
+  sudo dpkg -i libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
   sudo pam-auth-update;
-  rm ~/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
+  rm libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
 fi
 
 # Node #
