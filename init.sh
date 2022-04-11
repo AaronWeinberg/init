@@ -9,7 +9,7 @@ sudo apt upgrade -y; # install updates without y/n prompt
 ### Directories ###
 mkdir -p ~/Development # dev path
 mkdir -p ~/.npm-global # global npm
-rm -rf ~/.ssh; mkdir -p ~/.ssh; # ssh
+mkdir -p ~/.ssh; # ssh
 
 
 ### Dotfiles ###
