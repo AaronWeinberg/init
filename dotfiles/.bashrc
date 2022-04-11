@@ -118,7 +118,7 @@ fi
 
 cd ~/Development
 
-PS1='\033[1;32m\W\033[0m$(__git_ps1 "|\033[0;33m%s\033[0m") > '
+PS1='\h \033[1;32m\W\033[0m$(__git_ps1 "|\033[0;33m%s\033[0m")\n > '
 
 update(){
   sudo apt update && sudo apt -y upgrade && sudo apt autoremove -y && rm -rf /home/aaron/.local/share/Trash/*
