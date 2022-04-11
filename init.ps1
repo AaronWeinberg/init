@@ -6,15 +6,6 @@ wsl --install
 winget list --accept-source-agreements # installs winget
 Import-Module update -Force # add 'update' module
 
-# config files #
-curl 'https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig' | out-file -Path $ROOT/.gitconfig
-
-# Dev Path #
-mkdir $ROOT\Development
-
-# .ssh #
-ssh-keygen -t ed25519 -C 'aaron.weinberg@gmail.com' # Line endings must be LF, not CRLF on Windows
-
 # ctrl2cap #
 Start-Process -FilePath 'https://download.sysinternals.com/files/Ctrl2Cap.zip'
 Expand-Archive -LiteralPath $ROOT\Downloads\Ctrl2Cap.zip -DestinationPath $ROOT\Downloads\Ctrl2Cap -Force # unzip
@@ -25,12 +16,10 @@ cmd.exe --% /c ctrl2cap /install
 winget install "Canon Inkjet Print Utility" --accept-package-agreements
 winget install "Ubuntu" --accept-package-agreements
 winget install "Dell Command | Update" --accept-package-agreements
-winget install "Git" --accept-package-agreements
 winget install "Google Chrome" --accept-package-agreements
 winget install "PowerShell" --accept-package-agreements
 winget install "Microsoft Visual Studio Code" --accept-package-agreements
 winget install "Mozilla Firefox" --accept-package-agreements
-winget install "Node.js LTS" --accept-package-agreements
 winget install "Steam" --accept-package-agreements
 
 # TODO: empty recycle bin automatically
@@ -61,6 +50,7 @@ winget uninstall 'NVIDIA Control Panel'
 winget uninstall 'Office'
 winget uninstall 'Paint'
 winget uninstall 'Power Automate'
+winget uninstall 'Quick Assist'
 winget uninstall 'Waves MaxxAudio Pro for Dell 2020'
 winget uninstall 'Windows Alarms & Clock'
 winget uninstall 'Windows Camera'
