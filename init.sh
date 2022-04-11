@@ -32,6 +32,18 @@ sudo crontab ~/.crontab; rm ~/.crontab; #cron
 touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
 sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
 
+if hostname | grep -P 'box'; then
+  #configure firewall
+  sudo ufw default deny incoming;
+  sudo ufw default allow outgoing;
+
+  # sudo ufw allow ssh;
+  sudo ufw allow http;
+  sudo ufw allow https;
+  sudo ufw allow 2222/tcp;
+  sudo ufw enable;
+fi
+
 
 ### Apps ###
 if hostname | grep -q 'Ubuntu'; then
