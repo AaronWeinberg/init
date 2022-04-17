@@ -107,14 +107,14 @@ sudo busybox httpd -fv -p 80
 ## setup your own shiny heroku
 
 ```
-mkdir /home/ubuntu/site1.git
-cd /home/ubuntu/site1.git
+mkdir /home/ubuntu/Development/myProj.git
+cd /home/ubuntu/Development/myProj.git
 
 # start a bare repo
 git init --bare
 
 # add a listener to listen to `git push`
-cd /home/ubuntu/site1.git/hooks
+cd /home/ubuntu/Development/myProj.git/hooks
 
 # create listener
 touch post-receive
@@ -133,7 +133,7 @@ chmod u+x post-receive
   echo "prod installed"
 
 # add a remote to your local git folder
-git remote add prod box1:site1.git
+git remote add prod box1:myProj.git
 
 # change/commit code
 
