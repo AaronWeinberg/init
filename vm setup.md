@@ -123,6 +123,14 @@ touch post-receive
 chmod u+x post-receive
 
 # enter script content into post-receive
+  set -eu
+  proj=/home/ubuntu/Development/myProj
+  #rm -rf ${proj}
+  #mkdir -p ${proj}
+  echo "checkout pro $proj"
+  git --work-tree=${proj} checkout -f
+  #sudo chown -R www-data:www-data $proj
+  echo "prod installed"
 
 # add a remote to your local git folder
 git remote add prod box1:site1.git
