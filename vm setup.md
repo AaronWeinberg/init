@@ -127,7 +127,7 @@ chmod u+x post-receive
   proj=/home/ubuntu/Development/myProj
   #rm -rf ${proj}
   #mkdir -p ${proj}
-  echo "checkout pro $proj"
+  echo "checkout to $proj"
   git --work-tree=${proj} checkout -f
   #sudo chown -R www-data:www-data $proj
   echo "prod installed"
