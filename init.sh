@@ -63,7 +63,7 @@ fi
 # Node #
 sudo apt install -y curl;
 # curl -fsSL 'https://deb.nodesource.com/setup_lts.x' | sudo -E bash; # lts
-curl -fsSL 'https://deb.nodesource.com/setup_17.x' | sudo -E bash; # latest
+curl -fsSL 'https://deb.nodesource.com/setup_18.x' | sudo -E bash -;
 
 # apt #
 sudo apt install -y byobu;
