@@ -1,5 +1,9 @@
 #                   Linux                         #
-    wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh && rm init.sh
+GNOME Shell Integration extensions:
+* DDTERM
+* Just Perfection
+
+```wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh && rm init.sh```
 
 #                    Windows                      #
 * Windows updates (several restarts)
