@@ -25,6 +25,7 @@ rm -f ~/.byobu/.tmux.conf && wget ~/.byobu/ https://raw.githubusercontent.com/Aa
 
 ### Settings ###
 byobu-enable; # set Byobu as default terminal
+#dconf dump / > .dconf; # export all manually changed settings to .dconf
 dconf load / < ~/.dconf; rm ~/.dconf # load dconf settings
 sudo crontab ~/.crontab; rm ~/.crontab; #cron
 
