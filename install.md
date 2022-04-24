@@ -1,5 +1,6 @@
 #                   Linux                         #
 GNOME Shell Integration extensions:
+* Audio Output Switcher
 * DDTERM
 * Just Perfection
 
