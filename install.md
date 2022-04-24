@@ -66,10 +66,10 @@ GNOME Shell Integration extensions:
 
 ## Run from Powershell after above settings have been changed
 
-    Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1; rm init.ps1
+```Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1; rm init.ps1```
 
-    (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/secondary.ps1").Content | out-file -filepath secondary.ps1; .\secondary.ps1;
+Refresh terminal. Then:
 
-    rm init.ps1; rm secondary.ps1;
+```npm i -g eslint eslint-config-prettier prettier typescript```
 
     
