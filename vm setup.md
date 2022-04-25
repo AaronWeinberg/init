@@ -46,6 +46,15 @@ Port 2222
 PasswordAuthentication no
 ```
 
+## configure ssh (/.ssh/config)
+```
+HOST box1
+  User ubuntu
+  #IdentityFile ~/.ssh/id_rsa.pem
+  Hostname <box1 IP>
+  Port 2222
+```
+
 ## install node
 
 ```
