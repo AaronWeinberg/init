@@ -1,10 +1,14 @@
 #                   Linux                         #
-GNOME Shell Integration extensions:
+(On Ubuntu Desktop) GNOME Shell Integration extensions:
 * Audio Output Switcher
 * DDTERM
 * Just Perfection
 
-```wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh && rm init.sh```
+```
+
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh && rm init.sh
+
+```
 
 #                    Windows                      #
 * Windows updates (several restarts)
@@ -66,10 +70,18 @@ GNOME Shell Integration extensions:
 
 ## Run from Powershell after above settings have been changed
 
-```Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1; rm init.ps1```
+```
+
+Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1; rm init.ps1
+
+```
 
 Refresh terminal. Then:
 
-```npm i -g eslint eslint-config-prettier prettier typescript```
+```
+
+npm i -g eslint eslint-config-prettier prettier typescript
+
+```
 
     
