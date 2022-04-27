@@ -14,6 +14,7 @@ mkdir -p ~/.ssh; # ssh
 
 ### Dotfiles ###
 rm -f ~/.bashrc && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
+rm -f ~/.ssh/config && wget ~/.ssh/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config
 rm -f ~/.crontab && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.crontab
 rm -f ~/.dconf && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
 rm -f ~/.gitconfig && wget ~/ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
