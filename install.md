@@ -85,4 +85,10 @@ npm i -g eslint eslint-config-prettier prettier typescript
 
 ```
 
-    
+Fix Window clock. In Registry Editor:
+
+```
+Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation
+Create new DWORD: RealTimeIsUniversal
+change value from 0 to 1
+```
