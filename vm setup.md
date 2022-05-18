@@ -102,6 +102,7 @@ touch index.html
 sudo python3 -m http.server 80
 sudo busybox httpd -fv -p 80
 # nodejs webserver https://www.npmjs.com/package/http-server
+http-server . # default to localhost:8080
 ```
 
 ## setup your own shiny heroku
