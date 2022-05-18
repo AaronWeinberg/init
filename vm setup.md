@@ -51,7 +51,7 @@ PasswordAuthentication no
 ```
 # https://github.com/nodesource/distributions
 sudo -i
-curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 ```
 
 ## setup node to work without sudo
