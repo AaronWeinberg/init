@@ -104,14 +104,14 @@ http-server . -p 80 # default is localhost:8080
 ## setup your own shiny heroku
 
 ```
-mkdir /home/ubuntu/Development/myProj.git
-cd /home/ubuntu/Development/myProj.git
+mkdir ~/Development/myProj.git
+cd ~/Development/myProj.git
 
 # start a bare repo
 git init --bare
 
 # add a listener to listen to `git push`
-cd /home/ubuntu/Development/myProj.git/hooks
+cd ~/Development/myProj.git/hooks
 
 # create listener
 touch post-receive
@@ -121,19 +121,18 @@ chmod u+x post-receive
 
 # enter script content into post-receive
   set -eu
-  proj=/home/ubuntu/Development/myProj
-  #rm -rf ${proj}
-  #mkdir -p ${proj}
+  proj=~/Development/myProj
+  rm -rf ${proj}
+  mkdir -p ${proj}
   echo "checkout to $proj"
   git --work-tree=${proj} checkout -f
-  #sudo chown -R www-data:www-data $proj
   echo "prod installed"
 
 # add a remote to your local git folder
-git remote add prod box1:myProj.git
+git remote add prod box1:~/Development/myProj.git
 
 # change/commit code
 
 # push to prod, runs your post-receive hook
-git push prod HEAD:master
+git push prod
 ```
