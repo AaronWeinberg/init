@@ -93,16 +93,12 @@ sudo ufw enable
 ## run local web server
 
 ```
-mkdir www
-cd www
-touch index.html
-# add stuff to index.html
-
-# serve with a webserver
-sudo python3 -m http.server 80
-sudo busybox httpd -fv -p 80
+# cd myProj
+# example webservers
+sudo python3 -m http.server 80 #python3
+sudo busybox httpd -fv -p 80 # busybox
 # nodejs webserver https://www.npmjs.com/package/http-server
-http-server . # default to localhost:8080
+http-server . -p 80 # default is localhost:8080
 ```
 
 ## setup your own shiny heroku
