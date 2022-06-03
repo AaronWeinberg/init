@@ -77,14 +77,6 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
 
 ```
 
-Refresh terminal. Then:
-
-```
-
-npm i -g eslint eslint-config-prettier prettier typescript
-
-```
-
 Fix Window clock. In Registry Editor:
 
 ```
