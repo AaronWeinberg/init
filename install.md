@@ -57,12 +57,12 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
     * Startup: disable all
 * Accounts:
   * Sign-in options:
-    * Facial Recognition
-    * Fingerprint
+    * Facial Recognition (must be on laptop)
+    * Fingerprint (must be on laptop)
 * Time & Language:
   * Date & Time:
-    * Set time zone automatically
     * Set time automatically :toggle off - on
+    * Set time zone automatically
   * Language & Region: Regional Format: change all to yyyy-mm-dd + 24-hour time
 * Privacy & Security: For Developers: Show extensions & hidden files
   * Windows Update:
