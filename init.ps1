@@ -22,7 +22,7 @@ winget install "Google Chrome" --accept-package-agreements
 winget install "PowerShell" --accept-package-agreements
 winget install 'Microsoft OneDrive' --accept-package-agreements
 winget install "Microsoft Visual Studio Code" --accept-package-agreements
-winget install "Mozilla Firefox" --accept-package-agreements
+winget install "Mozilla Firefox Browser" --accept-package-agreements
 winget install "Valve.Steam" --accept-package-agreements
 winget install "Ubuntu" --accept-package-agreements
 
