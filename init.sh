@@ -12,21 +12,6 @@ mkdir -p ~/.npm-global # global npm
 mkdir -p ~/.ssh; # ssh
 
 
-### Dotfiles ###
-cd ~/.ssh/;
-rm -f config && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
-cd ~/.byobu/;
-rm -f .tmux.conf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
-cd ~/;
-rm -f .bashrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
-rm -f .crontab && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.crontab
-rm -f .dconf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
-rm -f .gitconfig && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
-rm -f .inputrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
-rm -f .npmrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
-rm -f .nanorc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
-
-
 ### Settings ###
 byobu-enable; # set Byobu as default terminal
 #dconf dump / > .dconf; # export all manually changed settings to .dconf
@@ -48,6 +33,21 @@ if hostname | grep -P 'box'; then
   sudo ufw allow 2222/tcp;
   sudo ufw enable;
 fi
+
+
+### Dotfiles ###
+cd ~/.ssh/;
+rm -f config && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
+cd ~/.byobu/;
+rm -f .tmux.conf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
+cd ~/;
+rm -f .bashrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
+rm -f .crontab && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.crontab
+rm -f .dconf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
+rm -f .gitconfig && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
+rm -f .inputrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
+rm -f .npmrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
+rm -f .nanorc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
 
 
 ### Apps ###
