@@ -16,7 +16,7 @@ mkdir -p ~/.ssh; # ssh
 cd ~/.ssh/;
 rm -f config && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
 cd ~/.byobu/;
-rm -f .byobu/.tmux.conf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
+rm -f .tmux.conf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
 cd ~/;
 rm -f .bashrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
 rm -f .crontab && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.crontab
