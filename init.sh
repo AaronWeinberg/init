@@ -17,6 +17,7 @@ byobu-enable; # set Byobu as default terminal
 #dconf dump / > .dconf; # export all manually changed settings to .dconf
 dconf load / < ~/.dconf; rm ~/.dconf # load dconf settings
 sudo crontab ~/.crontab; rm ~/.crontab; #cron
+npm config set prefix '~/.npm-global'; # tell npm to install global modules within your home dir
 
 # ssh #
 touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
@@ -69,10 +70,12 @@ sudo apt install -y curl;
 curl -fsSL 'https://deb.nodesource.com/setup_18.x' | sudo -E bash -;
 
 # apt #
+sudo apt install -y build-essential;
 sudo apt install -y byobu;
 sudo apt install -y chrome-gnome-shell;
 sudo apt install -y dconf-cli;
 sudo apt install -y dconf-editor;
+sudo apt install -y fail2ban;
 sudo apt install -y fonts-firacode;
 sudo apt install -y git;
 sudo apt install -y gnome-tweaks;
