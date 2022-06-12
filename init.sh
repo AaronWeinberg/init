@@ -4,6 +4,7 @@
 
 sudo apt update; # download updates
 sudo apt upgrade -y; # install updates without y/n prompt
+sudo apt --fix-broken install -y;
 
 
 ### Directories ###
