@@ -11,29 +11,10 @@ ssh ubuntu@135.148.44.125 -p 2222
 
 ```
 
-## update box
-
-```
-sudo apt update
-sudo apt dist-upgrade
-```
-
 ## change hostname
 
 ```
 sudo vi /etc/hostname
-```
-
-## update .bashrc
-
-```
-vi ~/.bashrc
-```
-
-## enable byobu
-
-```
-byobu-enable
 ```
 
 ## add your ssh key, disable password login
@@ -44,34 +25,6 @@ byobu-enable
 # /etc/ssh/sshd_config
 Port 2222
 PasswordAuthentication no
-```
-
-## install node
-
-```
-# https://github.com/nodesource/distributions
-sudo -i
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-```
-
-## setup node to work without sudo
-
-```
-# tell npm to install global modules within your home dir
-mkdir ~/.npm-global
-npm config set prefix '~/.npm-global'
-# npm config set save-prefix='~'
-# npm config set send-metrics=false
-
-# add to your ~/.bashrc to tell linux to look for npm binaries here
-export PATH="${HOME}/.npm-global/bin:$PATH"
-
-```
-
-## install deps
-
-```
-sudo apt install fail2ban build-essential
 ```
 
 ## setup and enable firewall
