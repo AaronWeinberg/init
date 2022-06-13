@@ -40,7 +40,7 @@ PasswordAuthentication no
 sudo python3 -m http.server 80 #python3
 sudo busybox httpd -fv -p 80 # busybox
 # nodejs webserver https://www.npmjs.com/package/http-server
-http-server . -p 80 # default is localhost:8080
+sudo http-server . -p 80 # default is localhost:8080
 ```
 
 ## setup your own shiny heroku
