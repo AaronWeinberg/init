@@ -77,7 +77,6 @@ sudo apt install -y powertop;
 sudo apt install -y ttf-mscorefonts-installer;
 
 # npm #
-npm i -g npm-check-updates;
 npm i -g eslint;
 npm i -g eslint-config-prettier;
 npm i -g prettier;
