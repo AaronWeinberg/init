@@ -77,11 +77,11 @@ sudo apt install -y powertop;
 sudo apt install -y ttf-mscorefonts-installer;
 
 # npm #
-npm install -g npm-check-updates;
-npm install -g eslint;
-npm install -g eslint-config-prettier;
-npm install -g prettier;
-npm install -g typescript;
+npm i -g npm-check-updates;
+npm i -g eslint;
+npm i -g eslint-config-prettier;
+npm i -g prettier;
+npm i -g typescript;
 
 # snap #
 sudo snap install code --classic;
