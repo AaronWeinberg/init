@@ -17,6 +17,11 @@ ssh ubuntu@135.148.44.125 -p 2222
 sudo vi /etc/hostname
 ```
 
+## enable ufw
+```
+sudo ufw enable
+```
+
 ## add your ssh key, disable password login
 
 ```
