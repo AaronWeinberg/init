@@ -5,7 +5,6 @@
 sudo apt --fix-broken install -y;
 sudo apt update; # download updates
 sudo apt upgrade -y; # install updates without y/n prompt
-sudo apt autoremove -y; # remove superfluous packages
 
 
 ### Directories ###
@@ -16,7 +15,7 @@ mkdir -p ~/.ssh; # ssh
 
 ### Settings ###
 byobu-enable; # set Byobu as default terminal
-#dconf dump / > .dconf; # export all manually changed settings to .dconf
+#dconf dump / > .dconf; # export all manually changed settings to .dconf >> replace in dotfiles
 dconf load / < ~/.dconf; rm ~/.dconf # load dconf settings
 sudo crontab ~/.crontab; rm ~/.crontab; #cron
 npm config set prefix '~/.npm-global'; # tell npm to install global modules within your home dir
@@ -103,4 +102,4 @@ sudo apt purge -y kerneloops;
 sudo apt purge -y popularity-contest;
 sudo apt purge -y ubuntu-report;
 sudo apt purge -y whoopsie;
-sudo apt autoremove -y;
+sudo apt autoremove -y; # remove superfluous packages
