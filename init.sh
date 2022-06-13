@@ -38,11 +38,6 @@ fi
 
 
 ### Dotfiles ###
-cd ~/.ssh/;
-rm -f config && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
-cd ~/.byobu/;
-rm -f .tmux.conf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
-cd ~/;
 rm -f .bashrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
 rm -f .crontab && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.crontab
 rm -f .dconf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
@@ -50,6 +45,8 @@ rm -f .gitconfig && wget https://raw.githubusercontent.com/AaronWeinberg/init/ma
 rm -f .inputrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
 rm -f .npmrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
 rm -f .nanorc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
+rm -f config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
+rm -f .tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
 
 
 ### Apps ###
