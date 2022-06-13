@@ -27,22 +27,6 @@ Port 2222
 PasswordAuthentication no
 ```
 
-## setup and enable firewall
-
-```
-sudo ufw status
-
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-
-# sudo ufw allow ssh
-sudo ufw allow http
-sudo ufw allow https
-sudo ufw allow 2222/tcp
-sudo ufw enable
-
-```
-
 ## run local web server
 
 ```
