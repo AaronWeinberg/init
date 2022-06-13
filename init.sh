@@ -3,38 +3,33 @@
 ### ### ### ### ### ### ###
 
 sudo apt --fix-broken install -y;
-sudo apt update; # download updates
-sudo apt upgrade -y; # install updates without y/n prompt
+sudo apt update;
+sudo apt upgrade -y;
 
 
 ### Directories ###
-mkdir -p ~/Development # dev path
-mkdir -p ~/.npm-global # global npm
-mkdir -p ~/.ssh; # ssh
+mkdir -p ~/Development; # dev path
+mkdir -p ~/.npm-global;
+mkdir -p ~/.ssh;
 
 
 ### Settings ###
 byobu-enable; # set Byobu as default terminal
 #dconf dump / > .dconf; # export all manually changed settings to .dconf >> replace in dotfiles
 dconf load / < ~/.dconf; rm ~/.dconf # load dconf settings
-sudo crontab ~/.crontab; rm ~/.crontab; #cron
-npm config set prefix '~/.npm-global'; # tell npm to install global modules within your home dir
+sudo crontab ~/.crontab; rm ~/.crontab;
 
 # ssh #
 touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
 sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
 
-if hostname | grep -P 'box'; then
-  #configure firewall
-  sudo ufw default deny incoming;
-  sudo ufw default allow outgoing;
-
-  # sudo ufw allow ssh;
-  sudo ufw allow http;
-  sudo ufw allow https;
-  sudo ufw allow 2222/tcp;
-  sudo ufw enable;
-fi
+# ufw #
+sudo ufw default deny incoming;
+sudo ufw default allow outgoing;
+sudo ufw allow http;
+sudo ufw allow https;
+sudo ufw allow 2222/tcp;
+sudo ufw enable;
 
 
 ### Dotfiles ###
@@ -43,10 +38,10 @@ rm -f .crontab && wget https://raw.githubusercontent.com/AaronWeinberg/init/mast
 rm -f .dconf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
 rm -f .gitconfig && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
 rm -f .inputrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
-rm -f .npmrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
 rm -f .nanorc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
-rm -f config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
+rm -f .npmrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
 rm -f .tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
+rm -f config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
 
 
 ### Apps ###
@@ -64,7 +59,6 @@ rm libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
 
 # Node #
 sudo apt install -y curl;
-# curl -fsSL 'https://deb.nodesource.com/setup_lts.x' | sudo -E bash; # lts
 curl -fsSL 'https://deb.nodesource.com/setup_18.x' | sudo -E bash -;
 
 # apt #
