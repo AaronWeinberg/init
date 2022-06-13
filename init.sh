@@ -29,7 +29,6 @@ sudo ufw default allow outgoing;
 sudo ufw allow http;
 sudo ufw allow https;
 sudo ufw allow 2222/tcp;
-sudo ufw enable;
 
 
 ### Dotfiles ###
