@@ -72,6 +72,7 @@ sudo apt install -y git;
 sudo apt install -y gnome-tweaks;
 sudo apt install -y gparted;
 sudo apt install -y htop;
+sudo apt install -y nginx;
 sudo apt install -y nodejs;
 sudo apt install -y powertop;
 sudo apt install -y ttf-mscorefonts-installer;
