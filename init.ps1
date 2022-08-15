@@ -25,6 +25,10 @@ winget install "Microsoft Visual Studio Code" --accept-package-agreements
 winget install "Mozilla Firefox Browser" --accept-package-agreements
 winget install "Valve.Steam" --accept-package-agreements
 winget install "Ubuntu" --accept-package-agreements
+# gaming
+winget install "Battle.net" --accept-package-agreements
+winget install "Discord" --accept-package-agreements
+winget install "Overworld.CurseForge" --accept-package-agreements
 
 # TODO: empty recycle bin automatically
 # auto update #
