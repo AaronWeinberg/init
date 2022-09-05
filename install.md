@@ -33,6 +33,8 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
   * Notifications from apps: disable all
   * Notifications: disable
   * Offer suggestions: disable
+* Multitasking:
+  * Alt + Tab: Open windows only
 * Bluetooth and Devices: Devices: Connect Keyboard, mouse, controller
 * Personalization:
   * Themes:
