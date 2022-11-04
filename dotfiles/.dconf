@@ -1,7 +1,7 @@
 [apps/update-manager]
 first-run=false
-launch-count=4
-launch-time=int64 1651176082
+launch-count=5
+launch-time=int64 1667595437
 show-details=true
 window-height=442
 window-width=645
@@ -35,10 +35,15 @@ window-resizable=false
 window-size=1.0
 
 [com/ubuntu/update-notifier]
-release-check-time=uint32 1650691254
+release-check-time=uint32 1667546157
 
 [org/gnome/control-center]
-last-panel='sound'
+last-panel='multitasking'
+window-state=(980, 770, false)
+
+[org/gnome/deja-dup]
+backend='google'
+prompt-check='2022-11-04T06:36:48.547453Z'
 
 [org/gnome/desktop/app-folders]
 folder-children=['Utilities', 'YaST']
@@ -71,14 +76,17 @@ xkb-options=['caps:ctrl_modifier']
 [org/gnome/desktop/interface]
 color-scheme='prefer-dark'
 enable-animations=true
-enable-hot-corners=true
+enable-hot-corners=false
 font-hinting='slight'
 gtk-im-module='gtk-im-context-simple'
 gtk-theme='Yaru-blue-dark'
-icon-theme='Yaru-blue'
+icon-theme='Yaru-blue-dark'
 
 [org/gnome/desktop/notifications]
-application-children=['firefox-firefox', 'google-chrome', 'org-gnome-shell-portalhelper', 'code-code', 'gnome-power-panel', 'org-gnome-shell-extensions', 'update-manager', 'gnome-network-panel', 'steam', 'ca-desrt-dconf-editor', 'gnome-datetime-panel', 'org-gnome-nautilus']
+application-children=['firefox-firefox', 'google-chrome', 'org-gnome-shell-portalhelper', 'code-code', 'gnome-power-panel', 'org-gnome-shell-extensions', 'update-manager', 'gnome-network-panel', 'steam', 'ca-desrt-dconf-editor', 'gnome-datetime-panel', 'org-gnome-nautilus', 'microsoft-edge']
+
+[org/gnome/desktop/notifications/application/apport-gtk]
+application-id='apport-gtk.desktop'
 
 [org/gnome/desktop/notifications/application/ca-desrt-dconf-editor]
 application-id='ca.desrt.dconf-editor.desktop'
@@ -101,6 +109,9 @@ application-id='gnome-power-panel.desktop'
 [org/gnome/desktop/notifications/application/google-chrome]
 application-id='google-chrome.desktop'
 
+[org/gnome/desktop/notifications/application/microsoft-edge]
+application-id='microsoft-edge.desktop'
+
 [org/gnome/desktop/notifications/application/org-gnome-nautilus]
 application-id='org.gnome.Nautilus.desktop'
 
@@ -109,6 +120,9 @@ application-id='org.gnome.Shell.Extensions.desktop'
 
 [org/gnome/desktop/notifications/application/org-gnome-shell-portalhelper]
 application-id='org.gnome.Shell.PortalHelper.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-tweaks]
+application-id='org.gnome.tweaks.desktop'
 
 [org/gnome/desktop/notifications/application/steam]
 application-id='steam.desktop'
@@ -136,6 +150,13 @@ picture-uri='file:///usr/share/backgrounds/warty-final-ubuntu.png'
 primary-color='#2c001e'
 secondary-color='#2c001e'
 
+[org/gnome/desktop/search-providers]
+disable-external=false
+sort-order=['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']
+
+[org/gnome/desktop/sound]
+event-sounds=true
+
 [org/gnome/desktop/wm/preferences]
 num-workspaces=3
 
@@ -162,8 +183,11 @@ search-filter-time-type='last_modified'
 initial-size=(890, 550)
 maximized=false
 
+[org/gnome/portal/filechooser/snap.firefox]
+last-folder-path='/home/ubuntu/Desktop'
+
 [org/gnome/settings-daemon/plugins/color]
-night-light-last-coordinates=(32.887400719942406, -96.863500000000002)
+night-light-last-coordinates=(32.878401439884811, -96.863500000000002)
 
 [org/gnome/settings-daemon/plugins/power]
 ambient-enabled=false
@@ -172,19 +196,33 @@ sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
 command-history=['r']
-enabled-extensions=['ddterm@amezin.github.com', 'just-perfection-desktop@just-perfection', 'autohide-battery@sitnik.ru', 'sound-output-device-chooser@kgshank.net', 'dash-to-dock@micxgx.gmail.com', 'audio-output-switcher@anduchs']
+enabled-extensions=['ddterm@amezin.github.com', 'sound-output-device-chooser@kgshank.net', 'dash-to-dock@micxgx.gmail.com', 'audio-output-switcher@anduchs', 'autohide-battery@sitnik.ru', 'aztaskbar@aztaskbar.gitlab.com', 'autohide-volume@unboiled.info', 'just-perfection-desktop@just-perfection']
 favorite-apps=@as []
 welcome-dialog-last-shown-version='40.5'
 
+[org/gnome/shell/extensions/aztaskbar]
+favorites=true
+icon-size=16
+indicator-location='TOP'
+isolate-monitors=false
+isolate-workspaces=true
+main-panel-height=(true, 34)
+multi-window-indicator-style='MULTI_DASH'
+panel-on-all-monitors=false
+show-apps-button=(false, 0)
+show-window-titles=false
+
 [org/gnome/shell/extensions/dash-to-dock]
+autohide=false
 autohide-in-fullscreen=true
 background-opacity=0.80000000000000004
 click-action='minimize'
 dash-max-icon-size=16
-dock-fixed=true
-dock-position='LEFT'
+dock-fixed=false
+dock-position='BOTTOM'
 extend-height=false
 height-fraction=0.90000000000000002
+intellihide=false
 multi-monitor=false
 show-favorites=false
 show-mounts=false
@@ -203,14 +241,17 @@ activities-button-label=false
 aggregate-menu=true
 app-menu=false
 app-menu-icon=false
+app-menu-label=true
 background-menu=false
 clock-menu=true
 dash=false
 dash-icon-size=0
+dash-separator=true
 double-super-to-appgrid=false
 gesture=false
 hot-corner=true
 keyboard-layout=true
+notification-banner-position=1
 osd=false
 panel=true
 panel-arrow=true
@@ -264,7 +305,7 @@ sort-column='name'
 sort-directories-first=false
 sort-order='ascending'
 type-format='category'
-window-size=(1867, 1055)
+window-size=(1867, 1046)
 
 [org/gtk/settings/color-chooser]
 custom-colors=[(0.090196078431372562, 0.078431372549019607, 0.12941176470588237, 1.0), (0.090196078431372548, 0.078431372549019607, 0.12941176470588237, 1.0)]
@@ -283,3 +324,6 @@ sort-order='ascending'
 type-format='category'
 window-position=(359, 138)
 window-size=(1203, 902)
+
+[system/proxy]
+mode='none'
