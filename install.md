@@ -1,8 +1,9 @@
 #                   Linux                         #
 (On Ubuntu Desktop) GNOME Shell Integration extensions:
+* App Icons Taskbar
 * Autohide Battery
+* Autohide Volume
 * DDTERM
-* Just Perfection
 
 ```
 
