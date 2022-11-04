@@ -1,6 +1,5 @@
 #                   Linux                         #
 (On Ubuntu Desktop) GNOME Shell Integration extensions:
-* Audio Output Switcher
 * Autohide Battery
 * DDTERM
 * Just Perfection
