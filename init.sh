@@ -13,6 +13,18 @@ mkdir -p ~/.npm-global;
 mkdir -p ~/.ssh;
 
 
+### Dotfiles ###
+rm -f .bashrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
+rm -f .crontab && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.crontab
+rm -f .dconf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
+rm -f .gitconfig && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
+rm -f .inputrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
+rm -f .nanorc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
+rm -f .npmrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
+rm -f .tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
+rm -f config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
+
+
 ### Settings ###
 byobu-enable; # set Byobu as default terminal
 #dconf dump / > .dconf; # export all manually changed settings to .dconf >> replace in dotfiles
@@ -29,18 +41,6 @@ sudo ufw default allow outgoing;
 sudo ufw allow http;
 sudo ufw allow https;
 sudo ufw allow 2222/tcp;
-
-
-### Dotfiles ###
-rm -f .bashrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc
-rm -f .crontab && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.crontab
-rm -f .dconf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
-rm -f .gitconfig && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig
-rm -f .inputrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
-rm -f .nanorc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
-rm -f .npmrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
-rm -f .tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
-rm -f config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
 
 
 ### Apps ###
