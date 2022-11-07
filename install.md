@@ -12,6 +12,7 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
 ```
 
 #                    Windows                      #
+* https://superuser.com/questions/1680130/windows-11-taskbar-corner-overflow-show-all-tray-icons
 * Windows updates (several restarts)
 * Microsoft Store -> update all apps
 
