@@ -78,3 +78,24 @@ git remote add prod box1:~/Development/myProj.git
 # push to prod, runs your post-receive hook
 git push prod
 ```
+
+## set upcertbot
+```
+# update snapd
+sudo snap install core; sudo snap refresh core;
+
+# remove existant certbot versions
+sudo apt-get remove certbot;
+
+# install certbot
+sudo snap install --classic certbot;
+
+# prepare certbot commands
+sudo ln -s /snap/bin/certbot /usr/bin/certbot;
+
+# run certbot
+sudo certbot --nginx;
+
+# automatic renewal
+sudo certbot renew --dry-run;
+```
