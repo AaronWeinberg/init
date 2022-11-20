@@ -21,8 +21,9 @@ rm -f .gitconfig && wget https://raw.githubusercontent.com/AaronWeinberg/init/ma
 rm -f .inputrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc
 rm -f .nanorc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
 rm -f .npmrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
-rm -f .tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
-rm -f config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
+rm -f ~/.byobu/.tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
+rm -f ~/.ssh/config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
+rm -f /etc/default/grub && wget -P /etc/defaults https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/grub;
 
 
 ### Settings ###
@@ -30,6 +31,7 @@ byobu-enable; # set Byobu as default terminal
 #dconf dump / > .dconf; # export all manually changed settings to .dconf >> replace in dotfiles
 dconf load / < ~/.dconf; rm ~/.dconf # load dconf settings
 sudo crontab ~/.crontab; rm ~/.crontab;
+update-grub;
 
 # ssh #
 touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
