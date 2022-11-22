@@ -32,6 +32,8 @@ byobu-enable; # set Byobu as default terminal
 dconf load / < ~/.dconf; rm ~/.dconf # load dconf settings
 sudo crontab ~/.crontab; rm ~/.crontab;
 update-grub;
+# edit sudoers file to remove password requirement for autoremove, hwclock, update, and upgrade
+sudo echo "ubuntu ALL=(ALL) NOPASSWD:/usr/bin/apt autoremove, /usr/sbin/hwclock, /usr/bin/apt update, /usr/bin/apt upgrade" >> /etc/sudoers;
 
 # ssh #
 touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
