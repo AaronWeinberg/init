@@ -22,6 +22,7 @@ cmd.exe --% /c ctrl2cap /install
 
 # winget #
 ## utility
+winget install "Balena.Etcher" --accept-package-agreements
 winget install "Canon Inkjet Print Utility" --accept-package-agreements
 winget install "Dell Command | Update" --accept-package-agreements
 winget install "GIMP" --accept-package-agreements
