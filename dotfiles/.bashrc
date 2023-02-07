@@ -116,8 +116,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-cd ~/Development
-
 PS1='\[\033[01;35m\]\h \033[1;32m\w\033[0m$(__git_ps1 "|\033[0;33m%s\033[0m") >> '
 
 update(){
