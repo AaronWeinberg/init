@@ -23,7 +23,6 @@ cmd.exe --% /c ctrl2cap /install
 # winget #
 ## utility
 winget install "Balena.Etcher" --accept-package-agreements
-winget install "Canon Inkjet Print Utility" --accept-package-agreements
 winget install "Dell Command | Update" --accept-package-agreements
 winget install "GIMP" --accept-package-agreements
 winget install "Google Chrome" --accept-package-agreements
@@ -40,6 +39,7 @@ winget install "Overworld.CurseForge" --accept-package-agreements
 ## peripherals
 winget install "Logitech G Hub" --accept-package-agreements
 winget install "Razer Synapse" --accept-package-agreements
+winget install "Canon Inkjet Print Utility" --accept-package-agreements
 
 
 # TODO: empty recycle bin automatically
