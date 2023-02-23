@@ -22,6 +22,7 @@ rm -f .inputrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/mast
 rm -f .nanorc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc
 rm -f .npmrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc
 rm -f ~/.byobu/.tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf
+rm -f /usr/share/byobu/keybindings/f-keys.tmux && wget -P /usr/share/byobu/keybindings https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/f-keys.tmux
 rm -f ~/.ssh/config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
 rm -f /etc/default/grub && wget -P /etc/defaults https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/grub;
 
