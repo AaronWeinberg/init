@@ -4,6 +4,7 @@
 * Autohide Battery
 * Autohide Volume
 * DDTERM
+* Just Perfection
 
 ```
 
