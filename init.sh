@@ -49,33 +49,11 @@ sudo ufw allow 2222/tcp;
 
 
 ### Apps ###
-# Chrome #
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
-sudo dpkg -i google-chrome-stable_current_amd64.deb
-rm google-chrome-stable_current_amd64.deb;
-
-# Edge #
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
-sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list'
-sudo rm microsoft.gpg
-sudo apt update && sudo apt install microsoft-edge-stable
-
-# fingerprint #
-sudo apt install libfprint-2-tod1;
-wget http://dell.archive.canonical.com/updates/pool/public/libf/libfprint-2-tod1-goodix/libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
-sudo dpkg -i libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
-sudo pam-auth-update;
-rm libfprint-2-tod1-goodix_0.0.6-0ubuntu1~somerville1_amd64.deb;
-
-# Node #
-sudo apt install -y curl;
-curl -fsSL 'https://deb.nodesource.com/setup_18.x' | sudo -E bash -;
-
 # apt #
 sudo apt install -y build-essential;
 sudo apt install -y byobu;
 sudo apt install -y chrome-gnome-shell;
+sudo apt install -y curl;
 sudo apt install -y dconf-cli;
 sudo apt install -y dconf-editor;
 sudo apt install -y fail2ban;
@@ -88,6 +66,22 @@ sudo apt install -y nginx;
 sudo apt install -y nodejs;
 sudo apt install -y powertop;
 sudo apt install -y ttf-mscorefonts-installer;
+
+# Chrome #
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb;
+
+# Edge #
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list'
+sudo rm microsoft.gpg
+sudo apt update && sudo apt install microsoft-edge-stable
+
+# Node #
+sudo apt install -y curl;
+curl -fsSL 'https://deb.nodesource.com/setup_18.x' | sudo -E bash -;
 
 # npm #
 npm i -g eslint;
