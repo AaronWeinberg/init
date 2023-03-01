@@ -11,6 +11,8 @@
 wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh && rm init.sh
 
 ```
+In ~/.ssh/config --> replace <box1 ip> with VPS ip
+In ~/.ssh/ --> ssh keys to public and private key files
 
 #                    Windows                      #
 * https://superuser.com/questions/1680130/windows-11-taskbar-corner-overflow-show-all-tray-icons
