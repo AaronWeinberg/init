@@ -1,18 +1,18 @@
 #                   Linux                         #
 (On Ubuntu Desktop) GNOME Shell Integration extensions:
-* App Icons Taskbar
-* Autohide Battery
-* Autohide Volume
-* DDTERM
-* Just Perfection
+1. App Icons Taskbar
+2. Autohide Battery
+3. Autohide Volume
+4. DDTERM
+5. Just Perfection
 
 ```
 
 wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh && rm init.sh
 
 ```
-In ~/.ssh/config --> replace <box1 ip> with VPS ip
-In ~/.ssh/ --> ssh keys to public and private key files
+- In ~/.ssh/config --> replace <box1 ip> with VPS ip
+- In ~/.ssh/ --> ssh keys to public and private key files
 
 #                    Windows                      #
 * https://superuser.com/questions/1680130/windows-11-taskbar-corner-overflow-show-all-tray-icons
@@ -27,8 +27,8 @@ In ~/.ssh/ --> ssh keys to public and private key files
 * Widgets: remove unnecessary + make watchlist large
 * Services: Stop + disable Nvidia container service
 * Nvidia Control Panel:
-  1. context menu: disable
-  2. desktop icon: disable
+  * context menu: disable
+  * desktop icon: disable
 
 ## Settings App:
 ### System:
