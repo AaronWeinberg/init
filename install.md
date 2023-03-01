@@ -18,21 +18,12 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
 * https://superuser.com/questions/1680130/windows-11-taskbar-corner-overflow-show-all-tray-icons
 * Windows updates (several restarts)
 * Microsoft Store -> update all apps
-
-* open/sync OneDrive
-* delete ShellNew registry keys for .lnk and .zip
-* configure/run Dell Command Update
-* uninstall Dell Support Assist OS Recovery
+* delete ShellNew registry keys for .bmp and .zip
 * unpin all apps from taskbar
-* Widgets: remove unnecessary + make watchlist large
-* Services: Stop + disable Nvidia container service
-* Nvidia Control Panel:
-  * context menu: disable
-  * desktop icon: disable
 
 ## Settings App:
 ### System:
-* Display: NIght light: on
+* Display: Night light: on
 * Notifications:
   * Notifications from apps: disable all
   * Notifications: disable
@@ -90,3 +81,4 @@ Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation
 Create new DWORD: RealTimeIsUniversal
 change value from 0 to 1
 ```
+* configure Dell Command Update
