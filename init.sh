@@ -83,6 +83,7 @@ curl -fsSL 'https://deb.nodesource.com/setup_18.x' | sudo -E bash -;
 # npm #
 npm i -g eslint;
 npm i -g eslint-config-prettier;
+npm i -g pnpm
 npm i -g prettier;
 npm i -g typescript;
 
