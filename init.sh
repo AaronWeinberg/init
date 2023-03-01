@@ -96,3 +96,9 @@ sudo apt purge -y popularity-contest;
 sudo apt purge -y ubuntu-report;
 sudo apt purge -y whoopsie;
 sudo apt autoremove -y; # remove superfluous packages
+
+rm -rf ~/Documents
+rm -rf ~/Music
+rm -rf ~/Pictures
+rm -rf ~/Templates
+rm -rf ~/Videos
