@@ -4,10 +4,10 @@
 
 ```
 # with default port 22
-ssh ubuntu@135.148.44.125
+ssh ubuntu@<vm ip>
 
 # with SSH port changed to 2222
-ssh ubuntu@135.148.44.125 -p 2222
+ssh ubuntu@<vm ip> -p 2222
 
 ```
 
@@ -32,18 +32,19 @@ Port 2222
 PasswordAuthentication no
 ```
 
-## run local web server
+## run Caddy web server
 
 ```
-# cd myProj
-# example webservers
-sudo python3 -m http.server 80 #python3
-sudo busybox httpd -fv -p 80 # busybox
-# nodejs webserver https://www.npmjs.com/package/http-server
-sudo http-server . -p 80 # default is localhost:8080
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install caddy
+# add CaddyFile from Dotfiles to /etc/caddy/
+sudo systemctl restart caddy
 ```
 
-## setup your own shiny heroku
+## setup your own heroku
 
 ```
 mkdir ~/Development/myProj.git
@@ -77,25 +78,4 @@ git remote add prod box1:~/Development/myProj.git
 
 # push to prod, runs your post-receive hook
 git push prod
-```
-
-## set upcertbot
-```
-# update snapd
-sudo snap install core; sudo snap refresh core;
-
-# remove existant certbot versions
-sudo apt-get remove certbot;
-
-# install certbot
-sudo snap install --classic certbot;
-
-# prepare certbot commands
-sudo ln -s /snap/bin/certbot /usr/bin/certbot;
-
-# run certbot
-sudo certbot --nginx;
-
-# automatic renewal
-sudo certbot renew --dry-run;
 ```
