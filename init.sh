@@ -33,11 +33,11 @@ dconf load / < ~/.dconf; rm ~/.dconf; # load dconf settings
 sudo crontab ~/.crontab; rm ~/.crontab;
 update-grub;
 
-# ssh #
+## ssh
 touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
 sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
 
-# ufw #
+## ufw
 sudo ufw default deny incoming;
 sudo ufw default allow outgoing;
 sudo ufw allow http;
@@ -46,7 +46,7 @@ sudo ufw allow 2222/tcp;
 
 
 ### Apps ###
-# apt #
+## apt
 sudo apt install -y build-essential;
 sudo apt install -y byobu;
 sudo apt install -y chrome-gnome-shell;
@@ -59,43 +59,42 @@ sudo apt install -y git;
 sudo apt install -y gnome-tweaks;
 sudo apt install -y gparted;
 sudo apt install -y htop;
-sudo apt install -y nginx;
 sudo apt install -y nodejs;
 sudo apt install -y powertop;
 sudo apt install -y ttf-mscorefonts-installer;
 
-# Chrome #
+## Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb;
 
-# Edge #
+## Edge
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
 sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
 sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list'
 sudo rm microsoft.gpg
 sudo apt update && sudo apt install microsoft-edge-stable
 
-# Node #
-sudo apt install -y curl;
+## Node
 curl -fsSL 'https://deb.nodesource.com/setup_18.x' | sudo -E bash -;
 
-# npm #
+## npm
 npm i -g eslint;
 npm i -g eslint-config-prettier;
 npm i -g pnpm
 npm i -g prettier;
 npm i -g typescript;
 
-# snap #
+## snap
 sudo snap install code --classic;
 
-# remove #
+## remove
 sudo apt purge -y apport;
 sudo apt purge -y kerneloops;
 sudo apt purge -y popularity-contest;
 sudo apt purge -y ubuntu-report;
 sudo apt purge -y whoopsie;
+
 sudo apt autoremove -y; # remove superfluous packages
 
 rm -rf ~/Documents
