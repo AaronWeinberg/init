@@ -40,7 +40,7 @@ curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --d
 curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
 sudo apt update
 sudo apt install caddy
-# add CaddyFile from Dotfiles to /etc/caddy/
+# add Caddyfile from dotfiles to /etc/caddy/
 sudo systemctl restart caddy
 ```
 
