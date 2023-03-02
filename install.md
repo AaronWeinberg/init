@@ -15,7 +15,6 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
 - In ~/.ssh/ --> ssh keys to public and private key files
 
 #                    Windows                      #
-* https://superuser.com/questions/1680130/windows-11-taskbar-corner-overflow-show-all-tray-icons
 * Windows updates (several restarts)
 * Microsoft Store -> update all apps
  
@@ -70,14 +69,14 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
     * Advanced Options: Notify when restart is required
     * Windows insider program: Join - beta channel
 
-Fix Window clock. In Registry Editor:
+## Other Settings
+* https://superuser.com/questions/1680130/windows-11-taskbar-corner-overflow-show-all-tray-icons
+* delete ShellNew registry keys for .bmp and .zip
+* unpin all apps from taskbar + start menu
+* Fix Window clock. In Registry Editor:
 
 ```
 Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation
 Create new DWORD: RealTimeIsUniversal
 change value from 0 to 1
 ```
- 
-* delete ShellNew registry keys for .bmp and .zip
-* unpin all apps from taskbar + start menu
-
