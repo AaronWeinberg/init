@@ -41,6 +41,9 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
   * Themes:
     * Theme: dark
     * Desktop Icon Settings: Recycle Bin: disable
+  * Lock Screen:
+    * Switch from Windows Spotlight --> Picture
+    * Get fun facts, tips tricks and more on your lock screen: uncheck
   * Start:
     * Show recently added apps: disable
     * Show recently opened items: disable
