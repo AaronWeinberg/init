@@ -33,8 +33,7 @@ winget install "Ubuntu" --accept-package-agreements
 ## gaming
 winget install "Valve.Steam" --accept-package-agreements
 ## peripherals
-winget install "Logitech.GHUBT" --accept-package-agreements
-winget install "Razer Synapse" --accept-package-agreements
+winget install "Nvidia Control Panel" --accept-package-agreements
 winget install "Canon Inkjet Print Utility" --accept-package-agreements
 
 # bloatware #
