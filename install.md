@@ -73,6 +73,9 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
 * https://superuser.com/questions/1680130/windows-11-taskbar-corner-overflow-show-all-tray-icons
 * delete ShellNew registry keys for .bmp and .zip
 * unpin all apps from taskbar + start menu
+* in Nvidia Control Panel --> Desktop:
+  * Add Desktop Context Menu: uncheck
+  * Show Notification Tray Icon: uncheck
 * Fix Window clock. In Registry Editor:
 
 ```
