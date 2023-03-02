@@ -23,7 +23,7 @@ cmd.exe --% /c ctrl2cap /install
 # winget #
 ## utility
 winget install "Balena.Etcher" --accept-package-agreements
-winget install "Dell.CommandUpdate.Universal" --accept-package-agreements
+winget install "Dell.CommandUpdate" --accept-package-agreements
 winget install "GIMP.GIMP" --accept-package-agreements
 winget install "Google Chrome" --accept-package-agreements
 winget install "PowerShell" --accept-package-agreements
