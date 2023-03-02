@@ -18,15 +18,21 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
 * https://superuser.com/questions/1680130/windows-11-taskbar-corner-overflow-show-all-tray-icons
 * Windows updates (several restarts)
 * Microsoft Store -> update all apps
-* delete ShellNew registry keys for .bmp and .zip
-* unpin all apps from taskbar
+ 
+ ## Powershell
 
+```
+
+Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1; rm init.ps1
+
+```
+ 
 ## Settings App:
 ### System:
 * Display: Night light: on
 * Notifications:
-  * Notifications from apps: disable all
   * Notifications: disable
+  * Notifications from apps: disable all
   * Offer suggestions: disable
 * Multitasking:
   * Alt + Tab: Open windows only
@@ -35,22 +41,18 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
   * Themes:
     * Theme: dark
     * Desktop Icon Settings: Recycle Bin: disable
-  * Lockscreen: different photo
   * Start:
     * Show recently added apps: disable
     * Show recently opened items: disable
   * Taskbar:
     * Taskbar Apps: Disable search/taskview/widgets/chat
-    * Taskbar corner overflow: enable all
     * Other System Tray Icons:
       * Hidden icon menu: disable
       * Safely Remove Hardware: disable
+      * Nvidia Container
       * Bluetooth: disable
       * Windows Security notification: disable
   * Apps:
-    * Default apps:
-      * Chrome for web stuff
-      * Vscode for text stuff
     * Startup: disable all
 * Accounts:
   * Sign-in options:
@@ -58,21 +60,12 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
     * Fingerprint (must be on laptop)
 * Time & Language:
   * Date & Time:
-    * Set time automatically :toggle off - on
     * Set time zone automatically
   * Language & Region: Regional Format: change all to yyyy-mm-dd + 24-hour time
 * Privacy & Security: For Developers: Show extensions & hidden files
   * Windows Update:
     * Advanced Options: Notify when restart is required
     * Windows insider program: Join - beta channel
-
-## Run from Powershell after above settings have been changed
-
-```
-
-Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1; rm init.ps1
-
-```
 
 Fix Window clock. In Registry Editor:
 
@@ -81,4 +74,7 @@ Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation
 Create new DWORD: RealTimeIsUniversal
 change value from 0 to 1
 ```
-* configure Dell Command Update
+ 
+* delete ShellNew registry keys for .bmp and .zip
+* unpin all apps from taskbar + start menu
+
