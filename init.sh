@@ -89,6 +89,7 @@ npm i -g typescript;
 ## snap
 sudo snap install code --classic;
 sudo snap install gimp;
+sudo snap install steam --beta
 
 ## remove
 sudo apt purge -y apport;
