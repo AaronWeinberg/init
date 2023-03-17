@@ -31,6 +31,7 @@ byobu-enable; # set Byobu as default terminal
 #dconf dump / > .dconf; # export all manually changed settings to .dconf >> replace in dotfiles
 dconf load / < ~/.dconf; rm ~/.dconf; # load dconf settings
 sudo crontab ~/.crontab; rm ~/.crontab;
+sudo timedatectl set-local-rtc 1 # fix Windows wrong clock after dual booting
 update-grub;
 
 ## ssh
