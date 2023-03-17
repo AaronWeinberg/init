@@ -87,6 +87,7 @@ npm i -g typescript;
 
 ## snap
 sudo snap install code --classic;
+sudo snap install gimp;
 
 ## remove
 sudo apt purge -y apport;
