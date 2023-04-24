@@ -77,7 +77,7 @@ sudo rm microsoft.gpg
 sudo apt update && sudo apt install microsoft-edge-stable
 
 ## Node
-curl -fsSL 'https://deb.nodesource.com/setup_18.x' | sudo -E bash -;
+curl -fsSL 'https://deb.nodesource.com/setup_20.x' | sudo -E bash -;
 
 ## npm
 npm i -g eslint;
