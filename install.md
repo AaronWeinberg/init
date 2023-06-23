@@ -6,10 +6,17 @@
 4. DDTERM
 5. Just Perfection
 
+FOR DESKTOP
 ```
-
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh && rm init.sh
-
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init-desktop.sh && sudo chmod +x init-desktop.sh && ./init-desktop.sh && rm init-desktop.sh
+```
+FOR WSL
+```
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init-wsl.sh && sudo chmod +x init-wsl.sh && ./init-wsl.sh && rm init-wsl.sh
+```
+FOR VPS
+```
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init-vps.sh && sudo chmod +x init-vps.sh && ./init-vps.sh && rm init-vps.sh
 ```
 - In ~/.ssh/config --> replace <box1 ip> with VPS ip
 - In ~/.ssh/ --> ssh keys to public and private key files
