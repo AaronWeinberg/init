@@ -8,7 +8,7 @@ sudo apt upgrade -y;
 
 
 ### Directories ###
-mkdir -p ~/Development; # dev path
+mkdir -p ~/development; # dev path
 mkdir -p ~/.npm-global;
 mkdir -p ~/.ssh;
 
@@ -47,23 +47,6 @@ sudo ufw allow 2222/tcp;
 
 
 ### Apps ###
-## apt
-sudo apt install -y build-essential;
-sudo apt install -y byobu;
-sudo apt install -y chrome-gnome-shell;
-sudo apt install -y curl;
-sudo apt install -y dconf-cli;
-sudo apt install -y dconf-editor;
-sudo apt install -y fail2ban;
-sudo apt install -y fonts-firacode;
-sudo apt install -y git;
-sudo apt install -y gnome-tweaks;
-sudo apt install -y gparted;
-sudo apt install -y htop;
-sudo apt install -y nodejs;
-sudo apt install -y powertop;
-sudo apt install -y ttf-mscorefonts-installer;
-
 ## Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
 sudo dpkg -i google-chrome-stable_current_amd64.deb
@@ -77,7 +60,23 @@ sudo rm microsoft.gpg
 sudo apt update && sudo apt install microsoft-edge-stable
 
 ## Node
-curl -fsSL 'https://deb.nodesource.com/setup_20.x' | sudo -E bash -;
+curl -fsSL 'https://deb.nodesource.com/setup_20.x' | sudo -E bash -; # node ppa
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash # nvm
+
+## apt
+sudo apt install -y build-essential;
+sudo apt install -y chrome-gnome-shell;
+sudo apt install -y dconf-cli;
+sudo apt install -y dconf-editor;
+sudo apt install -y fail2ban;
+sudo apt install -y fonts-firacode;
+sudo apt install -y git;
+sudo apt install -y gnome-tweaks;
+sudo apt install -y gparted;
+sudo apt install -y htop;
+sudo apt install -y nodejs;
+sudo apt install -y powertop;
+sudo apt install -y ttf-mscorefonts-installer;
 
 ## npm
 npm i -g eslint;
