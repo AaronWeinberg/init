@@ -14,11 +14,11 @@ mkdir -p ~/.npm-global;
 mkdir -p ~/.ssh;
 
 ### Dotfiles ###
-rm -f .bashrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc;
-rm -f .gitconfig && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig;
-rm -f .inputrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc;
-rm -f .nanorc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc;
-rm -f .npmrc && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc;
+rm -f ~/.bashrc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc;
+rm -f ~/.gitconfig && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig;
+rm -f ~/.inputrc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc;
+rm -f ~/.nanorc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc;
+rm -f ~/.npmrc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc;
 rm -f ~/.byobu/.tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf;
 rm -f /usr/share/byobu/keybindings/f-keys.tmux && wget -P /usr/share/byobu/keybindings https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/f-keys.tmux;
 rm -f ~/.ssh/config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
@@ -55,13 +55,19 @@ if [[ $output == *"OpenStack Foundation"* ]]; then
   ## enable ufw
   sudo ufw enable
 
+  ## add ssh key
+  rm -f ~/.ssh/authorized_keys && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/authorized_keys;
+
+  ## add ssh config
+  rm -f /etc/ssh/sshd_config && wget -P /etc/ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/sshd_config;
+
   ## Caddy webserver
   sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
   sudo apt update
   sudo apt install caddy
-  # add Caddyfile from dotfiles to /etc/caddy/
+  rm -f /etc/caddy/Caddyfile && wget -P /etc/caddy https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/Caddyfile;
   sudo systemctl restart caddy
 else
   if grep -qi Microsoft /proc/version; then
