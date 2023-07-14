@@ -1,4 +1,9 @@
 #                   Linux                         #
+Before clean install, save settings from old installation
+```
+dconf dump / > .dconf; # export all manually changed settings to .dconf >> replace in dotfiles
+```
+
 (On Ubuntu Desktop) GNOME Shell Integration extensions:
 1. App Icons Taskbar
 2. Autohide Battery
@@ -19,7 +24,8 @@ FOR VPS
 wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init-vps.sh && sudo chmod +x init-vps.sh && ./init-vps.sh && rm init-vps.sh
 ```
 - In ~/.ssh/config --> replace <box1 ip> with VPS ip
-- In ~/.ssh/ --> ssh keys to public and private key files
+- In ~/.ssh/id_ed25519 --> add private ssh key
+- On VPS: change domains in Caddyfile
 
 #                    Windows                      #
 * Windows updates (several restarts)
