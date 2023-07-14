@@ -52,7 +52,7 @@ active-plugins=['screensaver', 'skipto', 'rotation', 'screenshot', 'mpris', 'app
 subtitle-encoding='UTF-8'
 
 [org/gnome/control-center]
-last-panel='bluetooth'
+last-panel='background'
 window-state=(980, 770, false)
 
 [org/gnome/deja-dup]
@@ -78,9 +78,10 @@ translate=true
 [org/gnome/desktop/background]
 color-shading-type='solid'
 picture-options='zoom'
-picture-uri='file:///usr/share/backgrounds/warty-final-ubuntu.png'
-primary-color='#2c001e'
-secondary-color='#2c001e'
+picture-uri='file:///usr/share/backgrounds/Lunar-lobster-side_by_Gixo-light.png'
+picture-uri-dark='file:///usr/share/backgrounds/Lunar-lobster-side_by_Gixo-dark.png'
+primary-color='#000000'
+secondary-color='#000000'
 
 [org/gnome/desktop/datetime]
 automatic-timezone=true
@@ -96,7 +97,7 @@ enable-hot-corners=false
 font-hinting='slight'
 gtk-im-module='gtk-im-context-simple'
 gtk-theme='Yaru-blue-dark'
-icon-theme='Yaru-blue-dark'
+icon-theme='Yaru-blue'
 
 [org/gnome/desktop/notifications]
 application-children=['firefox-firefox', 'google-chrome', 'org-gnome-shell-portalhelper', 'code-code', 'gnome-power-panel', 'org-gnome-shell-extensions', 'update-manager', 'gnome-network-panel', 'steam', 'ca-desrt-dconf-editor', 'gnome-datetime-panel', 'org-gnome-nautilus', 'microsoft-edge', 'org-gnome-chromegnomeshell', 'org-gnome-dejadup', 'balena-etcher-electron', 'io-snapcraft-sessionagent', 'snap-store-ubuntu-software-local-file']
@@ -182,9 +183,9 @@ report-technical-problems=true
 [org/gnome/desktop/screensaver]
 color-shading-type='solid'
 picture-options='zoom'
-picture-uri='file:///usr/share/backgrounds/warty-final-ubuntu.png'
-primary-color='#2c001e'
-secondary-color='#2c001e'
+picture-uri='file:///usr/share/backgrounds/Lunar-lobster-side_by_Gixo-light.png'
+primary-color='#000000'
+secondary-color='#000000'
 
 [org/gnome/desktop/search-providers]
 disable-external=false
@@ -241,6 +242,7 @@ workspaces-only-on-primary=false
 
 [org/gnome/nautilus/preferences]
 default-folder-viewer='icon-view'
+migrated-gtk-settings=true
 search-filter-time-type='last_modified'
 
 [org/gnome/nautilus/window-state]
@@ -248,10 +250,10 @@ initial-size=(890, 550)
 maximized=false
 
 [org/gnome/portal/filechooser/snap.firefox]
-last-folder-path='/home/ubuntu/Desktop'
+last-folder-path='/home/aaron/Downloads'
 
 [org/gnome/settings-daemon/plugins/color]
-night-light-last-coordinates=(32.822099280057593, -96.814099999999996)
+night-light-last-coordinates=(32.887400719942406, -96.863500000000002)
 
 [org/gnome/settings-daemon/plugins/power]
 ambient-enabled=false
@@ -260,7 +262,7 @@ sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
 command-history=['r']
-enabled-extensions=['ddterm@amezin.github.com', 'sound-output-device-chooser@kgshank.net', 'dash-to-dock@micxgx.gmail.com', 'audio-output-switcher@anduchs', 'autohide-battery@sitnik.ru', 'aztaskbar@aztaskbar.gitlab.com', 'autohide-volume@unboiled.info', 'just-perfection-desktop@just-perfection']
+enabled-extensions=['ddterm@amezin.github.com', 'sound-output-device-chooser@kgshank.net', 'dash-to-dock@micxgx.gmail.com', 'audio-output-switcher@anduchs', 'autohide-battery@sitnik.ru', 'aztaskbar@aztaskbar.gitlab.com', 'autohide-volume@unboiled.info', 'just-perfection-desktop@just-perfection', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com']
 favorite-apps=@as []
 had-bluetooth-devices-setup=true
 last-selected-power-profile='power-saver'
@@ -274,7 +276,9 @@ isolate-monitors=false
 isolate-workspaces=true
 main-panel-height=(true, 34)
 multi-window-indicator-style='MULTI_DASH'
+panel-location='BOTTOM'
 panel-on-all-monitors=false
+position-in-panel='CENTER'
 show-apps-button=(false, 0)
 show-window-titles=false
 
@@ -285,7 +289,7 @@ background-opacity=0.80000000000000004
 click-action='minimize'
 dash-max-icon-size=16
 dock-fixed=false
-dock-position='LEFT'
+dock-position='BOTTOM'
 extend-height=false
 height-fraction=0.90000000000000002
 intellihide=false
@@ -375,6 +379,7 @@ sort-column='name'
 sort-directories-first=false
 sort-order='ascending'
 type-format='category'
+view-type='list'
 window-size=(1024, 743)
 
 [org/gtk/settings/color-chooser]
@@ -392,7 +397,7 @@ sort-column='name'
 sort-directories-first=true
 sort-order='ascending'
 type-format='category'
-window-position=(0, 0)
+window-position=(358, 139)
 window-size=(1203, 902)
 
 [system/proxy]
