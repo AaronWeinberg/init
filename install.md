@@ -1,7 +1,7 @@
 #                   Linux                         #
-Before clean install, save settings from old installation
+Before clean install, save current settings -> override in dotfiles
 ```
-dconf dump / > .dconf; # export all manually changed settings to .dconf >> replace in dotfiles
+dconf dump / > .dconf;
 ```
 ### INIT SCRIPT (bash)
 ```
