@@ -3,28 +3,25 @@ Before clean install, save settings from old installation
 ```
 dconf dump / > .dconf; # export all manually changed settings to .dconf >> replace in dotfiles
 ```
-
-(On Ubuntu Desktop) GNOME Shell Integration extensions:
-1. App Icons Taskbar
-2. Autohide Battery
-3. Autohide Volume
-4. DDTERM
-5. Just Perfection
-
-INIT SCRIPT
+### INIT SCRIPT (bash)
 ```
 wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh && rm init.sh
 ```
-
 - In ~/.ssh/config --> replace <box1 ip> with VPS ip
 - In ~/.ssh/id_ed25519 --> add private ssh key
 - On VPS: change domains in Caddyfile
+- On Ubuntu Desktop -> GNOME Shell Integration extensions:
+  - App Icons Taskbar
+  - Autohide Battery
+  - Autohide Volume
+  - DDTERM
+  - Just Perfection
 
 #                    Windows                      #
 * Windows updates (several restarts)
 * Microsoft Store -> update all apps
  
- ## Powershell
+ ### INIT SCRIPT (Powershell)
 
 ```
 
