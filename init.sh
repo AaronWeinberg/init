@@ -68,6 +68,7 @@ if [[ $output == *"OpenStack Foundation"* ]]; then
   sudo apt update
   sudo apt install caddy
   rm -f /etc/caddy/Caddyfile && wget -P /etc/caddy https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/Caddyfile;
+  # change domains in Caddyfile
   sudo systemctl restart caddy
 else
   if grep -qi Microsoft /proc/version; then
