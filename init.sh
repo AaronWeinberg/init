@@ -47,7 +47,7 @@ npm i -g typescript;
 output=$(sudo dmidecode -s system-manufacturer)
 
 if [[ $output == *"OpenStack Foundation"* ]]; then
-  echo "OVH script"
+  echo "VPS script"
 
   ## change hostname to "box1"
   echo "box1" | sudo tee /etc/hostname
