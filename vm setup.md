@@ -11,10 +11,10 @@ ssh ubuntu@<vm ip> -p 2222
 
 ```
 
-## change hostname
+## change hostname to 'box1'
 
 ```
-sudo vi /etc/hostname
+echo "box1" | sudo tee /etc/hostname
 ```
 
 ## enable ufw
@@ -25,11 +25,8 @@ sudo ufw enable
 ## add your ssh key, disable password login
 
 ```
-# add your key to ~/.ssh/authorized_keys
-
-# /etc/ssh/sshd_config
-Port 2222
-PasswordAuthentication no
+rm -f ~/.ssh/authorized_keys && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/authorized_keys;
+rm -f /etc/ssh/sshd_config && wget -P /etc/ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/sshd_config;
 ```
 
 ## run Caddy web server
@@ -40,7 +37,7 @@ curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --d
 curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
 sudo apt update
 sudo apt install caddy
-# add Caddyfile from dotfiles to /etc/caddy/
+rm -f /etc/caddy/Caddyfile && wget -P /etc/caddy https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/Caddyfile;
 sudo systemctl restart caddy
 ```
 
