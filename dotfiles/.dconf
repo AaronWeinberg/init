@@ -1,14 +1,15 @@
 [apps/update-manager]
+check-new-release-ignore='lunar'
 first-run=false
-launch-count=11
-launch-time=int64 1675910402
+launch-count=24
+launch-time=int64 1689263083
 show-details=true
 window-height=442
 window-width=645
 
 [ca/desrt/dconf-editor]
-saved-pathbar-path='/org/gnome/shell/extensions/just-perfection/activities-button'
-saved-view='/org/gnome/shell/extensions/just-perfection/activities-button'
+saved-pathbar-path='/org/gnome/shell/extensions/just-perfection/'
+saved-view='/org/gnome/shell/extensions/just-perfection/'
 show-warning=false
 window-height=500
 window-is-maximized=false
@@ -35,7 +36,10 @@ window-resizable=false
 window-size=1.0
 
 [com/ubuntu/update-notifier]
-release-check-time=uint32 1676409689
+release-check-time=uint32 1689262390
+
+[org/gnome/Characters]
+recent-characters=['👩🏻\u200d🍳']
 
 [org/gnome/Mines]
 use-animations=false
@@ -48,7 +52,7 @@ active-plugins=['screensaver', 'skipto', 'rotation', 'screenshot', 'mpris', 'app
 subtitle-encoding='UTF-8'
 
 [org/gnome/control-center]
-last-panel='power'
+last-panel='bluetooth'
 window-state=(980, 770, false)
 
 [org/gnome/deja-dup]
@@ -169,7 +173,7 @@ two-finger-scrolling-enabled=true
 
 [org/gnome/desktop/privacy]
 disable-microphone=false
-old-files-age=uint32 2
+old-files-age=uint32 0
 recent-files-max-age=-1
 remove-old-temp-files=true
 remove-old-trash-files=true
@@ -247,10 +251,10 @@ maximized=false
 last-folder-path='/home/ubuntu/Desktop'
 
 [org/gnome/settings-daemon/plugins/color]
-night-light-last-coordinates=(32.887400719942406, -96.863500000000002)
+night-light-last-coordinates=(32.822099280057593, -96.814099999999996)
 
 [org/gnome/settings-daemon/plugins/power]
-ambient-enabled=true
+ambient-enabled=false
 sleep-inactive-ac-timeout=3600
 sleep-inactive-ac-type='nothing'
 
@@ -294,6 +298,9 @@ transparency-mode='DYNAMIC'
 
 [org/gnome/shell/extensions/ding]
 show-home=false
+
+[org/gnome/shell/extensions/emoji-selector]
+recently-used=['😂', '❤️', '😍', '😭', '😊', '😒', '😘', '😩', '🤔', '☺️', '👌']
 
 [org/gnome/shell/extensions/just-perfection]
 accessibility-menu=true
