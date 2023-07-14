@@ -21,6 +21,7 @@ rm -f ~/.nanorc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/ini
 rm -f ~/.npmrc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc;
 rm -f ~/.byobu/.tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf;
 rm -f /usr/share/byobu/keybindings/f-keys.tmux && wget -P /usr/share/byobu/keybindings https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/f-keys.tmux;
+rm -f ~/.ssh/id_ed25519.pub && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/id_ed25519.pub;
 rm -f ~/.ssh/config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
 
 ### SETTINGS ###
@@ -68,7 +69,6 @@ if [[ $output == *"OpenStack Foundation"* ]]; then
   sudo apt update
   sudo apt install caddy
   rm -f /etc/caddy/Caddyfile && wget -P /etc/caddy https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/Caddyfile;
-  # change domains in Caddyfile
   sudo systemctl restart caddy
 else
   if grep -qi Microsoft /proc/version; then
