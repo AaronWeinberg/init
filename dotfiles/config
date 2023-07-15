@@ -1,5 +1,5 @@
 HOST box1
   User ubuntu
   #IdentityFile ~/.ssh/id_rsa.pem
-  Hostname <box1 IP>
-  Port 2222
+  Hostname <BOX1'S IP>
+  Port <PORT>
