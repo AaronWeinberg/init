@@ -1,13 +1,13 @@
-# new vm setup
+# new vps setup
 
 ## connect to box
 
 ```
 # with default port 22
-ssh ubuntu@<vm ip>
+ssh ubuntu@<VPS IP>
 
-# with SSH port changed to 2222
-ssh ubuntu@<vm ip> -p 2222
+# with SSH port changed
+ssh ubuntu@<VPS IP> -p <NEW PORT>
 
 ```
 
