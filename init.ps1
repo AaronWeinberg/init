@@ -39,7 +39,6 @@ winget install "Canon Inkjet Print Utility" --accept-package-agreements
 # bloatware #
 winget uninstall 'Clipchamp'
 winget uninstall 'Cortana'
-winget uninstall 'Dell SupportAssist OS Recovery for Dell Update'
 winget uninstall 'Feedback Hub'
 winget uninstall 'Get Help'
 winget uninstall 'Mail and Calendar'
@@ -59,9 +58,7 @@ winget uninstall 'Paint'
 winget uninstall 'Phone Link'
 winget uninstall 'Power Automate'
 winget uninstall 'Quick Assist'
-winget uninstall 'Solitaire and Casual Games'
-winget uninstall 'Spotify Music'
-winget uninstall 'Waves MaxxAudio Pro for Dell 2020'
+winget uninstall 'Solitaire & Casual Games'
 winget uninstall 'Windows Camera'
 winget uninstall 'Windows Clock'
 winget uninstall 'Windows Maps'
@@ -71,7 +68,6 @@ winget uninstall 'Xbox Game Bar'
 winget uninstall 'Xbox Game Bar Plugin'
 winget uninstall 'Xbox Game Speech Window'
 winget uninstall 'Xbox Identity Provider'
-winget uninstall 'Your Phone'
 
 # windows update #
 Get-Command -Module PSWindowsUpdate | Out-Null
