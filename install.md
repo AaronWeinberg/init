@@ -25,7 +25,7 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
 
 ```
 
-Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1; rm init.ps1
+Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1; rm C:\Users\aaron\init.ps1
 
 ```
  
@@ -73,10 +73,10 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
 * in Nvidia Control Panel --> Desktop:
   * Add Desktop Context Menu: uncheck
   * Show Notification Tray Icon: uncheck
-* Fix Window clock. In Registry Editor:
-
+* Fix Window clock
+  * In Registry Editor navigate to the following location:
+  * Create new DWORD: RealTimeIsUniversal
+  * Change value from 0 to 1
 ```
 Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation
-Create new DWORD: RealTimeIsUniversal
-change value from 0 to 1
 ```
