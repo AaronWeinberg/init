@@ -34,10 +34,7 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
 * Display: Night light: on
 * Notifications:
   * Notifications: disable
-  * Notifications from apps: disable all
-  * Offer suggestions: disable
-* Multitasking:
-  * Alt + Tab: Open windows only
+  * Additional Settings: disable all
 * Bluetooth and Devices: Devices: Connect Keyboard, mouse, controller
 * Personalization:
   * Themes:
@@ -49,14 +46,11 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
   * Start:
     * Show recently added apps: disable
     * Show recently opened items: disable
+    * Show tips: disable
   * Taskbar:
     * Taskbar Apps: Disable search/taskview/widgets/chat
     * Other System Tray Icons:
       * Hidden icon menu: disable
-      * Safely Remove Hardware: disable
-      * Nvidia Container
-      * Bluetooth: disable
-      * Windows Security notification: disable
   * Apps:
     * Startup: disable all
 * Accounts:
