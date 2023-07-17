@@ -2,7 +2,7 @@ $ROOT='C:/Users/aaron/'
 
 # modules #
 Install-Module -Name PSWindowsUpdate -Force
-wsl --install # services not starting?: Virtual Machine Platform, Windows Hypervisor Platform, Windows Subsystem for Linux
+wsl --install
 winget list --accept-source-agreements # installs winget
 
 # wsl clock sync task #
