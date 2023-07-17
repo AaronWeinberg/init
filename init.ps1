@@ -31,10 +31,12 @@ winget install "Microsoft Visual Studio Code" --accept-package-agreements
 winget install "Mozilla.Firefox" --accept-package-agreements
 winget install "Ubuntu" --accept-package-agreements
 ## gaming
+winget install "Battle.net" --accept-package-agreements
 winget install "Valve.Steam" --accept-package-agreements
 ## peripherals
-winget install "Nvidia Control Panel" --accept-package-agreements
 winget install "Canon Inkjet Print Utility" --accept-package-agreements
+winget install "Nvidia Control Panel" --accept-package-agreements
+winget install "Razer Synapse" --accept-package-agreements
 
 # bloatware #
 winget uninstall 'Clipchamp'
@@ -59,6 +61,7 @@ winget uninstall 'Phone Link'
 winget uninstall 'Power Automate'
 winget uninstall 'Quick Assist'
 winget uninstall 'Solitaire & Casual Games'
+winget uninstall 'Spotify Music'
 winget uninstall 'Windows Camera'
 winget uninstall 'Windows Clock'
 winget uninstall 'Windows Maps'
