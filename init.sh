@@ -26,7 +26,12 @@ sudo snap install curl;
 
 ## Node
 curl -fsSL 'https://deb.nodesource.com/setup_20.x' | sudo -E bash -; # node ppa
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash # nvm
+# nvm
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+nvm install node;
 
 ## npm
 npm i -g eslint;
