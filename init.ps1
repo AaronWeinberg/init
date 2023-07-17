@@ -35,7 +35,8 @@ winget install "Battle.net" --accept-package-agreements
 winget install "Valve.Steam" --accept-package-agreements
 ## peripherals
 winget install "Canon Inkjet Print Utility" --accept-package-agreements
-winget install "Nvidia Control Panel" --accept-package-agreements
+winget install "NVIDIA Control Panel" --accept-package-agreements
+winget install "NVIDIA GeForce Experience" --accept-package-agreements
 winget install "Razer Synapse" --accept-package-agreements
 
 # bloatware #
