@@ -26,7 +26,7 @@ winget install "Balena.Etcher" --accept-package-agreements
 winget install "Dell.CommandUpdate" --accept-package-agreements
 winget install "GIMP.GIMP" --accept-package-agreements
 winget install "Google Chrome" --accept-package-agreements
-winget install "PowerShell" --accept-package-agreements
+winget install "Microsoft.PowerShell.Preview" --accept-package-agreements
 winget install "Microsoft Visual Studio Code" --accept-package-agreements
 winget install "Mozilla.Firefox" --accept-package-agreements
 winget install "Ubuntu" --accept-package-agreements
@@ -34,7 +34,6 @@ winget install "Ubuntu" --accept-package-agreements
 winget install "Battle.net" --accept-package-agreements
 winget install "Valve.Steam" --accept-package-agreements
 ## peripherals
-winget install "Canon Inkjet Print Utility" --accept-package-agreements
 winget install "NVIDIA Control Panel" --accept-package-agreements
 winget install "NVIDIA GeForce Experience" --accept-package-agreements
 winget install "Razer Synapse" --accept-package-agreements
