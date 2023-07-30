@@ -30,6 +30,7 @@ winget install "Microsoft.PowerShell.Preview" --accept-package-agreements
 winget install "Microsoft Visual Studio Code" --accept-package-agreements
 winget install "Mozilla.Firefox" --accept-package-agreements
 winget install "Ubuntu" --accept-package-agreements
+winget install "Wireguard.Wireguard" --accept-package-agreements
 ## gaming
 winget install "Battle.net" --accept-package-agreements
 winget install "Valve.Steam" --accept-package-agreements
