@@ -4,9 +4,9 @@
 #   Initial Linux Setup   #
 ### ### ### ### ### ### ###
 
-sudo apt --fix-broken install -y;
-sudo apt update;
-sudo apt upgrade -y;
+sudo apt-get --fix-broken install -y;
+sudo apt-get update;
+sudo apt-get upgrade -y;
 
 
 ### Directories ###
@@ -17,9 +17,9 @@ mkdir -p ~/.ssh;
 
 ### Apps ###
 ## apt
-sudo apt install -y git;
-sudo apt install -y byobu;
-sudo apt install -y npm;
+sudo apt-get install -y git;
+sudo apt-get install -y byobu;
+sudo apt-get install -y npm;
 
 ## snap
 sudo snap install curl;
@@ -79,11 +79,11 @@ if [[ $output == *"OpenStack Foundation"* ]]; then
   rm -f /etc/ssh/sshd_config && wget -P /etc/ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/sshd_config;
 
   ## Caddy webserver
-  sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https;
+  sudo apt-get install -y debian-keyring debian-archive-keyring apt-transport-https;
   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg;
   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list;
-  sudo apt update;
-  sudo apt install caddy;
+  sudo apt-get update;
+  sudo apt-get install caddy;
   rm -f /etc/caddy/Caddyfile && wget -P /etc/caddy https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/Caddyfile;
   sudo systemctl restart caddy;
 else
@@ -92,7 +92,7 @@ else
 
     sudo timedatectl set-local-rtc 1; # fix Windows wrong clock after dual booting
     # sync system clock with NTP server
-    sudo apt install -y ntpdate;
+    sudo apt-get install -y ntpdate;
     sudo ntpdate ntp.ubuntu.com;
   else
     echo "desktop Linux script";
@@ -113,21 +113,21 @@ else
     sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/;
     sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list';
     sudo rm microsoft.gpg;
-    sudo apt update && sudo apt install microsoft-edge-stable;
+    sudo apt-get update && sudo apt-get install microsoft-edge-stable;
 
     ## apt
-    sudo apt install -y build-essential;
-    sudo apt install -y chrome-gnome-shell;
-    sudo apt install -y dconf-cli;
-    sudo apt install -y dconf-editor;
-    sudo apt install -y fail2ban;
-    sudo apt install -y fonts-firacode;
-    sudo apt install -y gnome-tweaks;
-    sudo apt install -y gparted;
-    sudo apt install -y htop;
-    sudo apt install -y nodejs;
-    sudo apt install -y powertop;
-    sudo apt install -y ttf-mscorefonts-installer;
+    sudo apt-get install -y build-essential;
+    sudo apt-get install -y chrome-gnome-shell;
+    sudo apt-get install -y dconf-cli;
+    sudo apt-get install -y dconf-editor;
+    sudo apt-get install -y fail2ban;
+    sudo apt-get install -y fonts-firacode;
+    sudo apt-get install -y gnome-tweaks;
+    sudo apt-get install -y gparted;
+    sudo apt-get install -y htop;
+    sudo apt-get install -y nodejs;
+    sudo apt-get install -y powertop;
+    sudo apt-get install -y ttf-mscorefonts-installer;
 
     ## snap
     sudo snap install code --classic;
@@ -163,10 +163,10 @@ fi
 
 
 ### Cleanup ####
-sudo apt purge -y apport;
-sudo apt purge -y kerneloops;
-sudo apt purge -y popularity-contest;
-sudo apt purge -y ubuntu-report;
-sudo apt purge -y whoopsie;
+sudo apt-get purge -y apport;
+sudo apt-get purge -y kerneloops;
+sudo apt-get purge -y popularity-contest;
+sudo apt-get purge -y ubuntu-report;
+sudo apt-get purge -y whoopsie;
 
-sudo apt autoremove -y; # remove superfluous packages
+sudo apt-get autoremove -y; # remove superfluous packages
