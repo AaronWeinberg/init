@@ -1,6 +1,13 @@
+#!/bin/bash
+
+### ### ### ### ### ### ###
+#  Initial Windows Setup  #
+### ### ### ### ### ### ###
+
 $ROOT='C:/Users/aaron/'
 
 # modules #
+Install-PackageProvider -Name NuGet -Force
 Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
@@ -15,6 +22,9 @@ Expand-Archive -LiteralPath $ROOT\Downloads\Ctrl2Cap.zip -DestinationPath $ROOT\
 sleep 5 # wait for unzip to finish
 cd $ROOT\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install
+
+cmd.exe /c 'REG DELETE "HKCR\\.zip\\ShellNew" /f' # remove .zip from context menu
+cmd.exe /c 'reg delete HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace_41040327\\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c} /f' # remove Gallery from explorer
 
 # winget #
 ## utility
