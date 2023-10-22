@@ -23,8 +23,11 @@ sleep 5 # wait for unzip to finish
 cd $ROOT\Downloads\Ctrl2Cap
 cmd.exe --% /c ctrl2cap /install
 
+# settings #
 cmd.exe /c 'REG DELETE "HKCR\\.zip\\ShellNew" /f' # remove .zip from context menu
 cmd.exe /c 'reg delete HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace_41040327\\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c} /f' # remove Gallery from explorer
+cmd.exe /c 'reg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced" /v Hidden /t REG_DWORD /d 1 /f' # show hidden files
+cmd.exe /c 'reg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f' # show file extensions
 
 # winget #
 ## utility
