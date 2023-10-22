@@ -32,12 +32,12 @@ winget install "Mozilla.Firefox" --accept-package-agreements
 winget install "Ubuntu" --accept-package-agreements
 winget install "Wireguard.Wireguard" --accept-package-agreements
 ## gaming
-winget install "Battle.net" --accept-package-agreements
+#winget install "Battle.net" --accept-package-agreements
 winget install "Valve.Steam" --accept-package-agreements
 ## peripherals
 winget install "NVIDIA Control Panel" --accept-package-agreements
 winget install "NVIDIA GeForce Experience" --accept-package-agreements
-winget install "Razer Synapse" --accept-package-agreements
+winget install "Razer Synapse 3" --accept-package-agreements
 
 # bloatware #
 winget uninstall 'Clipchamp'
