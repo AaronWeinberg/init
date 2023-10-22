@@ -5,10 +5,6 @@ Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 
-# wsl clock sync task #
-schtasks /create /tn WSLClockSync /tr "wsl.exe sudo hwclock -s" /sc onevent /ec system /mo "*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (EventID=1)]]"
-Set-ScheduledTask WSLClockSync -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries)
-
 # dotfiles #
 Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc' -OutFile 'C:\Users\aaron\.wslconfig'
 
