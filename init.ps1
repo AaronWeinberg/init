@@ -84,37 +84,31 @@ $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/do
 
   ## terminal ##
     $settingsUrl = "$githubBaseUrl\settings.json" # URL of settings.json file on GitHub
-    $defaultSettingsPath = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # path to the default settings.json file
+    $settingsFile = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # path to the default settings.json file
 
-    if (Test-Path $defaultSettingsPath) { # delete the default settings.json if it exists
-      Remove-Item -Path $defaultSettingsPath -Force
-    }
-    
-    Invoke-WebRequest -Uri $settingsUrl -OutFile $defaultSettingsPath # download the settings.json file from the GitHub
+    Remove-Item $settingsFile -ErrorAction SilentlyContinue # delete settings.json if it exists
+    Invoke-WebRequest -Uri $settingsUrl -OutFile $settingsFile # download the settings.json file from the GitHub
 
   ## powershell ##
-    $powershellPath = "$ROOT\Documents\PowerShell" # path to PowerShell
+    $powershellPath = "C:\Program Files\PowerShell\7-preview" # path to PowerShell
     
     ### update module ###
     $updateUrl = "$githubBaseUrl\update.psm1" # URL of update.psm1 file on GitHub
-    $updatePath = "$powershellPath\modules\update" # path to update module
+    $updatePath = "$powershellPath\modules\update" # path to update module directory
+    $updateFile = "$updatePath\update.psm1" # path to update module
     
-    if (Test-Path $updatePath) { # delete update module if it exists
-      Remove-Item -Path $updatePath -Force
-    }
-    
+    Remove-Item $updateFile -ErrorAction SilentlyContinue # delete update module if it exists
+    New-Item -ItemType Directory -Force -Path $updatePath # create module dir
     Invoke-WebRequest -Uri $updateUrl -OutFile $updatePath # download update module from GitHub
-    Install-Module update
+    Import-Module update # install update module
       
     ### profile ###
     $profileUrl = "$githubBaseUrl\Microsoft.PowerShell_profile.ps1" # URL of profile on GitHub
-    $profilePath = "$powershellPath\Microsoft.PowerShell_profile.ps1" # path to profile
+    $profileFile = "$powershellPath\Microsoft.PowerShell_profile.ps1" # path to profile
     
-    if (Test-Path $profilePath) { # delete profile if it exists
-      Remove-Item -Path $profilePath
-    }
-    
-    Invoke-WebRequest -Uri $profileUrl -OutFile $profilePath # download profile from GitHub
+    Remove-Item $profileFile -ErrorAction SilentlyContinue # delete profile if it exists
+    New-Item -ItemType Directory -Force -Path $powershellPath # create profile path
+    Invoke-WebRequest -Uri $profileUrl -OutFile $profileFile # download profile from GitHub
 
 # windows update #
   Get-Command -Module PSWindowsUpdate | Out-Null
