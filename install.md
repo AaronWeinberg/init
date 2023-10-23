@@ -47,6 +47,7 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
   * keyboard
   * mouse
   * controller
+* Printers: add printer
 ### Personalization:
 * Themes:
   * Theme: dark
@@ -83,9 +84,14 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
   * Choose your Insider settings: canary
 
 ## Other Settings
-* https://superuser.com/questions/1680130/windows-11-taskbar-corner-overflow-show-all-tray-icons
-* unpin all apps from taskbar + start menu
-* in Nvidia Control Panel --> Desktop:
+* Explorer:
+  * Remove from Quick Access:
+    * Pictures
+    * Documents
+    * Music
+    * Videos
+* Unpin all apps from taskbar + start menu
+* In Nvidia Control Panel --> Desktop:
   * Add Desktop Context Menu: uncheck
   * Show Notification Tray Icon: uncheck
 * Fix Window clock
