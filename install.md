@@ -90,6 +90,7 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
     * Documents
     * Music
     * Videos
+* https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=mfcl2690dw_us
 * Unpin all apps from taskbar + start menu
 * In Nvidia Control Panel --> Desktop:
   * Add Desktop Context Menu: uncheck
