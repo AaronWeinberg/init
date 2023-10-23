@@ -12,9 +12,6 @@ Install-Module -Name PSWindowsUpdate -Force
 wsl --install
 winget list --accept-source-agreements # installs winget
 
-# dotfiles #
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc' -OutFile 'C:\Users\aaron\.wslconfig'
-
 # ctrl2cap #
 Start-Process -FilePath 'https://download.sysinternals.com/files/Ctrl2Cap.zip'
 sleep 5 # wait for download to finish
