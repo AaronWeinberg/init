@@ -20,12 +20,8 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
 #                    Windows                      #
 * Windows updates (several restarts)
 * Microsoft Store -> update all apps
-* WSL features not started properly?:
-  * Virtual Machine Platform
-  * Windows Hypervisor Platform
-  * Windows Subsystem for Linux 
  
- ### INIT SCRIPT (Powershell)
+ ### INIT SCRIPT (Powershell as admin)
 
 ```
 
@@ -39,48 +35,60 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
 * Notifications:
   * Notifications: disable
   * Additional Settings: disable all
-* Bluetooth and Devices: Devices: Connect Keyboard, mouse, controller
-* Personalization:
-  * Themes:
-    * Theme: dark
-    * Desktop Icon Settings: Recycle Bin: disable
-  * Lock Screen:
-    * Switch from Windows Spotlight --> Picture
-    * Get fun facts, tips tricks and more on your lock screen: uncheck
-  * Start:
-    * Show recently added apps: disable
-    * Show recently opened items: disable
-    * Show tips: disable
-  * Taskbar:
-    * Taskbar Apps: Disable search/taskview/widgets/chat
-    * Other System Tray Icons:
-      * Hidden icon menu: disable
-  * Apps:
-    * Startup: disable all
-* Accounts:
-  * Sign-in options:
-    * Facial Recognition (must be on laptop)
-    * Fingerprint (must be on laptop)
-* Time & Language:
-  * Date & Time:
-    * Set time zone automatically
-  * Language & Region: Regional Format: change all to yyyy-mm-dd + 24-hour time
-* Privacy & Security: For Developers: Show extensions & hidden files
-  * Windows Update:
-    * Advanced Options: Notify when restart is required
-    * Windows insider program: Join - beta channel
+* Multitasking:
+  * Show tabs from apps...: "Don't show tabs"
+* For Developers:
+  * File Explorer:
+    * Show file extensions: on
+    * Show hidden and system files: on
+    * Show full path in title bar: on
+### Bluetooth and Devices:
+* Add device:
+  * keyboard
+  * mouse
+  * controller
+### Personalization:
+* Themes:
+  * Theme: dark
+  * Background:
+    * Personalize your background: slideshow: C:\Users\aaron\OneDrive\Backgrounds
+    * change picture every: 1 minute
+    * shuffle the picture order: on
+  * Desktop Icon Settings: Recycle Bin: disable
+* Lock Screen:
+  * Personalize your lockscreen: slideshow: C:\Users\aaron\OneDrive\Backgrounds
+  * Get fun facts, tips tricks and more on your lock screen: uncheck
+* Start:
+  * Show recently added apps: disable
+  * Show recently opened items: disable
+  * Show tips: disable
+* Taskbar:
+  * Taskbar Apps: Disable search/taskview/widgets/chat
+### Apps:
+* Startup: disable all
+### Accounts:
+* Sign-in options:
+  * Facial Recognition
+  * Fingerprint
+### Time & Language:
+* Date & Time:
+  * Set time zone automatically
+* Language & Region: Regional Format: change all to yyyy-mm-dd + 24-hour time
+### Windows Update:
+* Get the latest updates as soon as they're available: on
+* Advanced Options
+  * Receive updates for other Microsoft products
+  * Optional updates
+* Windows insider program:
+  * Choose your Insider settings: canary
 
 ## Other Settings
 * https://superuser.com/questions/1680130/windows-11-taskbar-corner-overflow-show-all-tray-icons
-* delete ShellNew registry keys for .bmp and .zip
 * unpin all apps from taskbar + start menu
 * in Nvidia Control Panel --> Desktop:
   * Add Desktop Context Menu: uncheck
   * Show Notification Tray Icon: uncheck
 * Fix Window clock
-  * In Registry Editor navigate to the following location:
+  * In Registry Editor navigate to: Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation
   * Create new DWORD: RealTimeIsUniversal
   * Change value from 0 to 1
-```
-Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation
-```
