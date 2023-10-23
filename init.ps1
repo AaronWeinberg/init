@@ -4,79 +4,118 @@
 #  Initial Windows Setup  #
 ### ### ### ### ### ### ###
 
-$ROOT='C:/Users/aaron/'
+$ROOT='C:\Users\aaron\'
+$githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/"
 
 # modules #
-Install-PackageProvider -Name NuGet -Force
-Install-Module -Name PSWindowsUpdate -Force
-wsl --install
-winget list --accept-source-agreements # installs winget
-
-# ctrl2cap #
-Start-Process -FilePath 'https://download.sysinternals.com/files/Ctrl2Cap.zip'
-sleep 5 # wait for download to finish
-Expand-Archive -LiteralPath $ROOT\Downloads\Ctrl2Cap.zip -DestinationPath $ROOT\Downloads\Ctrl2Cap -Force # unzip
-sleep 5 # wait for unzip to finish
-cd $ROOT\Downloads\Ctrl2Cap
-cmd.exe --% /c ctrl2cap /install
-
-# settings #
-Remove-Item -Path "HKLM:\\SOFTWARE\\Classes\\.zip\\CompressedFolder\\ShellNew" -Recurse # remove .zip from context menu
-Remove-Item -Path "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace_41040327\\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" -ErrorAction SilentlyContinue # remove Gallery from explorer
+  Install-PackageProvider -Name NuGet -Force
+  Install-Module -Name PSWindowsUpdate -Force
+  wsl --install
+  winget list --accept-source-agreements # installs winget
 
 # winget #
-## utility
-winget install "Balena.Etcher" --accept-package-agreements
-winget install "Dell.CommandUpdate" --accept-package-agreements
-winget install "GIMP.GIMP" --accept-package-agreements
-winget install "Google Chrome" --accept-package-agreements
-winget install "Microsoft.PowerShell.Preview" --accept-package-agreements
-winget install "Microsoft Visual Studio Code" --accept-package-agreements
-winget install "Mozilla.Firefox" --accept-package-agreements
-winget install "Ubuntu" --accept-package-agreements
-winget install "Wireguard.Wireguard" --accept-package-agreements
-## gaming
-#winget install "Battle.net" --accept-package-agreements
-winget install "Valve.Steam" --accept-package-agreements
-## peripherals
-winget install "NVIDIA Control Panel" --accept-package-agreements
-winget install "NVIDIA GeForce Experience" --accept-package-agreements
-winget install "Razer Synapse 3" --accept-package-agreements
-
+  ## utility
+  winget install "Balena.Etcher" --accept-package-agreements
+  winget install "Dell.CommandUpdate" --accept-package-agreements
+  winget install "GIMP.GIMP" --accept-package-agreements
+  winget install "Google Chrome" --accept-package-agreements
+  winget install "Microsoft.PowerShell.Preview" --accept-package-agreements
+  winget install "Microsoft Visual Studio Code" --accept-package-agreements
+  winget install "Mozilla.Firefox" --accept-package-agreements
+  winget install "Ubuntu" --accept-package-agreements
+  winget install "Wireguard.Wireguard" --accept-package-agreements
+  ## gaming
+  #winget install "Battle.net" --accept-package-agreements
+  winget install "Valve.Steam" --accept-package-agreements
+  ## peripherals
+  winget install "NVIDIA Control Panel" --accept-package-agreements
+  winget install "NVIDIA GeForce Experience" --accept-package-agreements
+  winget install "Razer Synapse 3" --accept-package-agreements
+  
 # bloatware #
-winget uninstall 'Clipchamp'
-winget uninstall 'Cortana'
-winget uninstall 'Feedback Hub'
-winget uninstall 'Get Help'
-winget uninstall 'Mail and Calendar'
-winget uninstall 'Microsoft Bing Search'
-winget uninstall 'Microsoft Family'
-winget uninstall 'Microsoft.GamingApp_8wekyb3d8bbwe'
-winget uninstall 'Microsoft News'
-winget uninstall 'Microsoft People'
-winget uninstall 'Microsoft Sticky Notes'
-winget uninstall 'Microsoft Teams'
-winget uninstall 'Microsoft Tips'
-winget uninstall 'Microsoft To Do'
-winget uninstall 'Movies & TV'
-winget uninstall 'MSN Weather'
-winget uninstall 'NVIDIA Control Panel'
-winget uninstall 'Office'
-winget uninstall 'Outlook For Windows'
-winget uninstall 'Phone Link'
-winget uninstall 'Power Automate'
-winget uninstall 'Quick Assist'
-winget uninstall 'Solitaire & Casual Games'
-winget uninstall 'Spotify Music'
-winget uninstall 'Windows Camera'
-winget uninstall 'Windows Clock'
-winget uninstall 'Windows Maps'
-winget uninstall 'Windows Voice Recorder'
-winget uninstall 'Xbox Game Bar'
-winget uninstall 'Xbox Game Bar Plugin'
-winget uninstall 'Xbox Game Speech Window'
-winget uninstall 'Xbox Identity Provider'
+  winget uninstall 'Clipchamp'
+  winget uninstall 'Cortana'
+  winget uninstall 'Feedback Hub'
+  winget uninstall 'Get Help'
+  winget uninstall 'Mail and Calendar'
+  winget uninstall 'Microsoft Bing Search'
+  winget uninstall 'Microsoft Family'
+  winget uninstall 'Microsoft.GamingApp_8wekyb3d8bbwe'
+  winget uninstall 'Microsoft News'
+  winget uninstall 'Microsoft People'
+  winget uninstall 'Microsoft Sticky Notes'
+  winget uninstall 'Microsoft Teams'
+  winget uninstall 'Microsoft Tips'
+  winget uninstall 'Microsoft To Do'
+  winget uninstall 'Movies & TV'
+  winget uninstall 'MSN Weather'
+  winget uninstall 'NVIDIA Control Panel'
+  winget uninstall 'Office'
+  winget uninstall 'Outlook For Windows'
+  winget uninstall 'Phone Link'
+  winget uninstall 'Power Automate'
+  winget uninstall 'Quick Assist'
+  winget uninstall 'Solitaire & Casual Games'
+  winget uninstall 'Spotify Music'
+  winget uninstall 'Windows Camera'
+  winget uninstall 'Windows Clock'
+  winget uninstall 'Windows Maps'
+  winget uninstall 'Windows Voice Recorder'
+  winget uninstall 'Xbox Game Bar'
+  winget uninstall 'Xbox Game Bar Plugin'
+  winget uninstall 'Xbox Game Speech Window'
+  winget uninstall 'Xbox Identity Provider'
+
+# settings #
+  Remove-Item -Path "HKLM:\SOFTWARE\Classes\.zip\CompressedFolder\ShellNew" -Recurse # remove .zip from context menu
+  Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" -ErrorAction SilentlyContinue # remove Gallery from explorer
+
+  ## ctrl2cap ##
+    $url = 'https://download.sysinternals.com/files/Ctrl2Cap.zip' # url of ctrl2cap
+    $zipFile = "$ROOT\Downloads\Ctrl2Cap.zip" # path to zipped file
+    $extractPath = "$ROOT\Downloads\Ctrl2Cap" # path to unzipped file
+    
+    Invoke-WebRequest -Uri $url -OutFile $zipFile # download ctrl2cap
+    Expand-Archive -LiteralPath $zipFile -DestinationPath $extractPath -Force # unzip
+    Set-Location -Path $extractPath # change directory
+    cmd.exe --% /c ctrl2cap /install # install
+    Remove-Item -Path $zipFile -Force # delete zip
+    Remove-Item -Path $extractPath -Force -Recurse # delete unzipped
+
+  ## terminal ##
+    $settingsUrl = "$githubBaseUrl\settings.json" # URL of settings.json file on GitHub
+    $defaultSettingsPath = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # path to the default settings.json file
+
+    if (Test-Path $defaultSettingsPath) { # delete the default settings.json if it exists
+      Remove-Item -Path $defaultSettingsPath -Force
+    }
+    
+    Invoke-WebRequest -Uri $settingsUrl -OutFile $defaultSettingsPath # download the settings.json file from the GitHub
+
+  ## powershell ##
+    $powershellPath = "$ROOT\Documents\PowerShell" # path to PowerShell
+    
+    ### update module ###
+    $updateUrl = "$githubBaseUrl\update.psm1" # URL of update.psm1 file on GitHub
+    $updatePath = "$powershellPath\modules\update" # path to update module
+    
+    if (Test-Path $updatePath) { # delete update module if it exists
+      Remove-Item -Path $updatePath -Force
+    }
+    
+    Invoke-WebRequest -Uri $updateUrl -OutFile $updatePath # download update module from GitHub
+    Install-Module update
+      
+    ### profile ###
+    $profileUrl = "$githubBaseUrl\Microsoft.PowerShell_profile.ps1" # URL of profile on GitHub
+    $profilePath = "$powershellPath\Microsoft.PowerShell_profile.ps1" # path to profile
+    
+    if (Test-Path $profilePath) { # delete profile if it exists
+      Remove-Item -Path $profilePath
+    }
+    
+    Invoke-WebRequest -Uri $profileUrl -OutFile $profilePath # download profile from GitHub
 
 # windows update #
-Get-Command -Module PSWindowsUpdate | Out-Null
-Install-WindowsUpdate -AcceptAll # windows update -no prompt -no auto-restart
+  Get-Command -Module PSWindowsUpdate | Out-Null
+  Install-WindowsUpdate -AcceptAll # windows update -no prompt -no auto-restart
