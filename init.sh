@@ -129,7 +129,7 @@ else
     ## snap
     sudo snap install code --classic;
     sudo snap install gimp;
-    sudo snap install steam --beta;
+    #sudo snap install steam --beta;
 
 
     ### Settings ###
