@@ -140,6 +140,7 @@ else
     ## grub
     sudo sed -i 's/^GRUB_DEFAULT=.*/GRUB_DEFAULT=saved/' /etc/default/grub;
     sudo sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=10/' /etc/default/grub;
+    sudo sed -i 's/^#GRUB_TERMINAL=console/GRUB_TERMINAL=console/' /etc/default/grub
     echo 'GRUB_SAVEDEFAULT=true' | sudo tee -a /etc/default/grub;
     sudo update-grub;
 
