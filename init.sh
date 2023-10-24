@@ -32,11 +32,11 @@ export NVM_DIR="$HOME/.nvm"
 nvm install node; # installs LTS version of node
 
 ## npm
-npm i -g eslint;
-npm i -g eslint-config-prettier;
-npm i -g pnpm
-npm i -g prettier;
-npm i -g typescript;
+sudo npm i -g eslint;
+sudo npm i -g eslint-config-prettier;
+sudo npm i -g pnpm
+sudo npm i -g prettier;
+sudo npm i -g typescript;
 
 
 ### SETTINGS ###
@@ -108,7 +108,9 @@ else
     ## Edge
     curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
     sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/;
-    sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list';
+    if ! grep -q "^deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" /etc/apt/sources.list.d/microsoft-edge.list; then
+      echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list > /dev/null;
+    fi
     sudo rm microsoft.gpg;
     sudo apt-get update && sudo apt-get install microsoft-edge-stable;
 
