@@ -17,17 +17,14 @@ mkdir -p ~/.ssh;
 
 ### Apps ###
 ## apt
-sudo apt-get install -y git;
 sudo apt-get install -y byobu;
+sudo apt-get install -y curl;
+sudo apt-get install -y git;
 sudo apt-get install -y npm;
 
-## snap
-sudo snap install curl;
-
-# nvm
+# nvm + node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash 
 export NVM_DIR="$HOME/.nvm"
-chmod -R u+w $HOME/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # loads nvm 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # loads nvm bash_completion
 nvm install node; # installs LTS version of node
