@@ -24,14 +24,12 @@ sudo apt-get install -y npm;
 ## snap
 sudo snap install curl;
 
-## Node
-curl -fsSL 'https://deb.nodesource.com/setup_20.x' | sudo -E bash -; # node ppa
 # nvm
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm 
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm install node;
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # loads nvm 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # loads nvm bash_completion
+nvm install node; # installs LTS version of node
 
 ## npm
 npm i -g eslint;
@@ -54,7 +52,6 @@ rm -f ~/.bashrc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/ini
 rm -f ~/.gitconfig && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig;
 rm -f ~/.inputrc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc;
 rm -f ~/.nanorc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc;
-rm -f ~/.npmrc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.npmrc;
 rm -f ~/.byobu/.tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf;
 rm -f ~/.ssh/id_ed25519.pub && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/id_ed25519.pub;
 rm -f ~/.ssh/config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
