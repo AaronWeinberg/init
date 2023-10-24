@@ -94,7 +94,3 @@ $command = 'Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://r
 * In Nvidia Control Panel --> Desktop:
   * Add Desktop Context Menu: uncheck
   * Show Notification Tray Icon: uncheck
-* Fix Window clock
-  * In Registry Editor navigate to: Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation
-  * Create new DWORD: RealTimeIsUniversal
-  * Change value from 0 to 1
