@@ -5,7 +5,7 @@ dconf dump / > .dconf;
 ```
 ### INIT SCRIPT (bash)
 ```
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh >> init-output.log && rm init.sh
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && ./init.sh | tee init.log && rm init.sh
 ```
 - In ~/.ssh/config --> replace <box1 ip> with VPS ip
 - In ~/.ssh/id_ed25519 --> add private ssh key
@@ -25,7 +25,7 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
 
 ```
 
-Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1 >> init-output.log; rm C:\Users\aaron\init.ps1
+Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1 | Tee-Object - FilePath init.log; rm C:\Users\aaron\init.ps1
 
 ```
  
