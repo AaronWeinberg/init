@@ -67,7 +67,7 @@
                 "source": "Windows.Terminal.PowershellCore"
             },
             {
-                "colorScheme": "Ubuntu-ColorScheme",
+                "colorScheme": "Campbell",
                 "commandline": "ubuntu.exe",
                 "cursorShape": "filledBox",
                 "font": 
