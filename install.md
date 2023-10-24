@@ -37,11 +37,6 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
   * Additional Settings: disable all
 * Multitasking:
   * Show tabs from apps...: "Don't show tabs"
-* For Developers:
-  * File Explorer:
-    * Show file extensions: on
-    * Show hidden and system files: on
-    * Show full path in title bar: on
 ### Bluetooth and Devices:
 * Add device:
   * keyboard
@@ -51,11 +46,11 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
 ### Personalization:
 * Themes:
   * Theme: dark
-  * Background:
-    * Personalize your background: slideshow: C:\Users\aaron\OneDrive\Backgrounds
-    * change picture every: 1 minute
-    * shuffle the picture order: on
   * Desktop Icon Settings: Recycle Bin: disable
+* Background:
+  * Personalize your background: slideshow: C:\Users\aaron\OneDrive\Backgrounds
+  * change picture every: 1 minute
+  * shuffle the picture order: on
 * Lock Screen:
   * Personalize your lockscreen: slideshow: C:\Users\aaron\OneDrive\Backgrounds
   * Get fun facts, tips tricks and more on your lock screen: uncheck
@@ -75,15 +70,21 @@ Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubuse
 * Date & Time:
   * Set time zone automatically
 * Language & Region: Regional Format: change all to yyyy-mm-dd + 24-hour time
+### Privacy & Security:
+* For Developers:
+  * File Explorer:
+    * Show file extensions: on
+    * Show hidden and system files: on
+    * Show full path in title bar: on
 ### Windows Update:
 * Get the latest updates as soon as they're available: on
 * Advanced Options
   * Receive updates for other Microsoft products
   * Optional updates
-* Windows insider program:
-  * Choose your Insider settings: canary
 
 ## Other Settings
+* OneDrive -> Backgrounds -> Always keep on this device
+* Dell Command Update -> updates
 * Explorer:
   * Remove from Quick Access:
     * Pictures
