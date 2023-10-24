@@ -67,13 +67,21 @@
                 "source": "Windows.Terminal.PowershellCore"
             },
             {
-                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+                "colorScheme": "Ubuntu-ColorScheme",
+                "commandline": "ubuntu.exe",
+                "cursorShape": "filledBox",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 13.0
+                },
+                "guid": "{1e540740-ca94-4e5f-a205-8c4ff7b1015d}",
                 "hidden": false,
+                "icon": "https://assets.ubuntu.com/v1/49a1a858-favicon-32x32.png",
                 "name": "Ubuntu",
-                "source": "Windows.Terminal.Wsl"
+                "tabTitle": "Ubuntu"
             },
             {
-                "commandline": "%SystemRoot%\\System32\\cmd.exe",
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "hidden": false,
                 "name": "Command Prompt"
