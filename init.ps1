@@ -70,6 +70,15 @@ $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/do
   Remove-Item -Path "HKLM:\SOFTWARE\Classes\.zip\CompressedFolder\ShellNew" -Recurse # remove .zip from context menu
   Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" -ErrorAction SilentlyContinue # remove Gallery from explorer
 
+  ## RealTimeIsUniversal ##
+  $registryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation"
+  $Name = "RealTimeIsUniversal"
+  $value = "1"
+  if (!(Test-Path $registryPath)) { # if the path doesn't exist, create the key
+      New-Item -Path $registryPath -Force | Out-Null
+  }
+  New-ItemProperty -Path $registryPath -Name $Name -Value $value -PropertyType DWORD -Force | Out-Null # set the value
+
   ## ctrl2cap ##
     $url = 'https://download.sysinternals.com/files/Ctrl2Cap.zip' # url of ctrl2cap
     $zipFile = "$ROOT\Downloads\Ctrl2Cap.zip" # path to zipped file
