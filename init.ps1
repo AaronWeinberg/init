@@ -77,8 +77,9 @@ $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/do
     
     Invoke-WebRequest -Uri $url -OutFile $zipFile # download ctrl2cap
     Expand-Archive -LiteralPath $zipFile -DestinationPath $extractPath -Force # unzip
-    Set-Location -Path $extractPath # change directory
-    cmd.exe --% /c ctrl2cap /install # install
+    Set-Location -Path $extractPath # change directory to ctrl2cap
+    cmd.exe --% /c ctrl2cap /install
+    Set-Location -Path $ROOT # change directory away from ctrl2cap
     Remove-Item -Path $zipFile -Force # delete zip
     Remove-Item -Path $extractPath -Force -Recurse # delete unzipped
 
@@ -90,11 +91,11 @@ $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/do
     Invoke-WebRequest -Uri $settingsUrl -OutFile $settingsFile # download the settings.json file from the GitHub
 
   ## powershell ##
-    $powershellPath = "C:\Program Files\PowerShell\7-preview" # path to PowerShell
+    $powershellPath = "$ROOT\Documents\PowerShell" # path to PowerShell
     
     ### update module ###
     $updateUrl = "$githubBaseUrl\update.psm1" # URL of update.psm1 file on GitHub
-    $updatePath = "$powershellPath\modules\update" # path to update module directory
+    $updatePath = "$powershellPath\Modules\update" # path to update module directory
     $updateFile = "$updatePath\update.psm1" # path to update module
     
     Remove-Item $updateFile -ErrorAction SilentlyContinue # delete update module if it exists
