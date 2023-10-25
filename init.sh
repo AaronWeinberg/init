@@ -137,9 +137,12 @@ else
     
     ## grub
     sudo sed -i 's/^GRUB_DEFAULT=.*/GRUB_DEFAULT=saved/' /etc/default/grub;
-    sudo sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=10/' /etc/default/grub;
+    sudo sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=5/' /etc/default/grub;
     sudo sed -i 's/^#GRUB_TERMINAL=console/GRUB_TERMINAL=console/' /etc/default/grub
-    echo 'GRUB_SAVEDEFAULT=true' | sudo tee -a /etc/default/grub;
+    if ! grep -q "^GRUB_SAVEDEFAULT=true" /etc/default/grub; then
+      echo 'GRUB_SAVEDEFAULT=true' | sudo tee -a /etc/default/grub
+    fi
+    sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober;
     sudo update-grub;
 
     ## ufw
