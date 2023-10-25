@@ -40,7 +40,6 @@ $command = 'Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://r
   * keyboard
   * mouse
   * controller
-* Printers: add printer
 ### Personalization:
 * Themes:
   * Theme: dark
