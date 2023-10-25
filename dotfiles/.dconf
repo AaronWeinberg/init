@@ -265,7 +265,7 @@ ignore-phase2-ca-cert=false
 last-folder-path='/home/aaron/Downloads'
 
 [org/gnome/portal/filechooser/microsoft-edge]
-last-folder-path='/home/aaron/Downloads'
+last-folder-path='/home/aaron'
 
 [org/gnome/portal/filechooser/org.gnome.Settings]
 last-folder-path='/home/aaron/Downloads'
@@ -274,7 +274,7 @@ last-folder-path='/home/aaron/Downloads'
 last-folder-path='/home/aaron/Downloads'
 
 [org/gnome/settings-daemon/plugins/color]
-night-light-last-coordinates=(32.89742649242082, -96.863500000000002)
+night-light-last-coordinates=(32.901400786010008, -96.863500000000002)
 
 [org/gnome/settings-daemon/plugins/power]
 ambient-enabled=false
