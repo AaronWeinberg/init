@@ -41,7 +41,7 @@ sudo npm i -g typescript;
 byobu-enable; # set Byobu as default terminal
 
 ## ssh
-touch ~/.ssh/id_ed25519 && touch ~/.ssh/id_ed25519.pub;
+touch ~/.ssh/id_ed25519;
 sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
 
 
@@ -52,7 +52,7 @@ rm -f ~/.inputrc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/in
 rm -f ~/.nanorc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc;
 rm -f ~/.byobu/.tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf;
 rm -f ~/.ssh/id_ed25519.pub && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/id_ed25519.pub;
-rm -f ~/.ssh/config && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config;
+if [ ! -f ~/.ssh/config ]; then wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config; fi
 
 
 ### Host-Specific ###
