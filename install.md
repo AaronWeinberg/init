@@ -88,8 +88,16 @@ $command = 'Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://r
     * Documents
     * Music
     * Videos
-* https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=mfcl2690dw_us
 * Unpin all apps from taskbar + start menu
 * In Nvidia Control Panel --> Desktop:
   * Add Desktop Context Menu: uncheck
   * Show Notification Tray Icon: uncheck
+
+#               Common Settings                 #
+* Printer drivers:
+  * Linux:
+    * https://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=mfcl2690dw_us&os=128&dlid=dlf006893_000&flang=4&type3=625
+  * Windows:
+    * https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=mfcl2690dw_us
+* Setup extensions + settings on Edge, Firefox, and Google
+* Create WireGuard tunnel from .conf file
