@@ -84,11 +84,8 @@ if [[ $output == *"OpenStack Foundation"* ]]; then
 else
   if grep -qi Microsoft /proc/version; then
     echo "WSL script";
-
-    sudo timedatectl set-local-rtc 1; # fix Windows wrong clock after dual booting
-    # sync system clock with NTP server
-    sudo apt-get install -y ntpdate;
-    sudo ntpdate ntp.ubuntu.com;
+    
+    sudo ntpdate time.windows.com; # sync system clock with NTP server
   else
     echo "desktop Linux script";
 
