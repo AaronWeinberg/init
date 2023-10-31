@@ -28,8 +28,7 @@ $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/do
   #winget install "Battle.net" --accept-package-agreements
   winget install "Valve.Steam" --accept-package-agreements
   ## peripherals
-  winget install "NVIDIA Control Panel" --accept-package-agreements
-  winget install "NVIDIA GeForce Experience" --accept-package-agreements
+  winget install "7-Zip" # archiver for Nvidia driver script
   winget install "Razer Synapse 3" --accept-package-agreements
   
 # bloatware #
@@ -101,6 +100,15 @@ $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/do
 
   ## powershell ##
     $powershellPath = "$ROOT\Documents\PowerShell" # path to PowerShell
+
+    ### nvidia script ###
+    $nvidiaUrl = "$githubBaseUrl\nvidia.ps1" # URL of nvidia.ps1 file on GitHub
+    $nvidiaPath = "$powershellPath\Scripts\nvidia" # path to nvidia script directory
+    $nvidiaFile = "$nvidiaPath\nvidia.ps1" # path to nvidia script
+
+    Remove-Item $nvidiaFile -ErrorAction SilentlyContinue # delete nvidia script if it exists
+    New-Item -ItemType Directory -Force -Path $nvidiaPath # create script dir
+    Invoke-WebRequest -Uri $nvidiaUrl -OutFile $nvidiaPath # download nvidia script from GitHub
     
     ### update module ###
     $updateUrl = "$githubBaseUrl\update.psm1" # URL of update.psm1 file on GitHub
