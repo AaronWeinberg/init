@@ -9,6 +9,6 @@ Function update {
   & "C:\Users\aaron\Documents\PowerShell\Scripts\nvidia\nvidia.ps1";
 
   Write-Host "/\/\/\ Running Windows Update /\/\/\";
-  Get-WindowsUpdate;
+  Get-WindowsUpdate | Out-Null;
   Install-WindowsUpdate -AcceptAll;
 }
