@@ -70,8 +70,8 @@ try {
 }
 catch {
     Write-Host -ForegroundColor Yellow "Unable to detect a compatible Nvidia device."
-    #Write-Host "Press any key to exit..."
-    #$host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    Write-Host "Press any key to exit..."
+    $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit
 }
 Write-Host "Installed version `t$ins_version"
@@ -160,8 +160,8 @@ elseif ($archiverProgram -eq $winrarpath) {
 }
 else {
     Write-Host "Something went wrong. No archive program detected. This should not happen."
-    #Write-Host "Press any key to exit..."
-    #$host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    Write-Host "Press any key to exit..."
+    $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit
 }
 
