@@ -1,23 +1,14 @@
 Function update {
-
-  # only displays winget command output if something was changed
-  Function WingetQuiet {
-    param ([string] $output)
-    if ($output -ne "No installed package found matching input criteria.") {
-      Write-Output $output >> $null
-    } else {
-      Write-Output $output
-    }
-  }
-
+  # empty recycle bin
   Clear-RecycleBin -Force
 
-  $result = winget upgrade 2>&1 # upgrade winget
-  WingetQuiet $result
+  # update all winget apps
+  winget update --all --include-unknown;
 
-  $result = winget update --all --include-unknown 2>&1 # update winget apps
-  WingetQuiet $result
+  # download and install Nvidia drivers
+  & "C:\Users\aaron\Documents\PowerShell\Scripts\nvidia\nvidia.ps1"
 
-  Get-WindowsUpdate | Out-Null # windows update -no prompt -no auto-restart
+  # windows update - no prompt - no auto-restart
+  Get-WindowsUpdate | Out-Null
   Install-WindowsUpdate -AcceptAll
 }
