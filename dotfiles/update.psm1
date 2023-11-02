@@ -1,14 +1,18 @@
 Function update {
   # empty recycle bin
-  Clear-RecycleBin -Force
+  Write-Host "/\/\/\ Emptying Recycle Bin /\/\/\";
+  Clear-RecycleBin -Force;
 
   # update all winget apps
+  Write-Host "/\/\/\ Updating Winget apps /\/\/\";
   winget update --all --include-unknown;
 
   # download and install Nvidia drivers
-  & "C:\Users\aaron\Documents\PowerShell\Scripts\nvidia\nvidia.ps1"
+  Write-Host "/\/\/\ Updating Nvidia drivers /\/\/\";
+  & "C:\Users\aaron\Documents\PowerShell\Scripts\nvidia\nvidia.ps1";
 
   # windows update - no prompt - no auto-restart
-  Get-WindowsUpdate | Out-Null
-  Install-WindowsUpdate -AcceptAll
+  Write-Host "/\/\/\ Running Windows Update /\/\/\";
+  Get-WindowsUpdate;
+  Install-WindowsUpdate -AcceptAll;
 }
