@@ -93,6 +93,11 @@ $uri = 'https://gfwsl.geforce.com/services_toolkit/services/com/nvidia/services/
 
 $response = Invoke-WebRequest -Uri $uri -Method GET -UseBasicParsing
 $payload = $response.Content | ConvertFrom-Json
+$success = [int]$payload.Success;
+if (!$success) {
+  Write-Host "There is a new driver but it is unavailable for manual download"
+  exit
+}
 $version =  $payload.IDS[0].downloadInfo.Version
 Write-Output "Latest version `t`t$version"
 
