@@ -7,9 +7,11 @@ dconf dump / > .dconf;
 ```
 wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && command="./init.sh"; echo $command | tee init.log; eval $command | tee -a init.log && rm init.sh
 ```
-- In ~/.ssh/config --> replace <box1 ip> with VPS ip
+- In ~/.ssh/config --> replace <box1 ip> with VPS ip and <port> with VPS port
 - In ~/.ssh/id_ed25519 --> add private ssh key
-- On VPS: change domains in Caddyfile
+- On VPS:
+  - change domains in Caddyfile
+  - in /etc/ssh/sshd_config --> uncomment # Port and replace <port> with correct value
 - On Ubuntu Desktop -> GNOME Shell Integration extensions:
   - App Icons Taskbar
   - Autohide Battery
