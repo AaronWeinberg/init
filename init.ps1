@@ -6,6 +6,8 @@
 
 $ROOT='C:\Users\aaron\'
 $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/"
+$githubScriptUrl = "$githubBaseUrl/scripts/"
+$githubConfigUrl = "$githubBaseUrl/dotfiles/"
 
 # modules #
   Install-PackageProvider -Name NuGet -Force
@@ -93,7 +95,7 @@ $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/do
     Remove-Item -Path $extractPath -Force -Recurse # delete unzipped
 
   ## terminal ##
-    $settingsUrl = "$githubBaseUrl\settings.json" # URL of settings.json file on GitHub
+    $settingsUrl = "$githubConfigUrl\settings.json" # URL of settings.json file on GitHub
     $settingsFile = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # path to the default settings.json file
 
     Remove-Item $settingsFile -ErrorAction SilentlyContinue # delete settings.json if it exists
@@ -103,7 +105,7 @@ $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/do
     $powershellPath = "$ROOT\Documents\PowerShell" # path to PowerShell
 
     ### nvidia script ###
-    $nvidiaUrl = "$githubBaseUrl\nvidia.ps1" # URL of nvidia.ps1 file on GitHub
+    $nvidiaUrl = "$githubScriptUrl\nvidia.ps1" # URL of nvidia.ps1 file on GitHub
     $nvidiaPath = "$powershellPath\Scripts\nvidia" # path to nvidia script directory
     $nvidiaFile = "$nvidiaPath\nvidia.ps1" # path to nvidia script
 
@@ -112,7 +114,7 @@ $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/do
     Invoke-WebRequest -Uri $nvidiaUrl -OutFile $nvidiaPath # download nvidia script from GitHub
     
     ### update module ###
-    $updateUrl = "$githubBaseUrl\update.psm1" # URL of update.psm1 file on GitHub
+    $updateUrl = "$githubScriptUrl\update.psm1" # URL of update.psm1 file on GitHub
     $updatePath = "$powershellPath\Modules\update" # path to update module directory
     $updateFile = "$updatePath\update.psm1" # path to update module
     
@@ -122,7 +124,7 @@ $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/do
     Import-Module update # install update module
       
     ### profile ###
-    $profileUrl = "$githubBaseUrl\Microsoft.PowerShell_profile.ps1" # URL of profile on GitHub
+    $profileUrl = "$githubConfigUrl\Microsoft.PowerShell_profile.ps1" # URL of profile on GitHub
     $profileFile = "$powershellPath\Microsoft.PowerShell_profile.ps1" # path to profile
     
     Remove-Item $profileFile -ErrorAction SilentlyContinue # delete profile if it exists
