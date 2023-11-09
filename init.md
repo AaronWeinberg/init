@@ -5,7 +5,7 @@ dconf dump / > .dconf;
 ```
 ### INIT SCRIPT (bash)
 ```
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo chmod +x init.sh && command="./init.sh"; echo $command | tee init.log; eval $command | tee -a init.log && rm init.sh
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.sh && sudo chmod +x init.sh && command="./init.sh"; echo $command | tee init.log; eval $command | tee -a init.log && rm init.sh
 ```
 - In ~/.ssh/config --> replace <box1 ip> with VPS ip and <port> with VPS port
 - In ~/.ssh/id_ed25519 --> add private ssh key
@@ -19,6 +19,85 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
   - DDTERM
   - Just Perfection
 
+# New VPS Setup
+
+## connect to box
+
+```
+# with default port 22
+ssh ubuntu@<VPS IP>
+
+# with SSH port changed
+ssh ubuntu@<VPS IP> -p <NEW PORT>
+
+```
+
+## change hostname to 'box1'
+
+```
+echo "box1" | sudo tee /etc/hostname
+```
+
+## enable ufw
+```
+sudo ufw enable
+```
+
+## add your ssh key, disable password login
+
+```
+rm -f ~/.ssh/authorized_keys && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/authorized_keys;
+rm -f /etc/ssh/sshd_config && wget -P /etc/ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/sshd_config;
+```
+
+## run Caddy web server
+
+```
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install caddy
+rm -f /etc/caddy/Caddyfile && wget -P /etc/caddy https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/Caddyfile;
+sudo systemctl restart caddy
+```
+
+## setup your own heroku
+
+```
+mkdir ~/Development/myProj.git
+cd ~/Development/myProj.git
+
+# start a bare repo
+git init --bare
+
+# add a listener to listen to `git push`
+cd ~/Development/myProj.git/hooks
+
+# create listener
+touch post-receive
+
+# give it user-exec permissions
+chmod u+x post-receive
+
+# enter script content into post-receive
+  set -eu
+  proj=~/Development/myProj
+  rm -rf ${proj}
+  mkdir -p ${proj}
+  echo "checkout to $proj"
+  git --work-tree=${proj} checkout -f
+  echo "prod installed"
+
+# add a remote to your local git folder
+git remote add prod box1:~/Development/myProj.git
+
+# change/commit code
+
+# push to prod, runs your post-receive hook
+git push prod
+```
+
 #                    Windows                      #
 * Windows updates (several restarts)
 * Microsoft Store -> update all apps
@@ -26,7 +105,7 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/init.sh && sudo
  ### INIT SCRIPT (Powershell as admin)
 
 ```
-$command = 'Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1; rm C:\Users\aaron\init.ps1'; echo $command | Tee-Object -FilePath init.log; Invoke-Expression $command | Tee-Object -FilePath init.log -Append
+$command = 'Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.ps1").Content | out-file -filepath init.ps1; .\init.ps1; rm C:\Users\aaron\init.ps1'; echo $command | Tee-Object -FilePath init.log; Invoke-Expression $command | Tee-Object -FilePath init.log -Append
 ```
  
 ## Settings App:
