@@ -40,7 +40,7 @@
             "keys": "ctrl+w"
         }
     ],
-    "alwaysOnTop": false,
+    "alwaysOnTop": true,
     "alwaysShowNotificationIcon": false,
     "autoHideWindow": true,
     "compatibility.allowHeadless": true,
