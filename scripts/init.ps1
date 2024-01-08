@@ -18,6 +18,7 @@ $githubConfigUrl = "$githubBaseUrl/dotfiles/"
 # winget #
   ## utility
   winget install "Balena.Etcher" --accept-package-agreements
+  winget install "Chocolatey" --accept-package-agreements
   winget install "Dell.CommandUpdate" --accept-package-agreements
   winget install "GIMP.GIMP" --accept-package-agreements
   winget install "Google Chrome" --accept-package-agreements
@@ -32,6 +33,9 @@ $githubConfigUrl = "$githubBaseUrl/dotfiles/"
   ## peripherals
   winget install "7-Zip" # archiver for Nvidia driver script
   winget install "Razer Synapse 3" --accept-package-agreements
+
+# chocolatey #
+  choco install vim -y
   
 # bloatware #
   winget uninstall 'Clipchamp'
