@@ -1,3 +1,5 @@
+[core]
+	autocrlf = true
 [user]
 	name = Aaron Weinberg
 	email = aaron.weinberg@gmail.com
