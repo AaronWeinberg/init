@@ -21,10 +21,12 @@ $githubConfigUrl = "$githubBaseUrl/dotfiles/"
   winget install "Chocolatey" --accept-package-agreements
   winget install "Dell.CommandUpdate" --accept-package-agreements
   winget install "GIMP.GIMP" --accept-package-agreements
+  winget install "Git" --accept-package-agreements
   winget install "Google Chrome" --accept-package-agreements
   winget install "Microsoft.PowerShell.Preview" --accept-package-agreements
   winget install "Microsoft Visual Studio Code" --accept-package-agreements
   winget install "Mozilla.Firefox" --accept-package-agreements
+  winget install "node" --accept-package-agreements
   winget install "Ubuntu" --accept-package-agreements
   winget install "Wireguard.Wireguard" --accept-package-agreements
   ## gaming
