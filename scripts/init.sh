@@ -11,20 +11,19 @@ sudo apt-get update;
 sudo apt-get upgrade -y;
 
 
-### Directories ###
+# Directories #
 mkdir -p ~/development; # dev path
 mkdir -p ~/.npm-global;
-mkdir -p ~/.ssh;
 
 
-### Apps ###
+# Apps #
 ## apt
 sudo apt-get install -y byobu;
 sudo apt-get install -y curl;
 sudo apt-get install -y git;
 sudo apt-get install -y npm;
 
-# nvm + node
+## nvm + node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # loads nvm 
@@ -39,25 +38,27 @@ npm i -g prettier;
 npm i -g typescript;
 
 
-### SETTINGS ###
+# Settings #
 byobu-enable; # set Byobu as default terminal
 
 
-### Dotfiles ###
-rm -f ~/.bashrc && wget -P ~ ${baseUrl}/.bashrc;
-rm -f ~/.gitconfig && wget -P ~ ${baseUrl}/.gitconfig;
-rm -f ~/.inputrc && wget -P ~ ${baseUrl}/.inputrc;
-rm -f ~/.nanorc && wget -P ~ ${baseUrl}/.nanorc;
-rm -f ~/.byobu/.tmux.conf && wget -P ~/.byobu ${baseUrl}/.tmux.conf;
-rm -f ~/.ssh/id_ed25519.pub && wget -P ~/.ssh ${baseUrl}/id_ed25519.pub;
-if [ ! -f ~/.ssh/config ]; then wget -P ~/.ssh ${baseUrl}/config; fi
+## Dotfiles ##
+wget -N -P ~ ${baseUrl}/.bashrc;
+wget -N -P ~ ${baseUrl}/.gitconfig;
+wget -N -P ~ ${baseUrl}/.inputrc;
+wget -N -P ~ ${baseUrl}/.nanorc;
+wget -N -P ~/.byobu ${baseUrl}/.tmux.conf;
 
-## ssh
-touch ~/.ssh/id_ed25519;
-sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
+## ssh ##
+sshDir = ~/.ssh;
+mkdir -p ${sshDir};
+wget -N -P ${sshDir} ${baseUrl}/id_ed25519.pub;
+wget -N -nc -P ${sshDir} ${baseUrl}/config;
+touch ${sshDir}/id_ed25519;
+sudo chmod 600 ${sshDir}/id_ed25519 && sudo chmod 600 ${sshDir}/id_ed25519.pub;
 
 
-### Host-Specific ###
+# Host-Specific #
 output=$(sudo dmidecode -s system-manufacturer)
 
 if [[ $output == *"OpenStack Foundation"* ]]; then
@@ -70,10 +71,10 @@ if [[ $output == *"OpenStack Foundation"* ]]; then
   sudo ufw enable;
 
   ## add ssh key
-  rm -f ~/.ssh/authorized_keys && wget -P ~/.ssh ${baseUrl}/authorized_keys;
+  wget -N -P ~/.ssh ${baseUrl}/authorized_keys;
 
   ## add ssh config
-  rm -f /etc/ssh/sshd_config && wget -P /etc/ssh ${baseUrl}/sshd_config;
+  wget -N -P /etc/ssh ${baseUrl}/sshd_config;
 
   ## Caddy webserver
   sudo apt-get install -y debian-keyring debian-archive-keyring apt-transport-https;
@@ -81,7 +82,7 @@ if [[ $output == *"OpenStack Foundation"* ]]; then
   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list;
   sudo apt-get update;
   sudo apt-get install caddy;
-  rm -f /etc/caddy/Caddyfile && wget -P /etc/caddy ${baseUrl}/Caddyfile;
+  wget -N -P /etc/caddy ${baseUrl}/Caddyfile;
   sudo systemctl restart caddy;
 else
   if grep -qi Microsoft /proc/version; then
@@ -92,17 +93,17 @@ else
     echo "desktop Linux script";
 
 
-    ### Dotfiles ###
-    rm -f .dconf && wget ${baseUrl}/.dconf;
+    ## Dotfiles ##
+    wget -N -P ~ ${baseUrl}/.dconf;
 
 
-    ### Apps ####
-    ## Chrome
+    ## Apps ###
+    ### Chrome ###
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
     sudo dpkg -i google-chrome-stable_current_amd64.deb;
     rm google-chrome-stable_current_amd64.deb;
 
-    ## Edge
+    ### Edge ###
     curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
     sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/;
     if ! grep -q "^deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" /etc/apt/sources.list.d/microsoft-edge.list; then
@@ -111,7 +112,7 @@ else
     sudo rm microsoft.gpg;
     sudo apt-get update && sudo apt-get install microsoft-edge-stable;
 
-    ## apt
+    ### apt ###
     sudo apt-get install -y build-essential;
     sudo apt-get install -y chrome-gnome-shell;
     sudo apt-get install -y dconf-cli;
@@ -125,16 +126,16 @@ else
     sudo apt-get install -y powertop;
     sudo apt-get install -y ttf-mscorefonts-installer;
 
-    ## snap
+    ### snap ###
     sudo snap install code --classic;
     sudo snap install gimp;
     #sudo snap install steam --beta;
 
 
-    ### Settings ###
+    ## Settings ##
     dconf load / < ~/.dconf; rm ~/.dconf; # load dconf settings
     
-    ## grub
+    ### grub ###
     sudo sed -i 's/^GRUB_DEFAULT=.*/GRUB_DEFAULT=saved/' /etc/default/grub;
     sudo sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=5/' /etc/default/grub;
     sudo sed -i 's/^#GRUB_TERMINAL=console/GRUB_TERMINAL=console/' /etc/default/grub
@@ -144,7 +145,7 @@ else
     sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober;
     sudo update-grub;
 
-    ## ufw
+    ### ufw ###
     sudo ufw enable
     sudo ufw default deny incoming;
     sudo ufw default allow outgoing;
@@ -162,7 +163,7 @@ else
 fi
 
 
-### Cleanup ####
+# Cleanup #
 sudo apt-get purge -y apport;
 sudo apt-get purge -y kerneloops;
 sudo apt-get purge -y popularity-contest;
