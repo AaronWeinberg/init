@@ -4,7 +4,7 @@
 #   Initial Linux Setup   #
 ### ### ### ### ### ### ###
 
-baseUrl = 'https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles'
+baseUrl = 'https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles';
 
 sudo apt-get --fix-broken install -y;
 sudo apt-get update;
@@ -42,10 +42,6 @@ npm i -g typescript;
 ### SETTINGS ###
 byobu-enable; # set Byobu as default terminal
 
-## ssh
-touch ~/.ssh/id_ed25519;
-sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
-
 
 ### Dotfiles ###
 rm -f ~/.bashrc && wget -P ~ ${baseUrl}/.bashrc;
@@ -55,6 +51,10 @@ rm -f ~/.nanorc && wget -P ~ ${baseUrl}/.nanorc;
 rm -f ~/.byobu/.tmux.conf && wget -P ~/.byobu ${baseUrl}/.tmux.conf;
 rm -f ~/.ssh/id_ed25519.pub && wget -P ~/.ssh ${baseUrl}/id_ed25519.pub;
 if [ ! -f ~/.ssh/config ]; then wget -P ~/.ssh ${baseUrl}/config; fi
+
+## ssh
+touch ~/.ssh/id_ed25519;
+sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
 
 
 ### Host-Specific ###
