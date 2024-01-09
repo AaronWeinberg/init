@@ -5,13 +5,12 @@
 ### ### ### ### ### ### ###
 
 $githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/"
-$sshPath = "~\.ssh"
+$sshDir = "~\.ssh"
 $githubScriptUrl = "$githubBaseUrl/scripts/"
 $githubConfigUrl = "$githubBaseUrl/dotfiles/"
 
 # directories #
 mkdir -ea 0 ~/development;
-mkdir -ea 0 "$sshPath";
 
 # windows update #
 install-module -force -name PSWindowsUpdate
@@ -90,6 +89,14 @@ npm i -g pnpm
 npm i -g prettier;
 npm i -g typescript;
 
+# ssh #
+mkdir -ea 0 "$sshDir";
+new-item -ea 0 "$sshDir\id_ed25519"
+iwr -uri "$githubConfigUrl\id_ed25519.pub" -outfile "$sshDir\id_ed25519.pub"
+if (!(test-path "$sshDir\config")) {
+  iwr -uri "$baseUrl\config" -outfile "$sshDir\config";
+}
+
 # settings #
 rm -r -ea 0 "HKLM:\SOFTWARE\Classes\.zip\CompressedFolder\ShellNew" # remove .zip from context menu
 rm -r -ea 0 "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" # remove Gallery from explorer
@@ -98,8 +105,6 @@ sc config NVDisplay.ContainerLocalSystem start= disabled # disable Nvidia Displa
   ## dotfiles ##
   iwr -uri "$githubConfigUrl\settings.json" -outfile "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # create or replace settings.json
   iwr -uri "$githubConfigUrl\.gitconfig" -outfile ~\.gitconfig
-  iwr -uri "$githubConfigUrl\id_ed25519.pub" -outfile "$sshPath\id_ed25519.pub"
-  new-item -ea 0 "$sshPath\config"
 
   ## RealTimeIsUniversal ##
   $registryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation"
@@ -118,7 +123,7 @@ sc config NVDisplay.ContainerLocalSystem start= disabled # disable Nvidia Displa
   rm -ea 0 -force $zipFile; rm -r -ea 0 -force $extractPath # delete Ctrl2Cap files
 
   ## ssh ##
-  new-item -ea 0 "$sshPath\id_ed25519"
+  new-item -ea 0 "$sshDir\id_ed25519"
 
   ## powershell ##
   $powershellPath = "~\Documents\PowerShell" # path to PowerShell
