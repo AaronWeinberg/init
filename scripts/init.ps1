@@ -83,6 +83,13 @@ winget rm 'Xbox Identity Provider'
 # wsl --install
 # winget add "Ubuntu" --accept-package-agreements
 
+# npm #
+npm i -g eslint;
+npm i -g eslint-config-prettier;
+npm i -g pnpm
+npm i -g prettier;
+npm i -g typescript;
+
 # settings #
 rm -r -ea 0 "HKLM:\SOFTWARE\Classes\.zip\CompressedFolder\ShellNew" # remove .zip from context menu
 rm -r -ea 0 "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" # remove Gallery from explorer
