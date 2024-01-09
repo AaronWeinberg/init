@@ -26,7 +26,7 @@ $githubConfigUrl = "$githubBaseUrl/dotfiles/"
   winget install "Microsoft.PowerShell.Preview" --accept-package-agreements
   winget install "Microsoft Visual Studio Code" --accept-package-agreements
   winget install "Mozilla.Firefox" --accept-package-agreements
-  winget install "node" --accept-package-agreements
+  winget install "Node" --accept-package-agreements
   winget install "Ubuntu" --accept-package-agreements
   winget install "Wireguard.Wireguard" --accept-package-agreements
   ## gaming
@@ -74,8 +74,8 @@ $githubConfigUrl = "$githubBaseUrl/dotfiles/"
   winget uninstall 'Xbox Identity Provider'
 
 # settings #
-  Remove-Item -Path "HKLM:\SOFTWARE\Classes\.zip\CompressedFolder\ShellNew" -Recurse # remove .zip from context menu
-  Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" -ErrorAction SilentlyContinue # remove Gallery from explorer
+  rm -r "HKLM:\SOFTWARE\Classes\.zip\CompressedFolder\ShellNew" # remove .zip from context menu
+  rm -r -ea 0 "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" # remove Gallery from explorer
   sc config NVDisplay.ContainerLocalSystem start= disabled # disable Nvidia Display Container
 
   ## RealTimeIsUniversal ##
@@ -83,7 +83,7 @@ $githubConfigUrl = "$githubBaseUrl/dotfiles/"
   $Name = "RealTimeIsUniversal"
   $value = "1"
   if (!(Test-Path $registryPath)) { # if the path doesn't exist, create the key
-      New-Item -Path $registryPath -Force | Out-Null
+    mkdir -force $registryPath
   }
   New-ItemProperty -Path $registryPath -Name $Name -Value $value -PropertyType DWORD -Force | Out-Null # set the value
 
@@ -92,20 +92,20 @@ $githubConfigUrl = "$githubBaseUrl/dotfiles/"
     $zipFile = "$ROOT\Downloads\Ctrl2Cap.zip" # path to zipped file
     $extractPath = "$ROOT\Downloads\Ctrl2Cap" # path to unzipped file
     
-    Invoke-WebRequest -Uri $url -OutFile $zipFile # download ctrl2cap
+    iwr -Uri $url -OutFile $zipFile # download ctrl2cap
     Expand-Archive -LiteralPath $zipFile -DestinationPath $extractPath -Force # unzip
-    Set-Location -Path $extractPath # change directory to ctrl2cap
+    cd $extractPath # change directory to ctrl2cap
     cmd.exe --% /c ctrl2cap /install
-    Set-Location -Path $ROOT # change directory away from ctrl2cap
-    Remove-Item -Path $zipFile -Force # delete zip
-    Remove-Item -Path $extractPath -Force -Recurse # delete unzipped
+    cd $ROOT # change directory away from ctrl2cap
+    rm -ea 0 -force $zipFile # delete zip
+    rm -r -ea 0 -force $extractPath # delete unzipped
 
   ## terminal ##
     $settingsUrl = "$githubConfigUrl\settings.json" # URL of settings.json file on GitHub
     $settingsFile = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # path to the default settings.json file
 
-    Remove-Item $settingsFile -ErrorAction SilentlyContinue # delete settings.json if it exists
-    Invoke-WebRequest -Uri $settingsUrl -OutFile $settingsFile # download the settings.json file from the GitHub
+    rm -ea 0 $settingsFile # delete settings.json if it exists
+    iwr -Uri $settingsUrl -OutFile $settingsFile # download the settings.json file from the GitHub
 
   ## powershell ##
     $powershellPath = "$ROOT\Documents\PowerShell" # path to PowerShell
@@ -115,28 +115,28 @@ $githubConfigUrl = "$githubBaseUrl/dotfiles/"
     $nvidiaPath = "$powershellPath\Scripts\nvidia" # path to nvidia script directory
     $nvidiaFile = "$nvidiaPath\nvidia.ps1" # path to nvidia script
 
-    Remove-Item $nvidiaFile -ErrorAction SilentlyContinue # delete nvidia script if it exists
-    New-Item -ItemType Directory -Force -Path $nvidiaPath # create script dir
-    Invoke-WebRequest -Uri $nvidiaUrl -OutFile $nvidiaPath # download nvidia script from GitHub
+    rm -ea 0 $nvidiaFile # delete nvidia script if it exists
+    mkdir -ea 0 $nvidiaPath # create script dir
+    iwr -Uri $nvidiaUrl -OutFile $nvidiaPath # download nvidia script from GitHub
     
     ### update module ###
     $updateUrl = "$githubScriptUrl\update.psm1" # URL of update.psm1 file on GitHub
     $updatePath = "$powershellPath\Modules\update" # path to update module directory
     $updateFile = "$updatePath\update.psm1" # path to update module
     
-    Remove-Item $updateFile -ErrorAction SilentlyContinue # delete update module if it exists
-    New-Item -ItemType Directory -Force -Path $updatePath # create module dir
-    Invoke-WebRequest -Uri $updateUrl -OutFile $updatePath # download update module from GitHub
+    rm -ea 0 $updateFile # delete update module if it exists
+    mkdir -ea 0 $updatePath # create module dir
+    iwr -Uri $updateUrl -OutFile $updatePath # download update module from GitHub
     Import-Module update # install update module
       
     ### profile ###
     $profileUrl = "$githubConfigUrl\Microsoft.PowerShell_profile.ps1" # URL of profile on GitHub
     $profileFile = "$powershellPath\Microsoft.PowerShell_profile.ps1" # path to profile
     
-    Remove-Item $profileFile -ErrorAction SilentlyContinue # delete profile if it exists
-    New-Item -ItemType Directory -Force -Path $powershellPath # create profile path
-    Invoke-WebRequest -Uri $profileUrl -OutFile $profileFile # download profile from GitHub
+    rm -ea 0 $profileFile # delete profile if it exists
+    mkdir -ea 0 $powershellPath # create profile path
+    iwr -Uri $profileUrl -OutFile $profileFile # download profile from GitHub
 
 # windows update #
-  Get-Command -Module PSWindowsUpdate | Out-Null
+  gcm -Module PSWindowsUpdate | Out-Null
   Install-WindowsUpdate -AcceptAll # windows update -no prompt -no auto-restart
