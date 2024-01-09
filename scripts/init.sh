@@ -4,6 +4,8 @@
 #   Initial Linux Setup   #
 ### ### ### ### ### ### ###
 
+baseUrl = 'https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles'
+
 sudo apt-get --fix-broken install -y;
 sudo apt-get update;
 sudo apt-get upgrade -y;
@@ -46,13 +48,13 @@ sudo chmod 600 ~/.ssh/id_ed25519 && sudo chmod 600 ~/.ssh/id_ed25519.pub;
 
 
 ### Dotfiles ###
-rm -f ~/.bashrc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.bashrc;
-rm -f ~/.gitconfig && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.gitconfig;
-rm -f ~/.inputrc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.inputrc;
-rm -f ~/.nanorc && wget -P ~ https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.nanorc;
-rm -f ~/.byobu/.tmux.conf && wget -P ~/.byobu https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.tmux.conf;
-rm -f ~/.ssh/id_ed25519.pub && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/id_ed25519.pub;
-if [ ! -f ~/.ssh/config ]; then wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/config; fi
+rm -f ~/.bashrc && wget -P ~ ${baseUrl}/.bashrc;
+rm -f ~/.gitconfig && wget -P ~ ${baseUrl}/.gitconfig;
+rm -f ~/.inputrc && wget -P ~ ${baseUrl}/.inputrc;
+rm -f ~/.nanorc && wget -P ~ ${baseUrl}/.nanorc;
+rm -f ~/.byobu/.tmux.conf && wget -P ~/.byobu ${baseUrl}/.tmux.conf;
+rm -f ~/.ssh/id_ed25519.pub && wget -P ~/.ssh ${baseUrl}/id_ed25519.pub;
+if [ ! -f ~/.ssh/config ]; then wget -P ~/.ssh ${baseUrl}/config; fi
 
 
 ### Host-Specific ###
@@ -68,10 +70,10 @@ if [[ $output == *"OpenStack Foundation"* ]]; then
   sudo ufw enable;
 
   ## add ssh key
-  rm -f ~/.ssh/authorized_keys && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/authorized_keys;
+  rm -f ~/.ssh/authorized_keys && wget -P ~/.ssh ${baseUrl}/authorized_keys;
 
   ## add ssh config
-  rm -f /etc/ssh/sshd_config && wget -P /etc/ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/sshd_config;
+  rm -f /etc/ssh/sshd_config && wget -P /etc/ssh ${baseUrl}/sshd_config;
 
   ## Caddy webserver
   sudo apt-get install -y debian-keyring debian-archive-keyring apt-transport-https;
@@ -79,7 +81,7 @@ if [[ $output == *"OpenStack Foundation"* ]]; then
   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list;
   sudo apt-get update;
   sudo apt-get install caddy;
-  rm -f /etc/caddy/Caddyfile && wget -P /etc/caddy https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/Caddyfile;
+  rm -f /etc/caddy/Caddyfile && wget -P /etc/caddy ${baseUrl}/Caddyfile;
   sudo systemctl restart caddy;
 else
   if grep -qi Microsoft /proc/version; then
@@ -91,7 +93,7 @@ else
 
 
     ### Dotfiles ###
-    rm -f .dconf && wget https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/.dconf;
+    rm -f .dconf && wget ${baseUrl}/.dconf;
 
 
     ### Apps ####
