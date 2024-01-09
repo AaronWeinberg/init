@@ -4,10 +4,10 @@
 #  Initial Windows Setup  #
 ### ### ### ### ### ### ###
 
-$githubBaseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/"
+$baseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/"
 $sshDir = "~\.ssh"
-$githubScriptUrl = "$githubBaseUrl/scripts/"
-$githubConfigUrl = "$githubBaseUrl/dotfiles/"
+$githubScriptUrl = "$baseUrl/scripts/"
+$githubConfigUrl = "$baseUrl/dotfiles/"
 
 # directories #
 mkdir -ea 0 ~/development;
@@ -83,18 +83,18 @@ winget rm 'Xbox Identity Provider'
 # winget add "Ubuntu" --accept-package-agreements
 
 # npm #
-npm i -g eslint;
-npm i -g eslint-config-prettier;
+npm i -g eslint
+npm i -g eslint-config-prettier
 npm i -g pnpm
-npm i -g prettier;
-npm i -g typescript;
+npm i -g prettier
+npm i -g typescript
 
 # ssh #
-mkdir -ea 0 "$sshDir";
+mkdir -ea 0 "$sshDir"
 new-item -ea 0 "$sshDir\id_ed25519"
 iwr -uri "$githubConfigUrl\id_ed25519.pub" -outfile "$sshDir\id_ed25519.pub"
 if (!(test-path "$sshDir\config")) {
-  iwr -uri "$baseUrl\config" -outfile "$sshDir\config";
+  iwr -uri "$baseUrl\config" -outfile "$sshDir\config"
 }
 
 # settings #
