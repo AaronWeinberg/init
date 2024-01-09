@@ -99,44 +99,33 @@ $githubConfigUrl = "$githubBaseUrl/dotfiles/"
     rm -ea 0 -force $zipFile # delete zip
     rm -r -ea 0 -force $extractPath # delete unzipped
 
-  ## terminal ##
-    $settingsUrl = "$githubConfigUrl\settings.json" # URL of settings.json file on GitHub
-    $settingsFile = "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # path to the default settings.json file
-
-    rm -ea 0 $settingsFile # delete settings.json if it exists
-    iwr -uri $settingsUrl -outfile $settingsFile # download the settings.json file from the GitHub
+  ## dotfiles ##
+    iwr -uri "$githubConfigUrl\settings.json" -outfile "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # create or replace settings.json
+    iwr -uri '$githubConfigUrl\.gitconfig' -outfile ~\.gitconfig
 
   ## powershell ##
     $powershellPath = "~\Documents\PowerShell" # path to PowerShell
-
-    rm -force -ea 0 "~\.gitconfig; iwr -uri
 
     ### nvidia script ###
     $nvidiaUrl = "$githubScriptUrl\nvidia.ps1" # URL of nvidia.ps1 file on GitHub
     $nvidiaPath = "$powershellPath\Scripts\nvidia" # path to nvidia script directory
     $nvidiaFile = "$nvidiaPath\nvidia.ps1" # path to nvidia script
 
-    rm -ea 0 $nvidiaFile # delete nvidia script if it exists
-    mkdir -ea 0 $nvidiaPath # create script dir
-    iwr -uri $nvidiaUrl -outfile $nvidiaPath # download nvidia script from GitHub
+    mkdir -ea 0 $nvidiaPath; iwr -uri $nvidiaUrl -outfile $nvidiaFile
     
     ### update module ###
     $updateUrl = "$githubScriptUrl\update.psm1" # URL of update.psm1 file on GitHub
     $updatePath = "$powershellPath\Modules\update" # path to update module directory
     $updateFile = "$updatePath\update.psm1" # path to update module
     
-    rm -ea 0 $updateFile # delete update module if it exists
-    mkdir -ea 0 $updatePath # create module dir
-    iwr -uri $updateUrl -outfile $updatePath # download update module from GitHub
+    mkdir -ea 0 $updatePath; iwr -uri $updateUrl -outfile $updateFile
     ipmo update # install update module
       
     ### profile ###
     $profileUrl = "$githubConfigUrl\Microsoft.PowerShell_profile.ps1" # URL of profile on GitHub
     $profileFile = "$powershellPath\Microsoft.PowerShell_profile.ps1" # path to profile
     
-    rm -ea 0 $profileFile # delete profile if it exists
-    mkdir -ea 0 $powershellPath # create profile path
-    iwr -uri $profileUrl -outfile $profileFile # download profile from GitHub
+    mkdir -ea 0 $powershellPath; iwr -uri $profileUrl -outfile $profileFile
 
 # windows update #
   gcm -Module PSWindowsUpdate | Out-Null
