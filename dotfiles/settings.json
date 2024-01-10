@@ -11,6 +11,10 @@
             "keys": "f1"
         },
         {
+            "command": "find",
+            "keys": "ctrl+shift+f"
+        },
+        {
             "command": 
             {
                 "action": "splitPane",
@@ -18,10 +22,6 @@
                 "splitMode": "duplicate"
             },
             "keys": "alt+shift+d"
-        },
-        {
-            "command": "find",
-            "keys": "ctrl+shift+f"
         },
         {
             "command": 
@@ -46,7 +46,7 @@
     "compatibility.allowHeadless": true,
     "copyFormatting": "none",
     "copyOnSelect": true,
-    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+    "defaultProfile": "{1e540740-ca94-4e5f-a205-8c4ff7b1015d}",
     "firstWindowPreference": "persistedWindowLayout",
     "launchMode": "fullscreen",
     "minimizeToNotificationArea": true,
@@ -66,12 +66,6 @@
         "list": 
         [
             {
-                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-                "hidden": false,
-                "name": "PowerShell",
-                "source": "Windows.Terminal.PowershellCore"
-            },
-            {
                 "colorScheme": "Campbell",
                 "commandline": "ubuntu.exe",
                 "cursorShape": "filledBox",
@@ -87,15 +81,15 @@
                 "tabTitle": "Ubuntu"
             },
             {
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore"
+            },
+            {
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "hidden": false,
                 "name": "Command Prompt"
-            },
-            {
-                "guid": "{a3a2e83a-884a-5379-baa8-16f193a13b21}",
-                "hidden": false,
-                "name": "PowerShell 7 Preview",
-                "source": "Windows.Terminal.PowershellCore"
             }
         ]
     },
