@@ -3,6 +3,13 @@ Before clean install, save current settings -> override in dotfiles
 ```
 dconf dump / > .dconf;
 ```
+On Ubuntu Desktop, after clean install, install GNOME Shell Integration extensions:
+  - App Icons Taskbar
+  - Autohide Battery
+  - Autohide Volume
+  - DDTERM
+  - Hide Network Icon
+  - Just Perfection
 ### INIT SCRIPT (bash)
 ```
 wget https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.sh && sudo chmod +x init.sh && command="./init.sh"; echo $command | tee init.log; eval $command | tee -a init.log && rm init.sh
@@ -12,12 +19,6 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.sh
 - On VPS:
   - change domains in Caddyfile
   - in /etc/ssh/sshd_config --> uncomment # Port and replace <port> with correct value
-- On Ubuntu Desktop -> GNOME Shell Integration extensions:
-  - App Icons Taskbar
-  - Autohide Battery
-  - Autohide Volume
-  - DDTERM
-  - Just Perfection
 
 # New VPS Setup
 
