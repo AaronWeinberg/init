@@ -4,7 +4,7 @@
 #   Initial Linux Setup   #
 ### ### ### ### ### ### ###
 
-baseUrl = 'https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles';
+baseUrl='https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles';
 
 sudo apt-get --fix-broken install -y;
 sudo apt-get update;
@@ -50,7 +50,7 @@ wget -N -P ~ ${baseUrl}/.nanorc;
 wget -N -P ~/.byobu ${baseUrl}/.tmux.conf;
 
 ## ssh ##
-sshDir = ~/.ssh;
+sshDir=~/.ssh;
 mkdir -p ${sshDir};
 wget -N -P ${sshDir} ${baseUrl}/id_ed25519.pub;
 wget -N -nc -P ${sshDir} ${baseUrl}/config;
