@@ -167,7 +167,6 @@ fi
 # Cleanup #
 sudo apt-get purge -y apport;
 sudo apt-get purge -y kerneloops;
-sudo apt-get purge -y popularity-contest;
 sudo apt-get purge -y ubuntu-report;
 sudo apt-get purge -y whoopsie;
 
