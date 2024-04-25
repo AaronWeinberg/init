@@ -23,8 +23,9 @@ sudo apt-get install -y curl;
 sudo apt-get install -y git;
 sudo apt-get install -y npm;
 
-## snap
+## helix
 sudo snap install helix --classic
+wget -N -P ~/.config/helix ${baseUrl}/config.toml
 
 ## nvm + node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash 
@@ -51,7 +52,6 @@ wget -N -P ~ ${baseUrl}/.gitconfig;
 wget -N -P ~ ${baseUrl}/.inputrc;
 wget -N -P ~ ${baseUrl}/.nanorc;
 wget -N -P ~/.byobu ${baseUrl}/.tmux.conf;
-wget -N -P ~/.config/helix
 
 ## ssh ##
 sshDir=~/.ssh;
@@ -124,7 +124,6 @@ else
     sudo apt-get install -y htop;
     sudo apt-get install -y nodejs;
     sudo apt-get install -y powertop;
-    sudo apt-get install -y ttf-mscorefonts-installer;
 
     ### snap ###
     sudo snap install code --classic;
@@ -173,3 +172,5 @@ sudo apt-get purge -y ubuntu-report;
 sudo apt-get purge -y whoopsie;
 
 sudo apt-get autoremove -y; # remove superfluous packages
+
+sudo apt-get install -y ttf-mscorefonts-installer; # run last because of unavoidable user input
