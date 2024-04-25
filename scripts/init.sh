@@ -23,6 +23,9 @@ sudo apt-get install -y curl;
 sudo apt-get install -y git;
 sudo apt-get install -y npm;
 
+## snap
+sudo snap install helix --classic
+
 ## nvm + node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash 
 export NVM_DIR="$HOME/.nvm"
@@ -48,6 +51,7 @@ wget -N -P ~ ${baseUrl}/.gitconfig;
 wget -N -P ~ ${baseUrl}/.inputrc;
 wget -N -P ~ ${baseUrl}/.nanorc;
 wget -N -P ~/.byobu ${baseUrl}/.tmux.conf;
+wget -N -P ~/.config/helix
 
 ## ssh ##
 sshDir=~/.ssh;
