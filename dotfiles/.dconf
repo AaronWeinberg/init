@@ -37,7 +37,7 @@ window-size=1.0
 
 [com/ubuntu/update-notifier]
 no-show-notifications=true
-release-check-time=uint32 1698181550
+release-check-time=uint32 1714075078
 
 [org/gnome/Characters]
 recent-characters=['👩🏻\u200d🍳']
@@ -53,7 +53,7 @@ active-plugins=['screensaver', 'skipto', 'rotation', 'screenshot', 'mpris', 'app
 subtitle-encoding='UTF-8'
 
 [org/gnome/control-center]
-last-panel='user-accounts'
+last-panel='system'
 window-state=(980, 770, false)
 
 [org/gnome/deja-dup]
@@ -82,7 +82,6 @@ name='suse-yast.directory'
 translate=true
 
 [org/gnome/desktop/background]
-picture-uri-dark='file:///usr/share/backgrounds/warty-final-ubuntu.png'
 primary-color='#2c001e'
 secondary-color='#2c001e'
 
@@ -100,7 +99,8 @@ enable-hot-corners=false
 font-hinting='slight'
 gtk-im-module='gtk-im-context-simple'
 gtk-theme='Yaru-blue-dark'
-icon-theme='Yaru-blue-dark'
+icon-theme='Yaru-blue'
+show-battery-percentage=true
 
 [org/gnome/desktop/notifications]
 application-children=['firefox-firefox', 'google-chrome', 'org-gnome-shell-portalhelper', 'code-code', 'gnome-power-panel', 'org-gnome-shell-extensions', 'update-manager', 'gnome-network-panel', 'steam', 'ca-desrt-dconf-editor', 'gnome-datetime-panel', 'org-gnome-nautilus', 'microsoft-edge', 'org-gnome-chromegnomeshell', 'org-gnome-dejadup', 'balena-etcher-electron', 'io-snapcraft-sessionagent', 'snap-store-ubuntu-software-local-file', 'gnome-printers-panel']
@@ -274,10 +274,11 @@ last-folder-path='/home/aaron/Downloads'
 last-folder-path='/home/aaron/Downloads'
 
 [org/gnome/settings-daemon/plugins/color]
-night-light-last-coordinates=(32.901400786010008, -96.863500000000002)
+night-light-last-coordinates=(33.197976630682405, -96.619799999999998)
 
 [org/gnome/settings-daemon/plugins/power]
 ambient-enabled=false
+idle-dim=true
 sleep-inactive-ac-timeout=3600
 sleep-inactive-ac-type='nothing'
 
@@ -374,8 +375,9 @@ workspaces-in-app-grid=false
 
 [org/gnome/shell/extensions/tiling-assistant]
 active-window-hint-color='rgb(211,70,21)'
-last-version-installed=44
+last-version-installed=46
 overridden-settings={'org.gnome.mutter.edge-tiling': <@mb nothing>, 'org.gnome.mutter.keybindings.toggle-tiled-left': <@mb nothing>, 'org.gnome.mutter.keybindings.toggle-tiled-right': <@mb nothing>}
+tiling-popup-all-workspace=true
 
 [org/gnome/shell/world-clocks]
 locations=@av []
