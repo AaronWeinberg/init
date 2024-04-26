@@ -36,11 +36,11 @@ export NVM_DIR="$HOME/.nvm"
 nvm install node; # installs LTS version of node
 
 ## npm
-npm i -g eslint;
-npm i -g eslint-config-prettier;
-npm i -g pnpm;
-npm i -g prettier;
-npm i -g typescript;
+sudo npm i -g eslint;
+sudo npm i -g eslint-config-prettier;
+sudo npm i -g pnpm;
+sudo npm i -g prettier;
+sudo npm i -g typescript;
 
 
 # Settings #
