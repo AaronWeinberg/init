@@ -22,6 +22,7 @@ sudo apt-get install -y byobu;
 sudo apt-get install -y curl;
 sudo apt-get install -y git;
 sudo apt-get install -y npm;
+sudo apt-get install -y wireguard;
 
 ## helix
 sudo snap install helix --classic
@@ -37,7 +38,7 @@ nvm install node; # installs LTS version of node
 ## npm
 npm i -g eslint;
 npm i -g eslint-config-prettier;
-npm i -g pnpm
+npm i -g pnpm;
 npm i -g prettier;
 npm i -g typescript;
 
