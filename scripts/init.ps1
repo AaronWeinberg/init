@@ -27,6 +27,7 @@ winget list --accept-source-agreements # installs winget
   winget add "GIMP.GIMP" --accept-package-agreements
   winget add "Git" --accept-package-agreements
   winget add "Google.Chrome" --accept-package-agreements
+  winget add "Helix.Helix" --accept-package-agreements
   winget add "Microsoft Visual Studio Code" --accept-package-agreements
   winget add "Mozilla.Firefox" --accept-package-agreements
   winget add "Node.js" --accept-package-agreements
@@ -78,9 +79,17 @@ winget rm 'Xbox Game Bar Plugin'
 winget rm 'Xbox Game Speech Window'
 winget rm 'Xbox Identity Provider'
 
+# Disable Nvidia container service
+$serviceName = 'NVIDIA Display Container LS'
+$service = Get-Service -Name $serviceName
+if ($service.Status -eq 'Running') {
+    Stop-Service -Name $serviceName
+}
+Set-Service -Name $serviceName -StartupType Disabled
+
 # wsl #
-# wsl --install
-# winget add "Ubuntu" --accept-package-agreements
+wsl --install
+winget add "Ubuntu 24.04 LTS" --accept-package-agreements
 
 # npm #
 npm i -g eslint
