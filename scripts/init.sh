@@ -57,8 +57,8 @@ wget -N -P ~/.byobu ${baseUrl}/.tmux.conf;
 ## ssh ##
 sshDir=~/.ssh;
 mkdir -p ${sshDir};
-wget -N -P ${sshDir} ${baseUrl}/id_ed25519.pub;
-wget -N -nc -P ${sshDir} ${baseUrl}/config;
+wget -nc -P ${sshDir} ${baseUrl}/id_ed25519.pub;
+wget -nc -P ${sshDir} ${baseUrl}/config;
 touch ${sshDir}/id_ed25519;
 sudo chmod 600 ${sshDir}/id_ed25519 && sudo chmod 600 ${sshDir}/id_ed25519.pub;
 
@@ -172,5 +172,3 @@ sudo apt-get purge -y ubuntu-report;
 sudo apt-get purge -y whoopsie;
 
 sudo apt-get autoremove -y; # remove superfluous packages
-
-sudo apt-get install -y ttf-mscorefonts-installer; # run last because of unavoidable user input
