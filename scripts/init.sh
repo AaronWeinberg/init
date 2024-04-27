@@ -20,6 +20,7 @@ mkdir -p ~/.npm-global;
 ## apt
 sudo apt-get install -y byobu;
 sudo apt-get install -y curl;
+sudo apt-get install -y dos2unix;
 sudo apt-get install -y git;
 sudo apt-get install -y npm;
 sudo apt-get install -y wireguard;
