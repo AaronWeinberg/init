@@ -26,10 +26,10 @@ winget list --accept-source-agreements # installs winget
   winget add "Dell.CommandUpdate" --accept-package-agreements
   winget add "GIMP.GIMP" --accept-package-agreements
   winget add "Git" --accept-package-agreements
-  winget add "Google Chrome" --accept-package-agreements
+  winget add "Google.Chrome" --accept-package-agreements
   winget add "Microsoft Visual Studio Code" --accept-package-agreements
   winget add "Mozilla.Firefox" --accept-package-agreements
-  winget add "Node" --accept-package-agreements
+  winget add "Node.js" --accept-package-agreements
   winget add "Wireguard.Wireguard" --accept-package-agreements
   
   ## gaming
