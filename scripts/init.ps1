@@ -134,6 +134,22 @@ sc config NVDisplay.ContainerLocalSystem start= disabled # disable Nvidia Displa
   ## ssh ##
   new-item -ea 0 "$sshDir\id_ed25519"
 
+  ## disable tips and tricks on the lock screen ##
+    # Set the path
+    $path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+    
+    # Set ContentDeliveryAllowed to 1
+    Set-ItemProperty -Path $path -Name "ContentDeliveryAllowed" -Value 1
+    
+    # Set RotatingLockScreenEnabled to 1
+    Set-ItemProperty -Path $path -Name "RotatingLockScreenEnabled" -Value 1
+    
+    # Set RotatingLockScreenOverlayEnabled to 0
+    Set-ItemProperty -Path $path -Name "RotatingLockScreenOverlayEnabled" -Value 0
+    
+    # Set SubscribedContent-338387Enabled to 0
+    Set-ItemProperty -Path $path -Name "SubscribedContent-338387Enabled" -Value 0
+
   ## powershell ##
   $powershellPath = "~\Documents\PowerShell" # path to PowerShell
 
