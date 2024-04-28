@@ -35,6 +35,8 @@ winget list --accept-source-agreements # installs winget
   
   ## gaming
   #winget add "Battle.net" --accept-package-agreements
+  winget add "Overwolf.CurseForge" --accept-package-agreements
+  winget add "WeakAuras.WeakAurasCompanion" --accept-package-agreements
   winget add "Valve.Steam" --accept-package-agreements
   
   ## peripherals
@@ -151,7 +153,7 @@ sc config NVDisplay.ContainerLocalSystem start= disabled # disable Nvidia Displa
     Set-ItemProperty -Path $path -Name "SubscribedContent-338387Enabled" -Value 0
 
   ## powershell ##
-  $powershellPath = "~\Documents\PowerShell" # path to PowerShell
+  $powershellPath = "~\Documents\WindowsPowerShell" # path to PowerShell
 
     ### nvidia script ###
     $nvidiaUrl = "$githubScriptUrl\nvidia.ps1" # URL of nvidia.ps1 file on GitHub
