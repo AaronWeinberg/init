@@ -4,7 +4,7 @@
 #  Initial Windows Setup  #
 ### ### ### ### ### ### ###
 
-$baseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/"
+$baseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master"
 $sshDir = "~\.ssh"
 $githubScriptUrl = "$baseUrl/scripts/"
 $githubConfigUrl = "$baseUrl/dotfiles/"
