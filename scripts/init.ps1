@@ -103,9 +103,9 @@ npm i -g typescript
 # ssh #
 mkdir -ea 0 "$sshDir"
 new-item -ea 0 "$sshDir\id_ed25519"
-iwr -uri "$githubConfigUrl\id_ed25519.pub" -outfile "$sshDir\id_ed25519.pub"
+curl "$githubConfigUrl\id_ed25519.pub" -o "$sshDir\id_ed25519.pub"
 if (!(test-path "$sshDir\config")) {
-  iwr -uri "$baseUrl\config" -outfile "$sshDir\config"
+  curl "$baseUrl\config" -o "$sshDir\config"
 }
 
 # settings #
@@ -114,24 +114,25 @@ rm -r -ea 0 "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\Na
 sc config NVDisplay.ContainerLocalSystem start= disabled # disable Nvidia Display Container
 
   ## dotfiles ##
-  iwr -uri "$githubConfigUrl\settings.json" -outfile "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # create or replace settings.json
-  iwr -uri "$githubConfigUrl\.gitconfig" -outfile ~\.gitconfig
+  curl "$githubConfigUrl\settings.json" -o "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # create or replace settings.json
+  curl "$githubConfigUrl\.gitconfig" -o ~\.gitconfig
+  curl "$githubConfigUrl/config.toml" -o ~\AppData\Roaming\helix\config.toml
 
   ## RealTimeIsUniversal ##
   $registryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation"
-  mkdir -force $registryPath
-  New-ItemProperty -path $registryPath -name "RealTimeIsUniversal" -Value 1 -PropertyType DWORD -force | Out-Null
+  mkdir -force "$registryPath"
+  New-ItemProperty -path "$registryPath" -name "RealTimeIsUniversal" -Value 1 -PropertyType DWORD -force | Out-Null
 
   ## ctrl2cap ##
   $extractPath = "~\Downloads\Ctrl2Cap" # path to unzipped file
   $zipFile = "$extractPath.zip" # path to zipped file
   
-  iwr -uri 'https://download.sysinternals.com/files/Ctrl2Cap.zip' -outfile $zipFile # download ctrl2cap
-  Expand-Archive -literalpath $zipFile -destinationpath $extractPath -force # unzip
-  cd $extractPath # change directory to ctrl2cap
+  curl "https://download.sysinternals.com/files/Ctrl2Cap.zip" -o "$zipFile" # download ctrl2cap
+  Expand-Archive -literalpath "$zipFile" -destinationpath "$extractPath" -force # unzip
+  cd "$extractPath" # change directory to ctrl2cap
   cmd.exe --% /c ctrl2cap /install
   cd ~ # change directory away from ctrl2cap
-  rm -ea 0 -force $zipFile; rm -r -ea 0 -force $extractPath # delete Ctrl2Cap files
+  rm -ea 0 -force "$zipFile"; rm -r -ea 0 -force "$extractPath" # delete Ctrl2Cap files
 
   ## ssh ##
   new-item -ea 0 "$sshDir\id_ed25519"
@@ -160,18 +161,18 @@ sc config NVDisplay.ContainerLocalSystem start= disabled # disable Nvidia Displa
     $nvidiaPath = "$powershellPath\Scripts\nvidia" # path to nvidia script directory
     $nvidiaFile = "$nvidiaPath\nvidia.ps1" # path to nvidia script
 
-    mkdir -ea 0 $nvidiaPath; iwr -uri $nvidiaUrl -outfile $nvidiaFile
+    mkdir -ea 0 $nvidiaPath; curl "$nvidiaUrl" -o "$nvidiaFile"
     
     ### update module ###
     $updateUrl = "$githubScriptUrl\update.psm1" # URL of update.psm1 file on GitHub
     $updatePath = "$powershellPath\Modules\update" # path to update module directory
     $updateFile = "$updatePath\update.psm1" # path to update module
     
-    mkdir -ea 0 $updatePath; iwr -uri $updateUrl -outfile $updateFile
+    mkdir -ea 0 $updatePath; curl "$updateUrl" -o "$updateFile"
     ipmo update # install update module
       
     ### profile ###
     $profileUrl = "$githubConfigUrl\Microsoft.PowerShell_profile.ps1" # URL of profile on GitHub
     $profileFile = "$powershellPath\Microsoft.PowerShell_profile.ps1" # path to profile
     
-    mkdir -ea 0 $powershellPath; iwr -uri $profileUrl -outfile $profileFile
+    mkdir -ea 0 $powershellPath; curl "$profileUrl" -o "$profileFile"
