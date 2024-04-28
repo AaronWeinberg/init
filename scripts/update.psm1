@@ -1,6 +1,6 @@
 Function update {
   Write-Host "  >>> Emptying Recycle Bin";
-  Clear-RecycleBin -Confirm:$false
+  Clear-RecycleBin -Force;
 
   Write-Host "  >>> Updating Winget apps";
   winget update --all --include-unknown;
