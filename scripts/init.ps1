@@ -35,8 +35,7 @@ winget list --accept-source-agreements # installs winget
   
   ## gaming
   #winget add "Battle.net" --accept-package-agreements
-  winget add "Overwolf.CurseForge" --accept-package-agreements
-  winget add "WeakAuras.WeakAurasCompanion" --accept-package-agreements
+  winget add "Wago.Addons" --accept-package-agreements
   winget add "Valve.Steam" --accept-package-agreements
   
   ## peripherals
