@@ -34,7 +34,8 @@ winget list --accept-source-agreements # installs winget
   winget add "Wireguard.Wireguard" --accept-package-agreements
   
   ## gaming
-  #winget add "Battle.net" --accept-package-agreements
+  winget add "Battle.net" --accept-package-agreements
+  winget add "Overwolf.CurseForge" --accept-package-agreements
   winget add "Wago.Addons" --accept-package-agreements
   winget add "Valve.Steam" --accept-package-agreements
   
