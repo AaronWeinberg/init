@@ -4,172 +4,165 @@
 #   Initial Linux Setup   #
 ### ### ### ### ### ### ###
 
-baseUrl='https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles';
+baseUrl='https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles'
 
-sudo apt-get --fix-broken install -y;
-sudo apt-get update;
-sudo apt-get upgrade -y;
+# Prompt for the SSH port number
+read -p 'Enter the port number you want to use for ssh: ' port
 
+sudo apt --fix-broken install -y
+sudo apt update
+sudo apt upgrade -y
 
-# Directories #
-mkdir -p ~/development; # dev path
-mkdir -p ~/.npm-global;
+# Directories
+mkdir -p \
+  ~/dev \
+  ~/.npm-global
 
+# Apt
+sudo apt install -y \
+  byobu \
+  chrome-gnome-shell \
+  dconf-cli \
+  dconf-editor \
+  dos2unix \
+  fail2ban \
+  fonts-firacode \
+  gnome-tweaks \
+  gparted \
+  htop \
+  npm \
+  powertop \
+  wireguard
 
-# Apps #
-## apt
-sudo apt-get install -y byobu;
-sudo apt-get install -y curl;
-sudo apt-get install -y dos2unix;
-sudo apt-get install -y git;
-sudo apt-get install -y npm;
-sudo apt-get install -y wireguard;
+# Snap
+sudo snap install code --classic
+sudo snap install gimp
 
-## helix
+# NVM + Node
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash # Install NVM
+export NVM_DIR="$HOME/.nvm" # Load NVM
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # loads nvm 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # loads nvm bash_completion
+nvm install --lts # Install the latest LTS version of Node.js
+
+# NPM Packages
+sudo npm i -g \
+  eslint \
+  eslint-config-prettier \
+  pnpm \
+  prettier \
+  typescript
+
+# Dotfiles
+wget -P ~ ${baseUrl}/.bashrc
+wget -P ~ ${baseUrl}/.gitconfig
+wget -P ~ ${baseUrl}/.inputrc
+wget -P ~ ${baseUrl}/.nanorc
+
+# SSH
+sshDir='~/.ssh'
+mkdir -p ${sshDir}
+chmod 700 ${sshDir}
+
+# Helix
 sudo snap install helix --classic
-wget -N -P ~/.config/helix ${baseUrl}/config.toml
+wget -P ~/.config/helix ${baseUrl}/config.toml
 
-## nvm + node
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # loads nvm 
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # loads nvm bash_completion
-nvm install node; # installs LTS version of node
+# Chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+rm -rf google-chrome-stable_current_amd64.deb
 
-## npm
-sudo npm i -g eslint;
-sudo npm i -g eslint-config-prettier;
-sudo npm i -g pnpm;
-sudo npm i -g prettier;
-sudo npm i -g typescript;
+# Edge
+wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_current_amd64.deb
+sudo dpkg -i microsoft-edge-stable_current_amd64.deb
+rm -rf microsoft-edge-stable_current_amd64.deb
 
+# Dconf
+wget -P ~ ${baseUrl}/.dconf
+dconf load / < ~/.dconf
+rm ~/.dconf
 
-# Settings #
-byobu-enable; # set Byobu as default terminal
+# Byobu
+byobu-enable # set Byobu as default terminal
+wget -P ~/.byobu ${baseUrl}/.tmux.conf
 
+# UFW
+sudo ufw enable
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
 
-## Dotfiles ##
-wget -N -P ~ ${baseUrl}/.bashrc;
-wget -N -P ~ ${baseUrl}/.gitconfig;
-wget -N -P ~ ${baseUrl}/.inputrc;
-wget -N -P ~ ${baseUrl}/.nanorc;
-wget -N -P ~/.byobu ${baseUrl}/.tmux.conf;
-
-## ssh ##
-sshDir=~/.ssh;
-mkdir -p ${sshDir};
-wget -nc -P ${sshDir} ${baseUrl}/id_ed25519.pub;
-wget -nc -P ${sshDir} ${baseUrl}/config;
-touch ${sshDir}/id_ed25519;
-sudo chmod 600 ${sshDir}/id_ed25519 && sudo chmod 600 ${sshDir}/id_ed25519.pub;
-
-
-# Host-Specific #
+# Host-Specific
 output=$(sudo dmidecode -s system-manufacturer)
 
-if [[ $output == *"OpenStack Foundation"* ]]; then
-  echo "VPS script";
+if [[ $output == *'OpenStack Foundation'* ]]; then
+  echo 'VPS SCRIPT'
 
-  ## change hostname to "box1"
-  echo "box1" | sudo tee /etc/hostname;
+  host='vps1'
 
-  ## enable ufw
-  sudo ufw enable;
+  # Allow HTTP, HTTPS, and SSH
+  sudo ufw allow http
+  sudo ufw allow https
+  sudo ufw allow ${port}/tcp
 
-  ## add ssh key
-  wget -N -P ~/.ssh ${baseUrl}/authorized_keys;
+  # SSH Config
+  wget -nc -P ${sshDir} ${baseUrl}/authorized_keys
+  chmod 600 ${sshDir}/authorized_keys
 
-  ## add ssh config
-  wget -N -P /etc/ssh ${baseUrl}/sshd_config;
+  # SSHD Config
+  sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak # Backup the original sshd_config file
+  wget -N -P /etc/ssh ${baseUrl}/sshd_config # Fetch new sshd_config file
+  sudo sed -i "/^#Port /c\Port ${port}" /etc/ssh/sshd_config # Add or update the Port line in sshd_config
 
-  ## Caddy webserver
-  sudo apt-get install -y debian-keyring debian-archive-keyring apt-transport-https;
-  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg;
-  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list;
-  sudo apt-get update;
-  sudo apt-get install caddy;
-  wget -N -P /etc/caddy ${baseUrl}/Caddyfile;
-  sudo systemctl restart caddy;
+  # Caddy Webserver
+  wget https://caddyserver.com/download/latest/caddy_amd64.deb
+  sudo dpkg -i caddy_amd64.deb
+  rm -rf caddy_amd64.deb
+  wget -N -P /etc/caddy ${baseUrl}/Caddyfile # Use my Caddyfile
+  sudo systemctl restart caddy
+
 else
-  if grep -qi Microsoft /proc/version; then
-    echo "WSL script";
-    
-    sudo ntpdate time.windows.com; # sync system clock with NTP server
-  else
-    echo "desktop Linux script";
+  echo 'LOCAL MACHINE SCRIPT'
+  
+  # SSH Config
+  wget -nc -P ${sshDir} ${baseUrl}/config
+  wget -nc -P ${sshDir} ${baseUrl}/id_ed25519.pub
+  touch ${sshDir}/id_ed25519
+  touch ${sshDir}/known_hosts
+  chmod 600 ${sshDir}/id_ed25519
+  chmod 644 ${sshDir}/id_ed25519.pub
+  chmod 644 ${sshDir}/known_hosts
 
+  # Desktop Linux Config
+  if ! grep -qi Microsoft /proc/version; then
+    host='ubuntu'
 
-    ## Apps ###
-    ### Chrome ###
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
-    sudo dpkg -i google-chrome-stable_current_amd64.deb;
-    rm google-chrome-stable_current_amd64.deb;
-
-    ### Edge ###
-    curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
-    sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/;
-    if ! grep -q "^deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" /etc/apt/sources.list.d/microsoft-edge.list; then
-      echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list > /dev/null;
+    # Grub
+    if ! grep -qi Microsoft /proc/version; then
+      wget -P /etc/default ${baseUrl}/grub
+      sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober
+      sudo update-grub
     fi
-    sudo rm microsoft.gpg;
-    sudo apt-get update && sudo apt-get install microsoft-edge-stable;
-
-    ### apt ###
-    sudo apt-get install -y build-essential;
-    sudo apt-get install -y chrome-gnome-shell;
-    sudo apt-get install -y dconf-cli;
-    sudo apt-get install -y dconf-editor;
-    sudo apt-get install -y fail2ban;
-    sudo apt-get install -y fonts-firacode;
-    sudo apt-get install -y gnome-tweaks;
-    sudo apt-get install -y gparted;
-    sudo apt-get install -y htop;
-    sudo apt-get install -y nodejs;
-    sudo apt-get install -y powertop;
-
-    ### snap ###
-    sudo snap install code --classic;
-    sudo snap install gimp;
-    #sudo snap install steam --beta;
-
-
-    ## Settings ##
-    ### dconf ###
-    wget -N -P ~ ${baseUrl}/.dconf;
-    dconf load / < ~/.dconf; rm ~/.dconf; # load dconf settings
-    
-    ### grub ###
-    sudo sed -i 's/^GRUB_DEFAULT=.*/GRUB_DEFAULT=saved/' /etc/default/grub;
-    sudo sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=5/' /etc/default/grub;
-    sudo sed -i 's/^#GRUB_TERMINAL=console/GRUB_TERMINAL=console/' /etc/default/grub
-    if ! grep -q "^GRUB_SAVEDEFAULT=true" /etc/default/grub; then
-      echo 'GRUB_SAVEDEFAULT=true' | sudo tee -a /etc/default/grub
-    fi
-    sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober;
-    sudo update-grub;
-
-    ### ufw ###
-    sudo ufw enable
-    sudo ufw default deny incoming;
-    sudo ufw default allow outgoing;
-    sudo ufw allow http;
-    sudo ufw allow https;
-    sudo ufw allow 2222/tcp;
-
-    ### Cleanup ###
-    rm -rf ~/Documents
-    rm -rf ~/Music
-    rm -rf ~/Pictures
-    rm -rf ~/Templates
-    rm -rf ~/Videos
   fi
 fi
 
+host=${host:-wsl} # Set host to 'wsl' if it was not set above
+sudo hostnamectl set-hostname ${host} # Change to host-specific hostname
 
-# Cleanup #
-sudo apt-get purge -y apport;
-sudo apt-get purge -y kerneloops;
-sudo apt-get purge -y ubuntu-report;
-sudo apt-get purge -y whoopsie;
+# Cleanup
+rm -rf \
+  ~/Documents \
+  ~/Music \
+  ~/Pictures \
+  ~/Templates \
+  ~/Videos
 
-sudo apt-get autoremove -y; # remove superfluous packages
+sudo apt purge -y \
+  apport \
+  kerneloops \
+  ubuntu-report \
+  whoopsie
+
+sudo apt autoremove -y # Remove superfluous packages
+
+source ~/.bashrc # Reload .bashrc file
