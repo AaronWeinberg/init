@@ -124,3 +124,9 @@ update(){
 
 # tells linux to look for npm binaries here
 export PATH="${HOME}/.npm-global/bin:$PATH"
+
+# If on WSL, sync to Windows clock
+if grep -qi Microsoft /proc/version; then
+    sudo ntpdate time.windows.com &>/dev/null &
+fi
+
