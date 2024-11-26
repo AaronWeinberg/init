@@ -7,25 +7,20 @@ dconf dump / > .dconf;
 ```sh
 wget https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.sh && sudo chmod +x init.sh && command="./init.sh"; echo $command | tee init.log; eval $command | tee -a init.log && rm init.sh
 ```
-- after initial script run:
-```sh
-sudo apt-get install -y ttf-mscorefonts-installer;
-```
-- In ~/.ssh/id_ed25519 --> add private ssh key
-- On Ubuntu Desktop, install GNOME Shell Integration extensions:
+# New Desktop Setup
+## Install GNOME Shell Integration extensions:
   - App Icons Taskbar
   - Autohide Battery
   - Autohide Volume
   - DDTERM
   - Hide Network Icon
   - Just Perfection
-- On VPS:
-  - change domains in Caddyfile
-  - in /etc/ssh/sshd_config --> uncomment # Port and replace <port> with correct value
 
 # New VPS Setup
 
-## setup your own heroku
+## Change domains in Caddyfile
+
+## Setup your own heroku
 
 ```sh
 mkdir ~/Development/myProj.git
