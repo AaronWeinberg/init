@@ -4,12 +4,13 @@
 #   Initial Linux Setup   #
 ### ### ### ### ### ### ###
 
+# Variable Declarations and User Input
 baseUrl='https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles'
-default_ip='192.168.1.100'
+default_ip='192.168.1.100'uyg
 default_port='22'
-
-# Prompt for the SSH port number
-read -p "Enter the port number you want to use for ssh, or hit enter to accept the default [Port ${default_port}]: " port
+read -p "Enter the port number you want to use for ssh, or hit enter to accept the default [Port ${default_port}]: " port # Prompt for the SSH port number
+read -p "Enter your private SSH key, or hit enter to leave empty: " private_ssh_key # Prompt for the private SSH key
+read -p "Enter the IP of the VPS, or hit enter to accept the default [${default_ip}]: " vps_ip # Prompt for the VPS IP
 
 sudo apt --fix-broken install -y
 sudo apt update
@@ -138,9 +139,9 @@ else
   chmod 600 ${sshDir}/id_ed25519
   chmod 644 ${sshDir}/id_ed25519.pub
   chmod 644 ${sshDir}/known_hosts
-  read -p "Enter the IP of the VPS, or hit enter to accept the default [${default_ip}]: " vps_ip # Prompt for the VPS IP
   sudo sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" ${sshDir}/config # Fill in the VPS's IP
   sudo sed -i "s/<SSH_PORT>/${port:-${default_port}}/g" ${sshDir}/config # Fill in the SSH port
+  sudo sed -i "s/<SSH_PORT>/${private_ssh_key}/g" ${sshDir}/id_ed25519 # Fill in private SSH key
 
   # Desktop Linux Config
   if ! grep -qi Microsoft /proc/version; then
