@@ -20,6 +20,8 @@ mkdir -p \
   ~/dev \
   ~/.npm-global
 
+echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections # Pre-accept the EULA for ttf-mscorefonts-installer
+
 # Apt
 sudo apt install -y \
   byobu \
@@ -34,6 +36,7 @@ sudo apt install -y \
   htop \
   npm \
   powertop \
+  ttf-mscorefonts-installer \
   wireguard
 
 # Snap
