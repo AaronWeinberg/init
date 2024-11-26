@@ -11,7 +11,6 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.sh
 ```sh
 sudo apt-get install -y ttf-mscorefonts-installer;
 ```
-- In ~/.ssh/config --> replace <box1 ip> with VPS ip and <port> with VPS port
 - In ~/.ssh/id_ed25519 --> add private ssh key
 - On Ubuntu Desktop, install GNOME Shell Integration extensions:
   - App Icons Taskbar
@@ -25,46 +24,6 @@ sudo apt-get install -y ttf-mscorefonts-installer;
   - in /etc/ssh/sshd_config --> uncomment # Port and replace <port> with correct value
 
 # New VPS Setup
-
-## connect to box
-
-```sh
-# with default port 22
-ssh ubuntu@<VPS IP>
-
-# with SSH port changed
-ssh ubuntu@<VPS IP> -p <NEW PORT>
-```
-
-## change hostname to 'box1'
-
-```sh
-echo "box1" | sudo tee /etc/hostname
-```
-
-## enable ufw
-```sh
-sudo ufw enable
-```
-
-## add your ssh key, disable password login
-
-```sh
-rm -f ~/.ssh/authorized_keys && wget -P ~/.ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/authorized_keys;
-rm -f /etc/ssh/sshd_config && wget -P /etc/ssh https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/sshd_config;
-```
-
-## run Caddy web server
-
-```sh
-sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
-sudo apt update
-sudo apt install caddy
-rm -f /etc/caddy/Caddyfile && wget -P /etc/caddy https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles/Caddyfile;
-sudo systemctl restart caddy
-```
 
 ## setup your own heroku
 
