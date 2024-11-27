@@ -2,7 +2,7 @@ Include ~/.ssh/host_config
 
 Host VPS1-aaron
   HostName %h
-  Port %p
+  Port <SSH_PORT>
   User aaron
 
 Host VPS1-fresh
