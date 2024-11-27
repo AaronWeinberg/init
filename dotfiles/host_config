@@ -1,0 +1,3 @@
+Host VPS1
+  HostName <VPS_IP>
+  Port <SSH_PORT>
