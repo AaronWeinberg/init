@@ -83,9 +83,9 @@ else
 fi
 
 # Update
-sudo apt --fix-broken install -y
-sudo apt update
-sudo apt upgrade -y
+DEBIAN_FRONTEND=noninteractive sudo apt --fix-broken install -y
+DEBIAN_FRONTEND=noninteractive sudo apt update
+DEBIAN_FRONTEND=noninteractive sudo apt upgrade -y
 
 # Change hostname
 host=${host:-WSL} # Set host to 'WSL' if it was not set above
@@ -99,7 +99,7 @@ mkdir -p \
 echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections # Pre-accept the EULA for ttf-mscorefonts-installer
 
 # Apt
-sudo apt install -y \
+DEBIAN_FRONTEND=noninteractive sudo apt install -y \
   byobu \
   chrome-gnome-shell \
   dconf-cli \
@@ -171,7 +171,7 @@ rm -rf \
   ~/Templates \
   ~/Videos
 
-sudo apt purge -y \
+DEBIAN_FRONTEND=noninteractive sudo apt purge -y \
   apport \
   kerneloops \
   ubuntu-report \
