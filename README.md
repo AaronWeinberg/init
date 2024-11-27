@@ -5,7 +5,7 @@ dconf dump / > .dconf;
 ```
 ### INIT SCRIPT (bash)
 ```sh
-wget https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.sh && sudo chmod +x init.sh && command="./init.sh"; echo $command; eval $command 2> init.log && rm init.sh
+wget https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.sh && sudo chmod +x init.sh && command="./init.sh"; echo $command; eval $command 2> init.log | tee /dev/tty && rm init.sh
 ```
 # New Desktop Setup
 ## Install GNOME Shell Integration extensions:
