@@ -4,17 +4,81 @@
 #   Initial Linux Setup   #
 ### ### ### ### ### ### ###
 
-# Variable Declarations and User Input
+# Variable declarations and user input
 baseUrl='https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles'
-default_ip='192.168.1.100'uyg
+default_ip='192.168.1.100'
 default_port='22'
 read -p "Enter the port number you want to use for ssh, or hit enter to accept the default [Port ${default_port}]: " port # Prompt for the SSH port number
-read -p "Enter your private SSH key, or hit enter to leave empty: " private_ssh_key # Prompt for the private SSH key
-read -p "Enter the IP of the VPS, or hit enter to accept the default [${default_ip}]: " vps_ip # Prompt for the VPS IP
+
+# Host-Specific
+output=$(sudo dmidecode -s system-manufacturer)
+
+if [[ $output == *'OpenStack Foundation'* ]]; then
+  echo 'VPS SCRIPT'
+
+  host='VPS1'
+
+  # Allow HTTP, HTTPS, and SSH
+  sudo ufw allow http
+  sudo ufw allow https
+  sudo ufw allow ${port}/tcp
+
+  # SSH Config
+  wget -nc -P ${sshDir} ${baseUrl}/authorized_keys
+  chmod 600 ${sshDir}/authorized_keys
+
+  # SSHD Config
+  sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak # Backup the original sshd_config file
+  wget -N -P /etc/ssh ${baseUrl}/sshd_config # Fetch new sshd_config file
+  sudo sed -i "/^#Port /c\Port ${port}" /etc/ssh/sshd_config # Add or update the Port line in sshd_config
+
+  # Caddy Webserver
+  wget https://caddyserver.com/download/latest/caddy_amd64.deb
+  sudo dpkg -i caddy_amd64.deb
+  rm -rf caddy_amd64.deb
+  wget -N -P /etc/caddy ${baseUrl}/Caddyfile # Use my Caddyfile
+  sudo systemctl restart caddy
+
+else
+  echo 'LOCAL MACHINE SCRIPT'
+
+  # Variable declarations and user input
+  read -p "Enter the IP of the VPS, or hit enter to accept the default [${default_ip}]: " vps_ip # Prompt for the VPS IP
+  read -p "Enter your private SSH key, or hit enter to leave empty: " private_ssh_key # Prompt for the private SSH key
+  
+  # SSH Config
+  wget -nc -P ${sshDir} ${baseUrl}/config
+  wget -nc -P ${sshDir} ${baseUrl}/id_ed25519.pub
+  touch ${sshDir}/id_ed25519
+  touch ${sshDir}/known_hosts
+  chmod 600 ${sshDir}/config
+  chmod 600 ${sshDir}/id_ed25519
+  chmod 644 ${sshDir}/id_ed25519.pub
+  chmod 644 ${sshDir}/known_hosts
+  sudo sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" ${sshDir}/config # Fill in the VPS's IP
+  sudo sed -i "s/<SSH_PORT>/${port:-${default_port}}/g" ${sshDir}/config # Fill in the SSH port
+  sudo sed -i "s/<SSH_PORT>/${private_ssh_key}/g" ${sshDir}/id_ed25519 # Fill in private SSH key
+
+  # Desktop Linux Config
+  if ! grep -qi Microsoft /proc/version; then
+    host='Ubuntu'
+
+    # Grub
+    if ! grep -qi Microsoft /proc/version; then
+      wget -P /etc/default ${baseUrl}/grub
+      sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober
+      sudo update-grub
+    fi
+  fi
+fi
 
 sudo apt --fix-broken install -y
 sudo apt update
 sudo apt upgrade -y
+
+# Change hostname
+host=${host:-WSL} # Set host to 'WSL' if it was not set above
+sudo hostnamectl set-hostname ${host} # Change to host-specific hostname
 
 # Directories
 mkdir -p \
@@ -97,67 +161,6 @@ wget -P ~/.byobu ${baseUrl}/.tmux.conf
 sudo ufw enable
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-
-# Host-Specific
-output=$(sudo dmidecode -s system-manufacturer)
-
-if [[ $output == *'OpenStack Foundation'* ]]; then
-  echo 'VPS SCRIPT'
-
-  host='vps1'
-
-  # Allow HTTP, HTTPS, and SSH
-  sudo ufw allow http
-  sudo ufw allow https
-  sudo ufw allow ${port}/tcp
-
-  # SSH Config
-  wget -nc -P ${sshDir} ${baseUrl}/authorized_keys
-  chmod 600 ${sshDir}/authorized_keys
-
-  # SSHD Config
-  sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak # Backup the original sshd_config file
-  wget -N -P /etc/ssh ${baseUrl}/sshd_config # Fetch new sshd_config file
-  sudo sed -i "/^#Port /c\Port ${port}" /etc/ssh/sshd_config # Add or update the Port line in sshd_config
-
-  # Caddy Webserver
-  wget https://caddyserver.com/download/latest/caddy_amd64.deb
-  sudo dpkg -i caddy_amd64.deb
-  rm -rf caddy_amd64.deb
-  wget -N -P /etc/caddy ${baseUrl}/Caddyfile # Use my Caddyfile
-  sudo systemctl restart caddy
-
-else
-  echo 'LOCAL MACHINE SCRIPT'
-  
-  # SSH Config
-  wget -nc -P ${sshDir} ${baseUrl}/config
-  wget -nc -P ${sshDir} ${baseUrl}/id_ed25519.pub
-  touch ${sshDir}/id_ed25519
-  touch ${sshDir}/known_hosts
-  chmod 600 ${sshDir}/config
-  chmod 600 ${sshDir}/id_ed25519
-  chmod 644 ${sshDir}/id_ed25519.pub
-  chmod 644 ${sshDir}/known_hosts
-  sudo sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" ${sshDir}/config # Fill in the VPS's IP
-  sudo sed -i "s/<SSH_PORT>/${port:-${default_port}}/g" ${sshDir}/config # Fill in the SSH port
-  sudo sed -i "s/<SSH_PORT>/${private_ssh_key}/g" ${sshDir}/id_ed25519 # Fill in private SSH key
-
-  # Desktop Linux Config
-  if ! grep -qi Microsoft /proc/version; then
-    host='ubuntu'
-
-    # Grub
-    if ! grep -qi Microsoft /proc/version; then
-      wget -P /etc/default ${baseUrl}/grub
-      sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober
-      sudo update-grub
-    fi
-  fi
-fi
-
-host=${host:-wsl} # Set host to 'wsl' if it was not set above
-sudo hostnamectl set-hostname ${host} # Change to host-specific hostname
 
 # Cleanup
 rm -rf \
