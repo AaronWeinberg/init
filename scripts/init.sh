@@ -158,7 +158,7 @@ byobu-enable # set Byobu as default terminal
 wget -P ~/.byobu ${baseUrl}/.tmux.conf
 
 # UFW
-sudo ufw enable
+sudo ufw --force enable
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 
