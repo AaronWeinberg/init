@@ -15,6 +15,11 @@ sshDir='~/.ssh'
 mkdir -p ${sshDir}
 chmod 700 ${sshDir}
 
+# UFW
+sudo ufw --force enable
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
 # Host-Specific
 output=$(sudo dmidecode -s system-manufacturer)
 
@@ -157,11 +162,6 @@ rm ~/.dconf
 # Byobu
 byobu-enable # set Byobu as default terminal
 wget -P ~/.byobu ${baseUrl}/.tmux.conf
-
-# UFW
-sudo ufw --force enable
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
 
 # Cleanup
 rm -rf \
