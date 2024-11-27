@@ -10,6 +10,11 @@ default_ip='192.168.1.100'
 default_port='22'
 read -p "Enter the port number you want to use for ssh, or hit enter to accept the default [Port ${default_port}]: " port # Prompt for the SSH port number
 
+# SSH
+sshDir='~/.ssh'
+mkdir -p ${sshDir}
+chmod 700 ${sshDir}
+
 # Host-Specific
 output=$(sudo dmidecode -s system-manufacturer)
 
@@ -29,14 +34,14 @@ if [[ $output == *'OpenStack Foundation'* ]]; then
 
   # SSHD Config
   sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak # Backup the original sshd_config file
-  wget -N -P /etc/ssh ${baseUrl}/sshd_config # Fetch new sshd_config file
+  sudo wget -N -P /etc/ssh ${baseUrl}/sshd_config # Fetch new sshd_config file
   sudo sed -i "/^#Port /c\Port ${port}" /etc/ssh/sshd_config # Add or update the Port line in sshd_config
 
   # Caddy Webserver
   wget https://caddyserver.com/download/latest/caddy_amd64.deb
   sudo dpkg -i caddy_amd64.deb
   rm -rf caddy_amd64.deb
-  wget -N -P /etc/caddy ${baseUrl}/Caddyfile # Use my Caddyfile
+  sudo wget -N -P /etc/caddy ${baseUrl}/Caddyfile # Use my Caddyfile
   sudo systemctl restart caddy
 
 else
@@ -49,11 +54,13 @@ else
   # SSH Config
   wget -nc -P ${sshDir} ${baseUrl}/config
   wget -nc -P ${sshDir} ${baseUrl}/id_ed25519.pub
+  wget -nc -p ${sshDir} ${baseUrl}/host_config
   touch ${sshDir}/id_ed25519
   touch ${sshDir}/known_hosts
   chmod 600 ${sshDir}/config
   chmod 600 ${sshDir}/id_ed25519
   chmod 644 ${sshDir}/id_ed25519.pub
+  chmod 644 ${sshDir}/host_config
   chmod 644 ${sshDir}/known_hosts
   sudo sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" ${sshDir}/config # Fill in the VPS's IP
   sudo sed -i "s/<SSH_PORT>/${port:-${default_port}}/g" ${sshDir}/config # Fill in the SSH port
@@ -61,17 +68,16 @@ else
 
   # Desktop Linux Config
   if ! grep -qi Microsoft /proc/version; then
-    host='Ubuntu'
+    host='Desktop'
 
     # Grub
-    if ! grep -qi Microsoft /proc/version; then
-      wget -P /etc/default ${baseUrl}/grub
-      sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober
-      sudo update-grub
-    fi
+    wget -P /etc/default ${baseUrl}/grub
+    sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober
+    sudo update-grub
   fi
 fi
 
+# Update
 sudo apt --fix-broken install -y
 sudo apt update
 sudo apt upgrade -y
@@ -128,11 +134,6 @@ wget -P ~ ${baseUrl}/.bashrc
 wget -P ~ ${baseUrl}/.gitconfig
 wget -P ~ ${baseUrl}/.inputrc
 wget -P ~ ${baseUrl}/.nanorc
-
-# SSH
-sshDir='~/.ssh'
-mkdir -p ${sshDir}
-chmod 700 ${sshDir}
 
 # Helix
 sudo snap install helix --classic
