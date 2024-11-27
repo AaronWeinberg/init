@@ -68,7 +68,7 @@ else
   chmod 644 ${sshDir}/host_config
   chmod 644 ${sshDir}/known_hosts
   sudo sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" ${sshDir}/host_config # Fill in the VPS's IP
-  sudo sed -i "s/<SSH_PORT>/${port:-${default_port}}/g" ${sshDir}/host_config # Fill in the SSH port
+  sudo sed -i "s/<SSH_PORT>/${port:-${default_port}}/g" ${sshDir}/config # Fill in the SSH port
   sudo sed -i "s/<SSH_PORT>/${private_ssh_key}/g" ${sshDir}/id_ed25519 # Fill in private SSH key
 
   # Desktop Linux Config
