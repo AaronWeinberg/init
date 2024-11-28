@@ -9,6 +9,13 @@ baseUrl='https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles'
 default_ip='192.168.1.100'
 default_port='22'
 read -p "Enter the port number you want to use for ssh, or hit enter to accept the default [Port ${default_port}]: " port # Prompt for the SSH port number
+read -p "If on a local machine, enter the IP of your VPS, or hit enter to accept the default [${default_ip}]: " vps_ip # Prompt for the VPS IP
+read -p "If on a local machine, enter your private SSH key, or hit enter to leave empty: " private_ssh_key # Prompt for the private SSH key
+
+# Update
+sudo apt --fix-broken install -y
+sudo apt update
+sudo apt upgrade -y
 
 # SSH
 sshDir='~/.ssh'
@@ -51,10 +58,6 @@ if [[ $output == *'OpenStack Foundation'* ]]; then
 
 else
   echo 'LOCAL MACHINE SCRIPT'
-
-  # Variable declarations and user input
-  read -p "Enter the IP of the VPS, or hit enter to accept the default [${default_ip}]: " vps_ip # Prompt for the VPS IP
-  read -p "Enter your private SSH key, or hit enter to leave empty: " private_ssh_key # Prompt for the private SSH key
   
   # SSH Config
   wget -nc -P ${sshDir} ${baseUrl}/config
@@ -81,11 +84,6 @@ else
     sudo update-grub
   fi
 fi
-
-# Update
-DEBIAN_FRONTEND=noninteractive sudo apt --fix-broken install -y
-DEBIAN_FRONTEND=noninteractive sudo apt update
-DEBIAN_FRONTEND=noninteractive sudo apt upgrade -y
 
 # Change hostname
 host=${host:-WSL} # Set host to 'WSL' if it was not set above
