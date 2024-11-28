@@ -62,15 +62,13 @@ else
   # SSH Config
   wget -nc -P ${sshDir} ${baseUrl}/config
   wget -nc -P ${sshDir} ${baseUrl}/id_ed25519.pub
-  wget -nc -p ${sshDir} ${baseUrl}/host_config
   touch ${sshDir}/id_ed25519
   touch ${sshDir}/known_hosts
   chmod 600 ${sshDir}/config
   chmod 600 ${sshDir}/id_ed25519
   chmod 644 ${sshDir}/id_ed25519.pub
-  chmod 644 ${sshDir}/host_config
   chmod 644 ${sshDir}/known_hosts
-  sudo sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" ${sshDir}/host_config # Fill in the VPS's IP
+  sudo sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" ${sshDir}/config # Fill in the VPS's IP
   sudo sed -i "s/<SSH_PORT>/${port:-${default_port}}/g" ${sshDir}/config # Fill in the SSH port
   sudo sed -i "s/<SSH_PORT>/${private_ssh_key}/g" ${sshDir}/id_ed25519 # Fill in private SSH key
 
