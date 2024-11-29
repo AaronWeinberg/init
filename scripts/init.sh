@@ -47,7 +47,7 @@ if [[ $output == *'OpenStack Foundation'* ]]; then
   # SSHD Config
   sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak # Backup the original sshd_config file
   sudo wget -N -P /etc/ssh ${baseUrl}/sshd_config # Fetch new sshd_config file
-  sudo sed -i "/^#Port /c\Port ${port}" /etc/ssh/sshd_config # Add or update the Port line in sshd_config
+  sudo sed -i "s/^# Port .*/Port ${port}/" /etc/ssh/sshd_config # Add or update the Port line in sshd_config
 
   # Caddy Webserver
   wget https://caddyserver.com/download/latest/caddy_amd64.deb
