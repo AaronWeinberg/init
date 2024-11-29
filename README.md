@@ -18,6 +18,15 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.sh
 
 # New VPS Setup
 
+## Change username
+```
+sudo groupadd new_username # Create the new group
+sudo usermod -l new_username old_username # Change the username
+sudo mv /home/old_username /home/new_username # Rename the home directory
+sudo usermod -d /home/new_username new_username # Update the home directory path
+sudo chown -R new_username:new_username /home/new_username # Change the ownership of the home directory
+```
+
 ## Change domains in Caddyfile
 
 ## Setup your own heroku
