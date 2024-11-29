@@ -173,4 +173,4 @@ sudo apt purge -y \
   whoopsie
 sudo apt autoremove -y
 
-source ~/.bashrc # Reload .bashrc file
+sudo reboot # Restart VPS
