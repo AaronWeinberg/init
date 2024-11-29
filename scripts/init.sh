@@ -131,10 +131,10 @@ sudo npm i -g \
   typescript
 
 # Dotfiles
-wget -P ~ ${baseUrl}/.bashrc
-wget -P ~ ${baseUrl}/.gitconfig
-wget -P ~ ${baseUrl}/.inputrc
-wget -P ~ ${baseUrl}/.nanorc
+wget -O ~/.bashrc ${baseUrl}/.bashrc
+wget -O ~/.gitconfig ${baseUrl}/.gitconfig
+wget -O ~/.inputrc ${baseUrl}/.inputrc
+wget -O ~/.nanorc ${baseUrl}/.nanorc
 
 # Helix
 sudo snap install helix --classic
