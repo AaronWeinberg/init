@@ -95,7 +95,7 @@ mkdir -p \
 echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections # Pre-accept the EULA for ttf-mscorefonts-installer
 
 # Apt
-DEBIAN_FRONTEND=noninteractive sudo apt install -y \
+sudo apt install -y \
   byobu \
   chrome-gnome-shell \
   dconf-cli \
@@ -166,13 +166,11 @@ rm -rf \
   ~/Pictures \
   ~/Templates \
   ~/Videos
-
-DEBIAN_FRONTEND=noninteractive sudo apt purge -y \
+sudo apt purge -y \
   apport \
   kerneloops \
   ubuntu-report \
   whoopsie
-
-sudo apt autoremove -y # Remove superfluous packages
+sudo apt autoremove -y
 
 source ~/.bashrc # Reload .bashrc file
