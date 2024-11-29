@@ -80,6 +80,12 @@ else
     wget -P /etc/default ${baseUrl}/grub
     sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober
     sudo update-grub
+
+    # Steam
+    # wget https://cdn.akamai.steamstatic.com/client/installer/steam.deb
+    # sudo dpkg -i steam.deb
+    # sudo apt --fix-broken install
+    # sudo rm -rf steam.deb
   fi
 fi
 
@@ -109,7 +115,8 @@ sudo apt install -y \
   npm \
   powertop \
   ttf-mscorefonts-installer \
-  wireguard
+  wireguard \
+  xclip
 
 # Snap
 sudo snap install code --classic
