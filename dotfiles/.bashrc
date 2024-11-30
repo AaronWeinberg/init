@@ -116,7 +116,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-PS1='\[\033[01;35m\]\h \033[01;36m\]\u \033[1;32m\w\033[0m$(__git_ps1 " \[\033[0;33m\][%s]\[\033[0m\] ") >> '
+PS1='\[\033[01;36m\]\u\[\033[0m\]\[\033[38;5;214m\]@\[\033[0m\]\[\033[01;35m\]\h\[\033[0m\]\[\033[38;5;214m\]:\[\033[0m\]\[\033[1;32m\]\w\[\033[0m\]$(__git_ps1 " \[\033[0;33m\][%s]\[\033[0m\]")\[\033[38;5;214m\]\$\[\033[0m\] '
 
 update(){
   sudo apt update && sudo apt -y upgrade && sudo snap refresh && sudo apt autoremove -y && rm -rf /home/aaron/.local/share/Trash/*
