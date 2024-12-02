@@ -1,11 +1,9 @@
-Include ~/.ssh/host_config
-
-Host VPS1-aaron
+Host vps1
   HostName %h
   Port <SSH_PORT>
   User aaron
 
-Host VPS1-fresh
+Host vps1-fresh
   HostName %h
   Port 22
   User ubuntu
