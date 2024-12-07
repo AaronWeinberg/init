@@ -98,23 +98,20 @@ mkdir -p \
   ~/dev \
   ~/.npm-global
 
+# Microsoft Fonts
 echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections # Pre-accept the EULA for ttf-mscorefonts-installer
+sudo apt install -y ttf-mscorefonts-installer
 
 # Apt
 sudo apt install -y \
-  byobu \
   chrome-gnome-shell \
-  dconf-cli \
-  dconf-editor \
   dos2unix \
   fail2ban \
   fonts-firacode \
   gnome-tweaks \
   gparted \
   htop \
-  npm \
   powertop \
-  ttf-mscorefonts-installer \
   wireguard \
   xclip
 
@@ -129,7 +126,8 @@ export NVM_DIR="$HOME/.nvm" # Load NVM
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # loads nvm bash_completion
 nvm install --lts # Install the latest LTS version of Node.js
 
-# NPM Packages
+# NPM
+sudo apt install -y npm
 sudo npm i -g \
   eslint \
   eslint-config-prettier \
@@ -138,10 +136,10 @@ sudo npm i -g \
   typescript
 
 # Dotfiles
-wget -O ~/.bashrc ${baseUrl}/.bashrc
-wget -O ~/.gitconfig ${baseUrl}/.gitconfig
-wget -O ~/.inputrc ${baseUrl}/.inputrc
-wget -O ~/.nanorc ${baseUrl}/.nanorc
+wget -P ~ ${baseUrl}/.bashrc
+wget -P ~ ${baseUrl}/.gitconfig
+wget -P ~ ${baseUrl}/.inputrc
+wget -P ~ ${baseUrl}/.nanorc
 
 # Helix
 sudo snap install helix --classic
@@ -158,13 +156,18 @@ sudo dpkg -i microsoft-edge-stable_current_amd64.deb
 rm -rf microsoft-edge-stable_current_amd64.deb
 
 # Dconf
+sudo apt install -y \
+  dconf-cli \
+  dconf-editor \
 wget -P ~ ${baseUrl}/.dconf
 dconf load / < ~/.dconf
 rm ~/.dconf
 
 # Byobu
+sudo apt install -y boybu
 byobu-enable # set Byobu as default terminal
 wget -P ~/.byobu ${baseUrl}/.tmux.conf
+wget -P /usr/share/boybu/keybindings ${baseUrl}/f-keys.tmux
 
 # Cleanup
 rm -rf \
