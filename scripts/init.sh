@@ -82,10 +82,13 @@ else
     sudo update-grub
 
     # Steam
-    # wget https://cdn.akamai.steamstatic.com/client/installer/steam.deb
-    # sudo dpkg -i steam.deb
-    # sudo apt --fix-broken install
-    # sudo rm -rf steam.deb
+    wget https://cdn.akamai.steamstatic.com/client/installer/steam.deb
+    sudo dpkg -i steam.deb
+    sudo apt --fix-broken install
+    sudo rm -rf steam.deb
+
+    sudo snap install discord # Discord
+    sudo snap install geforcenow-electron #GeForce Now
   fi
 fi
 
