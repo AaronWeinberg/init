@@ -7,18 +7,6 @@ bufferline = "multiple"
 
 [keys.normal]
 esc = ["collapse_selection", "keep_primary_selection"]
-C-l = "hover"
-C-j = ":buffer-next"
-C-k = ":buffer-previous"
-
-[keys.select]
-C-l = "hover"
-C-j = ":buffer-next"
-C-k = ":buffer-previous"
-
-[keys.insert]
-C-j = ":buffer-next"
-C-k = ":buffer-previous"
 
 [editor.cursor-shape]
 insert = "bar"
