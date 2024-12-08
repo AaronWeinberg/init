@@ -7,6 +7,10 @@ bufferline = "multiple"
 
 [keys.normal]
 esc = ["collapse_selection", "keep_primary_selection"]
+L = "hover"
+
+[keys.select]
+L = "hover"
 
 [editor.cursor-shape]
 insert = "bar"
