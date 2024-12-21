@@ -1,5 +1,5 @@
 [core]
-	autocrlf = true
+	autocrlf = input
 [user]
 	name = Aaron Weinberg
 	email = aaron.weinberg@gmail.com
