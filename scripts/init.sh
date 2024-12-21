@@ -122,15 +122,12 @@ sudo apt install -y \
 sudo snap install code --classic
 sudo snap install gimp
 
-# NVM + Node
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash # Install NVM
-export NVM_DIR="$HOME/.nvm" # Load NVM
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # loads nvm 
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # loads nvm bash_completion
+# NVM + Node + NPM
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 nvm install --lts # Install the latest LTS version of Node.js
+wget -P ~ ${baseUrl}/.npmrc
 
-# NPM
-sudo apt install -y npm
+# NPM global packages
 sudo npm i -g \
   eslint \
   eslint-config-prettier \
