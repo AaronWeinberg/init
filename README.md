@@ -13,6 +13,7 @@ wget https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.sh
   - Autohide Battery
   - Autohide Volume
   - DDTERM
+  - Emoji Copy
   - Hide Network Icon
   - Just Perfection
 
