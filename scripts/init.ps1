@@ -109,7 +109,6 @@ if (!(test-path "$sshDir\config")) {
 # settings #
 rm -r -ea 0 "HKLM:\SOFTWARE\Classes\.zip\CompressedFolder\ShellNew" # remove .zip from context menu
 rm -r -ea 0 "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" # remove Gallery from explorer
-sc config NVDisplay.ContainerLocalSystem start= disabled # disable Nvidia Display Container
 
   ## dotfiles ##
   curl "$githubConfigUrl\settings.json" -o "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # create or replace settings.json
