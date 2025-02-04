@@ -77,7 +77,7 @@ else
     host='Desktop'
 
     # Grub
-    wget -P /etc/default ${baseUrl}/grub
+    wget -O /etc/default/grub ${baseUrl}/grub
     sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober
     sudo update-grub
 
@@ -125,7 +125,7 @@ sudo snap install gimp
 # NVM + Node + NPM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 nvm install --lts # Install the latest LTS version of Node.js
-wget -P ~ ${baseUrl}/.npmrc
+wget -O ~/.npmrc ${baseUrl}/.npmrc
 
 # NPM global packages
 sudo npm i -g \
@@ -136,14 +136,14 @@ sudo npm i -g \
   typescript
 
 # Dotfiles
-wget -P ~ ${baseUrl}/.bashrc
-wget -P ~ ${baseUrl}/.gitconfig
-wget -P ~ ${baseUrl}/.inputrc
-wget -P ~ ${baseUrl}/.nanorc
+wget -O ~/.bashrc ${baseUrl}/.bashrc
+wget -O ~/.gitconfig ${baseUrl}/.gitconfig
+wget -O ~/.inputrc ${baseUrl}/.inputrc
+wget -O ~/.nanorc ${baseUrl}/.nanorc
 
 # Helix
 sudo snap install helix --classic
-wget -P ~/.config/helix ${baseUrl}/config.toml
+wget -O ~/.config/helix/config.toml ${baseUrl}/config.toml
 
 # Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -159,15 +159,15 @@ rm -rf microsoft-edge-stable_current_amd64.deb
 sudo apt install -y \
   dconf-cli \
   dconf-editor \
-wget -P ~ ${baseUrl}/.dconf
+wget -O ~/.dconf ${baseUrl}/.dconf
 dconf load / < ~/.dconf
 rm ~/.dconf
 
 # Byobu
 sudo apt install -y boybu
 byobu-enable # set Byobu as default terminal
-wget -P ~/.byobu ${baseUrl}/.tmux.conf
-wget -P /usr/share/boybu/keybindings ${baseUrl}/f-keys.tmux
+wget -O ~/.byobu/.tmux.conf ${baseUrl}/.tmux.conf
+wget -O /usr/share/boybu/keybindings/f-keys.tmux ${baseUrl}/f-keys.tmux
 
 # Cleanup
 rm -rf \
