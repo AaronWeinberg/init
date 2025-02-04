@@ -134,13 +134,9 @@ $command = 'Set-ExecutionPolicy Unrestricted; (Invoke-webrequest -URI "https://r
 * Explorer:
   * Remove from Quick Access:
     * Pictures
-    * Documents
     * Music
     * Videos
 * Unpin all apps from taskbar + start menu
-* In Nvidia Control Panel --> Desktop:
-  * Add Desktop Context Menu: uncheck
-  * Show Notification Tray Icon: uncheck
 
 #               Common Settings                 #
 * Printer drivers:
