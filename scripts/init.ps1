@@ -40,8 +40,6 @@ winget list --accept-source-agreements # installs winget
   winget add "Valve.Steam" --accept-package-agreements
   
   ## peripherals
-  winget add "7-Zip" # archiver for Nvidia driver script
-  # winget add "Razer Synapse 3" --accept-package-agreements
   winget add "Logitech G HUB" --accept-package-agreements
 
 # chocolatey #
@@ -155,13 +153,6 @@ sc config NVDisplay.ContainerLocalSystem start= disabled # disable Nvidia Displa
 
   ## powershell ##
   $powershellPath = "~\Documents\WindowsPowerShell" # path to PowerShell
-
-    ### nvidia script ###
-    $nvidiaUrl = "$githubScriptUrl\nvidia.ps1" # URL of nvidia.ps1 file on GitHub
-    $nvidiaPath = "$powershellPath\Scripts\nvidia" # path to nvidia script directory
-    $nvidiaFile = "$nvidiaPath\nvidia.ps1" # path to nvidia script
-
-    mkdir -ea 0 $nvidiaPath; curl "$nvidiaUrl" -o "$nvidiaFile"
     
     ### update module ###
     $updateUrl = "$githubScriptUrl\update.psm1" # URL of update.psm1 file on GitHub
