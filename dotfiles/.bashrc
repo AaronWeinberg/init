@@ -125,11 +125,6 @@ update(){
 # tells linux to look for npm binaries here
 export PATH="${HOME}/.npm-global/bin:$PATH"
 
-# If on WSL, sync to Windows clock
-if grep -qi Microsoft /proc/version; then
-    sudo ntpdate time.windows.com &>/dev/null &
-fi
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
