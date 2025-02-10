@@ -9,9 +9,6 @@ $sshDir = "~\.ssh"
 $githubScriptUrl = "$baseUrl/scripts/"
 $githubConfigUrl = "$baseUrl/dotfiles/"
 
-# directories #
-mkdir -ea 0 ~/development;
-
 # windows update #
 install-module -force -name PSWindowsUpdate
 gcm -module PSWindowsUpdate | out-null
@@ -20,19 +17,13 @@ install-windowsupdate -acceptall # windows update -no prompt -no auto-restart
 # winget #
 winget list --accept-source-agreements # installs winget
 
-  ## utility
-  winget add "Balena.Etcher" --accept-package-agreements
-  winget add "Chocolatey" --accept-package-agreements
-  winget add "Dell.CommandUpdate" --accept-package-agreements
+  ## dev
   winget add "GIMP.GIMP" --accept-package-agreements
   winget add "Git" --accept-package-agreements
-  winget add "Google.Chrome" --accept-package-agreements
   winget add "Helix.Helix" --accept-package-agreements
   winget add "Microsoft Visual Studio Code" --accept-package-agreements
-  winget add "Mozilla.Firefox" --accept-package-agreements
   winget add "Node.js" --accept-package-agreements
-  winget add "Wireguard.Wireguard" --accept-package-agreements
-  
+
   ## gaming
   winget add "Battle.net" --accept-package-agreements
   winget add "Overwolf.CurseForge" --accept-package-agreements
@@ -42,8 +33,12 @@ winget list --accept-source-agreements # installs winget
   ## peripherals
   winget add "Logitech G HUB" --accept-package-agreements
 
-# chocolatey #
-choco install vim -y
+  ## utility
+  winget add "Balena.Etcher" --accept-package-agreements
+  winget add "Dell.CommandUpdate" --accept-package-agreements
+  winget add "Google.Chrome" --accept-package-agreements
+  winget add "Mozilla.Firefox" --accept-package-agreements
+  winget add "Wireguard.Wireguard" --accept-package-agreements
   
 # bloatware #
 winget rm 'Clipchamp'
@@ -87,10 +82,6 @@ if ($service.Status -eq 'Running') {
 }
 Set-Service -Name $serviceName -StartupType Disabled
 
-# wsl #
-wsl --install
-winget add "Ubuntu 24.04 LTS" --accept-package-agreements
-
 # npm #
 npm i -g eslint
 npm i -g eslint-config-prettier
@@ -107,8 +98,10 @@ if (!(test-path "$sshDir\config")) {
 }
 
 # settings #
-rm -r -ea 0 "HKLM:\SOFTWARE\Classes\.zip\CompressedFolder\ShellNew" # remove .zip from context menu
-rm -r -ea 0 "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" # remove Gallery from explorer
+wsl --install
+# rm -r -ea 0 "HKLM:\SOFTWARE\Classes\.zip\CompressedFolder\ShellNew" # remove .zip from context menu
+# Set-ItemProperty -Path "HKCR:\Local Settings\MrtCache\C:%5CProgram Files%5CWindowsApps%5CMicrosoft.Paint_11.2304.33.0_x64__8wekyb3d8bbwe%5Cmicrosoft.system.package.metadata%5CS-1-5-21-130234457-89705425-3003616880-1001-MergedResources-2.pri" -Name "(Default)" -Value "" # remove .bmp from context menu
+# rm -r -ea 0 "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" # remove Gallery from explorer
 
   ## dotfiles ##
   curl "$githubConfigUrl\settings.json" -o "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # create or replace settings.json
@@ -130,9 +123,6 @@ rm -r -ea 0 "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\Na
   cmd.exe --% /c ctrl2cap /install
   cd ~ # change directory away from ctrl2cap
   rm -ea 0 -force "$zipFile"; rm -r -ea 0 -force "$extractPath" # delete Ctrl2Cap files
-
-  ## ssh ##
-  new-item -ea 0 "$sshDir\id_ed25519"
 
   ## disable tips and tricks on the lock screen ##
     # Set the path
