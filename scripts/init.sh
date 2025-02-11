@@ -137,7 +137,7 @@ npm i -g \
 # Dotfiles
 wget -O ~/.bashrc ${baseUrl}/.bashrc
 wget -O ~/.byobu/.tmux.conf ${baseUrl}/.tmux.conf
-sudo wget -O /usr/share/boybu/keybindings/f-keys.tmux ${baseUrl}/f-keys.tmux
+sudo wget -O /usr/share/byobu/keybindings/f-keys.tmux ${baseUrl}/f-keys.tmux
 sudo wget -N -P /etc/caddy ${baseUrl}/Caddyfile -o /dev/null # Use my Caddyfile
 wget -O ~/.dconf ${baseUrl}/.dconf
 wget -O ~/.gitconfig ${baseUrl}/.gitconfig
