@@ -12,7 +12,6 @@ default_ip='192.168.1.100' # Default IP for VPS
 default_port='22' # Default SSH port
 read -p "Enter the port number you want to use for ssh, or hit enter to accept the default [Port ${default_port}]: " port # Prompt for the SSH port number
 read -p "If on a local machine, enter the IP of your VPS, or hit enter to accept the default [${default_ip}]: " vps_ip # Prompt for the VPS IP
-read -p "If on a local machine, enter your private SSH key, or hit enter to leave empty: " private_ssh_key # Prompt for the private SSH key
 
 # Update
 sudo apt --fix-broken install -y
@@ -71,7 +70,6 @@ else
   chmod 644 ${sshDir}/known_hosts
   sudo sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" ${sshDir}/config # Fill in the VPS's IP
   sudo sed -i "s/<SSH_PORT>/${port:-${default_port}}/g" ${sshDir}/config # Fill in the SSH port
-  sudo sed -i "s/<SSH_PORT>/${private_ssh_key}/g" ${sshDir}/id_ed25519 # Fill in private SSH key
 
   # Desktop Linux Config
   if ! grep -qi Microsoft /proc/version; then
@@ -90,7 +88,6 @@ else
   fi
 fi
 
-echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections # Microsoft Fonts
 sudo add-apt-repository ppa:maveonair/helix-editor
 
 # Change hostname
@@ -115,7 +112,6 @@ sudo apt install -y \
   dconf-cli \
   dconf-editor \
   dos2unix \
-  ./microsoft-edge-stable_current_amd64.deb \
   fail2ban \
   fonts-firacode \
   gnome-tweaks \
@@ -123,7 +119,6 @@ sudo apt install -y \
   helix \
   htop \
   powertop \
-  ttf-mscorefonts-installer \
   wireguard \
   xclip
 
