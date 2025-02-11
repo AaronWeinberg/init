@@ -116,8 +116,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-PS1='\[\033[01;36m\]\u\[\033[0m\]\[\033[38;5;214m\]@\[\033[0m\]\[\033[01;35m\]\h\[\033[0m\]\[\033[38;5;214m\]:\[\033[0m\]\[\033[1;32m\]\w\[\033[0m\]$(__git_ps1 " \[\033[0;33m\][%s]\[\033[0m\]")\[\033[38;5;214m\]\$\[\033[0m\] '
-
 update(){
   sudo apt update && sudo apt -y upgrade && sudo snap refresh && sudo apt autoremove -y && rm -rf /home/aaron/.local/share/Trash/*
 }
@@ -128,3 +126,5 @@ export PATH="${HOME}/.npm-global/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+PS1='\[\e[0;32m\]\u@\h\[\e[m\]:\[\e[0;34m\]\w\[\e[m\]\[\e[0;33m\] > $(git branch 2>/dev/null | grep \* | sed "s/* //")\[\e[m\] \$ '
