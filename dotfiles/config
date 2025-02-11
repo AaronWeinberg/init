@@ -3,7 +3,7 @@ Host vps1
   Port <SSH_PORT>
   User aaron
 
-Host vps1-fresh
+Host fresh-vps1
   HostName %h
   Port 22
   User ubuntu
