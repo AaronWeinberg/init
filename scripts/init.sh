@@ -88,8 +88,6 @@ else
   fi
 fi
 
-sudo add-apt-repository ppa:maveonair/helix-editor
-
 # Change hostname
 host=${host:-WSL} # Set host to 'WSL' if it was not set above
 sudo hostnamectl set-hostname ${host} # Change to host-specific hostname
@@ -116,11 +114,15 @@ sudo apt install -y \
   fonts-firacode \
   gnome-tweaks \
   gparted \
-  helix \
   htop \
   powertop \
+  snapd \
   wireguard \
   xclip
+
+# Snap
+sudo snap install helix --classic # Helix
+sudo snap install code --classic # VSCode
 
 # NVM + Node + NPM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
@@ -138,7 +140,7 @@ npm i -g \
 wget -O ~/.bashrc ${baseUrl}/.bashrc
 wget -O ~/.byobu/.tmux.conf ${baseUrl}/.tmux.conf
 sudo wget -O /usr/share/byobu/keybindings/f-keys.tmux ${baseUrl}/f-keys.tmux
-sudo wget -N -P /etc/caddy ${baseUrl}/Caddyfile -o /dev/null # Use my Caddyfile
+sudo wget -N -P /etc/caddy ${baseUrl}/Caddyfile -o /dev/null
 wget -O ~/.dconf ${baseUrl}/.dconf
 wget -O ~/.gitconfig ${baseUrl}/.gitconfig
 wget -O ~/.config/helix/config.toml ${baseUrl}/config.toml
