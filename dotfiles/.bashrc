@@ -127,4 +127,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-PS1='\[\e[0;32m\]\u@\h\[\e[m\]:\[\e[0;34m\]\w\[\e[m\]$(branch=$(git branch 2>/dev/null | grep \* | sed "s/* //") && [ -n "$branch" ] && echo "\[\e[0;33m\] > $branch")\[\e[m\] \$ '
+PS1='\[\e[0;32m\]\u@\h\[\e[m\]:\[\e[0;34m\]\w\[\e[m\]$(branch=$(git branch 2>/dev/null | grep \* | sed "s/* //") && [ -n "$branch" ] && echo "|\[\e[0;33m\]$branch")\[\e[m\] \$ '
