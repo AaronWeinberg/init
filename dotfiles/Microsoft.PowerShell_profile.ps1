@@ -12,15 +12,15 @@ function prompt {
     }
   }
 
-  Write-Host $username -NoNewLine -ForegroundColor Cyan
-  Write-Host "@" -NoNewLine -ForegroundColor DarkYellow
-  Write-Host $hostname -NoNewLine -ForegroundColor DarkMagenta
-  Write-Host ":" -NoNewLine -ForegroundColor DarkYellow
-  Write-Host $path -NoNewLine -ForegroundColor Green
+  Write-Host $username -NoNewLine -ForegroundColor Green
+  Write-Host "@" -NoNewLine -ForegroundColor Green
+  Write-Host $hostname -NoNewLine -ForegroundColor Green
+  Write-Host ":" -NoNewLine -ForegroundColor White
+  Write-Host $path -NoNewLine -ForegroundColor Blue
   if ($branch) {
     Write-Host $branch -NoNewLine -ForegroundColor DarkYellow
   }
-  Write-Host "$" -NoNewLine -ForegroundColor DarkYellow
+  Write-Host "$" -NoNewLine -ForegroundColor White
 
   return " "
 }
