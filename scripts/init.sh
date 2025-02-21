@@ -105,8 +105,9 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://
 
 # Apt
 sudo apt install -y \
-  chrome-gnome-shell \
+  bash-completion \
   byobu \
+  chrome-gnome-shell \
   dconf-cli \
   dconf-editor \
   dos2unix \
