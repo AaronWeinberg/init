@@ -25,6 +25,25 @@ mkdir -p \
   mkdir -p ${sshDir}
   chmod 700 ${sshDir}
 
+# Apt
+sudo apt install -y \
+  bash-completion \
+  byobu \
+  chrome-gnome-shell \
+  dconf-cli \
+  dconf-editor \
+  dos2unix \
+  fail2ban \
+  fonts-firacode \
+  gnome-tweaks \
+  gparted \
+  htop \
+  powertop \
+  snapd \
+  ufw \
+  wireguard \
+  xclip
+
 # UFW
 sudo ufw --force enable
 sudo ufw default deny incoming
@@ -32,7 +51,7 @@ sudo ufw default allow outgoing
 
 # Host-Specific Config
 if [[ $output == *'OpenStack Foundation'* ]]; then
-  echo 'VPS SCRIPT'
+  echo '>>> VPS SCRIPT <<<'
 
   host='vps1'
 
@@ -57,7 +76,7 @@ if [[ $output == *'OpenStack Foundation'* ]]; then
   sudo systemctl restart caddy
 
 else
-  echo 'LOCAL MACHINE SCRIPT'
+  echo '>>> LOCAL MACHINE SCRIPT <<<'
   
   # SSH Config
   wget -nc -P ${sshDir} ${baseUrl}/config
@@ -102,24 +121,6 @@ wget https://packages.microsoft.com/keys/microsoft.asc
 wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_current_amd64.deb
 gpg --dearmor < microsoft.asc | sudo tee /usr/share/keyrings/microsoft-edge.gpg
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
-
-# Apt
-sudo apt install -y \
-  bash-completion \
-  byobu \
-  chrome-gnome-shell \
-  dconf-cli \
-  dconf-editor \
-  dos2unix \
-  fail2ban \
-  fonts-firacode \
-  gnome-tweaks \
-  gparted \
-  htop \
-  powertop \
-  snapd \
-  wireguard \
-  xclip
 
 # Snap
 sudo snap install helix --classic # Helix
