@@ -50,6 +50,7 @@ sudo ufw default deny incoming
 sudo ufw default allow outgoing
 
 # Host-Specific Config
+echo '>>> START HOST-SPECIFIC SCRIPTS <<<'
 if [[ $output == *'OpenStack Foundation'* ]]; then
   echo '>>> VPS SCRIPT <<<'
 
@@ -106,6 +107,7 @@ else
     sudo rm -rf steam.deb
   fi
 fi
+echo '>>> END HOST-SPECIFIC SCRIPTS <<<'
 
 # Change hostname
 host=${host:-wsl} # Set host to 'wsl' if it was not set above
