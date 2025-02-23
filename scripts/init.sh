@@ -34,7 +34,7 @@ sudo ufw default allow outgoing
 if [[ $output == *'OpenStack Foundation'* ]]; then
   echo 'VPS SCRIPT'
 
-  host='VPS1'
+  host='vps1'
 
   # Allow HTTP, HTTPS, and SSH
   sudo ufw allow http
@@ -73,7 +73,7 @@ else
 
   # Desktop Linux Config
   if ! grep -qi Microsoft /proc/version; then
-    host='Desktop'
+    host='debian'
 
     # Grub
     wget -O /etc/default/grub ${baseUrl}/grub
@@ -89,7 +89,7 @@ else
 fi
 
 # Change hostname
-host=${host:-WSL} # Set host to 'WSL' if it was not set above
+host=${host:-wsl} # Set host to 'wsl' if it was not set above
 sudo hostnamectl set-hostname ${host} # Change to host-specific hostname
 
 # Chrome
