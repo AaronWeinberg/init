@@ -4,8 +4,8 @@
 #  Initial Windows Setup  #
 ### ### ### ### ### ### ###
 
+$configDir = "~\.config"
 $baseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master"
-$sshDir = "~\.ssh"
 $githubScriptUrl = "$baseUrl/scripts/"
 $githubConfigUrl = "$baseUrl/dotfiles/"
 
@@ -19,10 +19,8 @@ winget list --accept-source-agreements # installs winget
 
   ## dev
   winget add "GIMP.GIMP" --accept-package-agreements
-  winget add "Git" --accept-package-agreements
   winget add "Helix.Helix" --accept-package-agreements
   winget add "Microsoft Visual Studio Code" --accept-package-agreements
-  winget add "Node.js" --accept-package-agreements
 
   ## gaming
   winget add "Battle.net" --accept-package-agreements
@@ -84,30 +82,12 @@ if ($service.Status -eq 'Running') {
 }
 Set-Service -Name $serviceName -StartupType Disabled
 
-# npm #
-npm i -g eslint
-npm i -g eslint-config-prettier
-npm i -g pnpm
-npm i -g prettier
-npm i -g typescript
-
-# ssh #
-mkdir -ea 0 "$sshDir"
-new-item -ea 0 "$sshDir\id_ed25519"
-curl "$githubConfigUrl\id_ed25519.pub" -o "$sshDir\id_ed25519.pub"
-if (!(test-path "$sshDir\config")) {
-  curl "$baseUrl\config" -o "$sshDir\config"
-}
-
 # settings #
 wsl --install
-# rm -r -ea 0 "HKLM:\SOFTWARE\Classes\.zip\CompressedFolder\ShellNew" # remove .zip from context menu
-# Set-ItemProperty -Path "HKCR:\Local Settings\MrtCache\C:%5CProgram Files%5CWindowsApps%5CMicrosoft.Paint_11.2304.33.0_x64__8wekyb3d8bbwe%5Cmicrosoft.system.package.metadata%5CS-1-5-21-130234457-89705425-3003616880-1001-MergedResources-2.pri" -Name "(Default)" -Value "" # remove .bmp from context menu
-# rm -r -ea 0 "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" # remove Gallery from explorer
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /f # remove Gallery from explorer
 
   ## dotfiles ##
   curl "$githubConfigUrl\settings.json" -o "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # create or replace settings.json
-  curl "$githubConfigUrl\.gitconfig" -o ~\.gitconfig
   curl "$githubConfigUrl/config.toml" -o ~\AppData\Roaming\helix\config.toml
 
   ## RealTimeIsUniversal ##
@@ -143,7 +123,7 @@ wsl --install
     Set-ItemProperty -Path $path -Name "SubscribedContent-338387Enabled" -Value 0
 
   ## powershell ##
-  $powershellPath = "~\Documents\WindowsPowerShell" # path to PowerShell
+  $powershellPath = "$configDir\PowerShell" # path to PowerShell
     
     ### update module ###
     $updateUrl = "$githubScriptUrl\update.psm1" # URL of update.psm1 file on GitHub
