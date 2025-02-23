@@ -24,3 +24,6 @@ function prompt {
 
   return " "
 }
+
+Set-Location -Path "~"
+Clear-Host
