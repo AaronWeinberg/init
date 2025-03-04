@@ -14,9 +14,9 @@ read -p "Enter the port number you want to use for ssh, or hit enter to accept t
 read -p "If on a local machine, enter the IP of your VPS, or hit enter to accept the default [${default_ip}]: " vps_ip # Prompt for the VPS IP
 
 # Update
-sudo apt --fix-broken install -y
-sudo apt update
-sudo apt upgrade -y
+sudo apt-get install --fix-broken -y
+sudo apt-get update
+sudo apt-get upgrade -y
 
 # Directories
 mkdir -p \
@@ -25,8 +25,8 @@ mkdir -p \
   mkdir -p ${sshDir}
   chmod 700 ${sshDir}
 
-# Apt
-sudo apt install -y \
+# apt-get
+sudo apt-get install -y \
   bash-completion \
   byobu \
   chrome-gnome-shell \
@@ -103,7 +103,7 @@ else
     # Steam
     wget https://cdn.akamai.steamstatic.com/client/installer/steam.deb
     sudo dpkg -i steam.deb
-    sudo apt --fix-broken install
+    sudo apt-get --fix-broken install
     sudo rm -rf steam.deb
   fi
 fi
@@ -122,7 +122,7 @@ rm -rf google-chrome-stable_current_amd64.deb
 wget https://packages.microsoft.com/keys/microsoft.asc
 wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_current_amd64.deb
 gpg --dearmor < microsoft.asc | sudo tee /usr/share/keyrings/microsoft-edge.gpg
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt-get/sources.list.d/microsoft-edge.list
 
 # Snap
 sudo snap install helix --classic # Helix
