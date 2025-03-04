@@ -21,9 +21,9 @@ sudo apt-get upgrade -y
 # Directories
 mkdir -p \
   ~/dev \
-  ~/.npm-global
-  mkdir -p ${sshDir}
-  chmod 700 ${sshDir}
+  ~/.npm-global \
+  ${sshDir}
+chmod 700 ${sshDir}
 
 # apt-get
 sudo apt-get install -y \
