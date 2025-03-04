@@ -26,7 +26,7 @@ mkdir -p \
 chmod 700 ${sshDir}
 
 # apt-get
-sudo apt-get install -y \
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
   bash-completion \
   byobu \
   chrome-gnome-shell \
