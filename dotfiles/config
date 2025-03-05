@@ -6,4 +6,4 @@ Host vps1
 Host fresh-vps1
   HostName %h
   Port 22
-  User ubuntu
+  User debian
