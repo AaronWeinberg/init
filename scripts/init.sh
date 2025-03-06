@@ -6,7 +6,7 @@
 
 # Variable declarations and user input
 baseUrl='https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles' # location of dotfiles and other config files on github
-output=$(sudo dmidecode -s system-manufacturer) # Get the system manufacturer
+hypervisor=$(lscpu | grep -i 'hypervisor vendor' | awk -F ': ' '{print $2}') # host of linux installation
 sshDir='~/.ssh' # SSH directory
 default_ip='192.168.1.100' # Default IP for VPS
 default_port='22' # Default SSH port
@@ -51,7 +51,7 @@ sudo ufw default allow outgoing
 
 # Host-Specific Config
 echo '>>> START HOST-SPECIFIC SCRIPTS <<<'
-if [[ $output == *'OpenStack Foundation'* ]]; then
+if [[ $hypervisor == *'OpenStack Foundation'* ]]; then
   echo '>>> VPS SCRIPT <<<'
 
   host='vps1'
