@@ -51,7 +51,7 @@ sudo ufw default allow outgoing
 
 # Host-Specific Config
 echo '>>> START HOST-SPECIFIC SCRIPTS <<<'
-if [[ $hypervisor == *'OpenStack Foundation'* ]]; then
+if [[ $hypervisor == *'KVM'* ]]; then
   echo '>>> VPS SCRIPT <<<'
 
   host='vps1'
