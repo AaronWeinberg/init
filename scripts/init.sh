@@ -8,6 +8,7 @@
 baseUrl='https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles' # location of dotfiles and other config files on github
 hypervisor=$(lscpu | grep -i 'hypervisor vendor' | awk -F ': ' '{print $2}') # host of linux installation
 sshDir='~/.ssh' # SSH directory
+user='debian'
 default_ip='192.168.1.100' # Default IP for VPS
 default_port='22' # Default SSH port
 
@@ -92,6 +93,7 @@ else
   chmod 644 ${sshDir}/known_hosts
   sudo sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" ${sshDir}/config # Fill in the VPS's IP
   sudo sed -i "s/<SSH_PORT>/${port:-${default_port}}/g" ${sshDir}/config # Fill in the SSH port
+  sudo sed -i "s/<SSH_USER>/${user}/g" ${sshDir}/config # Fill in the user
 
   # Desktop Linux Config
   if ! grep -qi Microsoft /proc/version; then
