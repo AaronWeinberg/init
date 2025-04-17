@@ -1,9 +1,9 @@
 Host vps1
   HostName %h
   Port <SSH_PORT>
-  User aaron
+  User <SSH_USER>
 
 Host fresh-vps1
   HostName %h
   Port 22
-  User debian
+  User <SSH_USER>
