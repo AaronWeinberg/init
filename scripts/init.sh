@@ -29,7 +29,6 @@ chmod 700 ${sshDir}
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
   bash-completion \
   byobu \
-  chrome-gnome-shell \
   dconf-cli \
   dconf-editor \
   dos2unix \
@@ -94,6 +93,8 @@ else
   # Desktop Linux Config
   if ! grep -qi Microsoft /proc/version; then
     host='debian'
+
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y chrome-gnome-shell
 
     # Grub
     wget -O /etc/default/grub ${baseUrl}/grub
