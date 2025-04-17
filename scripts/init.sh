@@ -59,6 +59,7 @@ if [[ $hypervisor == *'KVM'* ]]; then
   sudo ufw allow http
   sudo ufw allow https
   sudo ufw allow ${port}/tcp
+  sudo ufw reload
 
   # SSH Config
   wget -nc -P ${sshDir} ${baseUrl}/authorized_keys
@@ -159,3 +160,4 @@ dconf load / < ~/.dconf
 rm ~/.dconf
 
 byobu-enable # set Byobu as default terminal
+sudo systemctl restart ssh # restart ssh client to apply changes
