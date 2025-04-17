@@ -162,4 +162,5 @@ dconf load / < ~/.dconf
 rm ~/.dconf
 
 byobu-enable # set Byobu as default terminal
+sudo apt --fix-broken install -y
 sudo systemctl restart ssh # restart ssh client to apply changes
