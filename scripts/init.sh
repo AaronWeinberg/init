@@ -95,7 +95,7 @@ else
 
   # Desktop Linux Config
   if ! grep -qi Microsoft /proc/version; then
-    host='debian'
+    host='desktop'
 
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y chrome-gnome-shell
 
