@@ -8,10 +8,6 @@
 baseUrl='https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles' # location of dotfiles and other config files on github
 hypervisor=$(lscpu | grep -i 'hypervisor vendor' | awk -F ': ' '{print $2}') # host of linux installation
 sshDir='~/.ssh' # SSH directory
-default_ip='192.168.1.100' # Default IP for VPS
-default_port='22' # Default SSH port
-read -p "Enter the port number you want to use for ssh, or hit enter to accept the default [Port ${default_port}]: " port # Prompt for the SSH port number
-read -p "If on a local machine, enter the IP of your VPS, or hit enter to accept the default [${default_ip}]: " vps_ip # Prompt for the VPS IP
 
 # Update
 sudo apt-get install --fix-broken -y
@@ -54,6 +50,8 @@ if [[ $hypervisor == *'KVM'* ]]; then
   echo '>>> VPS SCRIPT <<<'
 
   host='vps1'
+  default_port='22' # Default SSH port
+  read -p "Enter the port number you want to use for ssh, or hit enter to accept the default [Port ${default_port}]: " port # Prompt for the SSH port number
 
   # Allow HTTP, HTTPS, and SSH
   sudo ufw allow http
@@ -77,6 +75,9 @@ if [[ $hypervisor == *'KVM'* ]]; then
 
 else
   echo '>>> LOCAL MACHINE SCRIPT <<<'
+
+  default_ip='192.168.1.100' # Default IP for VPS
+  read -p "If on a local machine, enter the IP of your VPS, or hit enter to accept the default [${default_ip}]: " vps_ip # Prompt for the VPS IP
   
   # SSH Config
   wget -nc -P ${sshDir} ${baseUrl}/config
