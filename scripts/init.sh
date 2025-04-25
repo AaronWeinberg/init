@@ -125,10 +125,9 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
 rm -rf google-chrome-stable_current_amd64.deb
 
 # Edge
-wget https://packages.microsoft.com/keys/microsoft.asc
-wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_current_amd64.deb
-gpg --dearmor < microsoft.asc | sudo tee /usr/share/keyrings/microsoft-edge.gpg
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt-get/sources.list.d/microsoft-edge.list
+wget -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/microsoft.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
+sudo apt install microsoft-edge-stable
 
 # Snap
 sudo snap install helix --classic # Helix
