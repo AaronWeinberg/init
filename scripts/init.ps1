@@ -75,12 +75,8 @@ winget rm 'Xbox Game Speech Window'
 winget rm 'Xbox Identity Provider'
 
 # Disable Nvidia container service
-$serviceName = 'NVIDIA Display Container LS'
-$service = Get-Service -Name $serviceName
-if ($service.Status -eq 'Running') {
-    Stop-Service -Name $serviceName
-}
-Set-Service -Name $serviceName -StartupType Disabled
+sc.exe config "NVDisplay.ContainerLocalSystem" start= disabled
+sc.exe stop "NVDisplay.ContainerLocalSystem"
 
 # settings #
 wsl --install
