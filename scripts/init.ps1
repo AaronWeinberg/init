@@ -100,9 +100,12 @@ reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\Name
   curl "https://download.sysinternals.com/files/Ctrl2Cap.zip" -o "$zipFile" # download ctrl2cap
   Expand-Archive -literalpath "$zipFile" -destinationpath "$extractPath" -force # unzip
   cd "$extractPath" # change directory to ctrl2cap
-  cmd.exe --% /c ctrl2cap /install
+  
+  echo Y | cmd.exe --% /c ctrl2cap /install # automatically accept installation prompt
+  
   cd ~ # change directory away from ctrl2cap
   rm -ea 0 -force "$zipFile"; rm -r -ea 0 -force "$extractPath" # delete Ctrl2Cap files
+
 
   ## disable tips and tricks on the lock screen ##
     # Set the path
