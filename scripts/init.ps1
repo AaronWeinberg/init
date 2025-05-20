@@ -119,18 +119,19 @@ reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\Name
     Set-ItemProperty -Path $path -Name "SubscribedContent-338387Enabled" -Value 0
 
   ## powershell ##
-  $powershellPath = "$configDir\PowerShell" # path to PowerShell
+  $powershellPath = "C:\Users\aaron\OneDrive\Documents\WindowsPowerShell" # path to PowerShell
     
     ### update module ###
     $updateUrl = "$githubScriptUrl\update.psm1" # URL of update.psm1 file on GitHub
     $updatePath = "$powershellPath\Modules\update" # path to update module directory
     $updateFile = "$updatePath\update.psm1" # path to update module
-    
-    mkdir -ea 0 $updatePath; curl "$updateUrl" -o "$updateFile"
-    ipmo update # install update module
+
+    New-Item -Path "$powershellPath\Modules\update" -ItemType Directory -Force
+    Invoke-WebRequest -Uri $updateUrl -OutFile $updateFile
+    Import-Module "$env:USERPROFILE\Documents\WindowsPowerShell\Modules\update\update.psm1" -Force # install update module
       
     ### profile ###
     $profileUrl = "$githubConfigUrl\Microsoft.PowerShell_profile.ps1" # URL of profile on GitHub
     $profileFile = "$powershellPath\Microsoft.PowerShell_profile.ps1" # path to profile
     
-    mkdir -ea 0 $powershellPath; curl "$profileUrl" -o "$profileFile"
+    curl "$profileUrl" -o "$profileFile"
