@@ -85,7 +85,8 @@ reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\Name
 
   ## dotfiles ##
   curl "$githubConfigUrl\settings.json" -o "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # create or replace settings.json
-  curl "$githubConfigUrl/config.toml" -o ~\AppData\Roaming\helix\config.toml
+  mkdir -ea 0 "$env:APPDATA\helix" # Helix config directory
+  curl "$githubConfigUrl/config.toml" -o ~\AppData\Roaming\helix\config.toml # Helix config
 
   ## RealTimeIsUniversal ##
   $registryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation"
