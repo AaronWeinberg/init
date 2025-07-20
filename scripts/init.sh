@@ -77,6 +77,9 @@ if [[ $hypervisor == *'KVM'* ]]; then
   rm -rf caddy_amd64.deb
   sudo systemctl restart caddy
 
+  # Disable Password Login
+  sudo rm /etc/ssh/sshd_config.d/50-cloud-init.conf
+
 else
   echo '>>> LOCAL MACHINE SCRIPT <<<'
 
