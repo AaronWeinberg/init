@@ -25,5 +25,19 @@ function prompt {
   return " "
 }
 
+function rmrf {
+    param([string]$Path)
+    Remove-Item -Recurse -Force $Path
+}
+
+function touch {
+    param([string]$FileName)
+    if (-not (Test-Path $FileName)) {
+        New-Item -ItemType File -Path $FileName | Out-Null
+    } else {
+        (Get-Item $FileName).LastWriteTime = Get-Date
+    }
+}
+
 Set-Location -Path "~"
 Clear-Host
