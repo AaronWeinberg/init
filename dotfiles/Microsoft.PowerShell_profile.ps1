@@ -39,5 +39,7 @@ function touch {
     }
 }
 
+function ll { Get-ChildItem -Force }
+
 Set-Location -Path "~"
 Clear-Host
