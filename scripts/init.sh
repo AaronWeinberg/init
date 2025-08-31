@@ -104,13 +104,26 @@ else
 
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y chrome-gnome-shell
 
+    # NVIDIA Drivers (via Debian repos)
+    # Adds contrib + non-free repos, installs NVIDIA drivers
+    # Future updates come automatically with apt upgrade
+    echo "deb http://deb.debian.org/debian $(lsb_release -cs) main contrib non-free non-free-firmware" | \
+      sudo tee /etc/apt/sources.list.d/nonfree.list
+    # (Optional: enable backports for newer GPUs)
+    echo "deb http://deb.debian.org/debian $(lsb_release -cs)-backports main contrib non-free non-free-firmware" | \
+      sudo tee /etc/apt/sources.list.d/backports.list
+
+    # apt-get (base tools)
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      firmware-misc-nonfree \
+      nvidia-driver
+    
     # Grub
     wget -O /etc/default/grub ${baseUrl}/grub
     sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober
     sudo update-grub
 
-    # Steam (snap)
-    sudo snap install steam
+    sudo snap install steam # Steam
   fi
 fi
 echo '>>> END HOST-SPECIFIC SCRIPTS <<<'
@@ -120,7 +133,7 @@ host=${host:-wsl} # Set host to 'wsl' if it was not set above
 sudo hostnamectl set-hostname ${host} # Change to host-specific hostname
 
 # Browsers
-  # Chrome
+  ### Chrome
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   sudo dpkg -i google-chrome-stable_current_amd64.deb
   rm -rf google-chrome-stable_current_amd64.deb
