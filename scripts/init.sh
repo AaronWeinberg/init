@@ -24,7 +24,7 @@ mkdir -p \
   ${sshDir}
 chmod 700 ${sshDir}
 
-# apt-get
+# apt-get (base tools)
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
   bash-completion \
   byobu \
@@ -71,7 +71,7 @@ if [[ $hypervisor == *'KVM'* ]]; then
   sudo wget -N -P /etc/ssh ${baseUrl}/sshd_config -o /dev/null # Fetch new sshd_config file
   sudo sed -i "s/^# Port .*/Port ${port}/" /etc/ssh/sshd_config # Add or update the Port line in sshd_config
 
-  # Caddy Webserver
+  # Caddy Webserver (no snap version, keep deb)
   wget https://caddyserver.com/download/latest/caddy_amd64.deb
   sudo dpkg -i caddy_amd64.deb
   rm -rf caddy_amd64.deb
@@ -109,11 +109,8 @@ else
     sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober
     sudo update-grub
 
-    # Steam
-    wget https://cdn.akamai.steamstatic.com/client/installer/steam.deb
-    sudo dpkg -i steam.deb
-    sudo apt-get --fix-broken install
-    sudo rm -rf steam.deb
+    # Steam (snap)
+    sudo snap install steam
   fi
 fi
 echo '>>> END HOST-SPECIFIC SCRIPTS <<<'
@@ -122,19 +119,18 @@ echo '>>> END HOST-SPECIFIC SCRIPTS <<<'
 host=${host:-wsl} # Set host to 'wsl' if it was not set above
 sudo hostnamectl set-hostname ${host} # Change to host-specific hostname
 
-# Chrome
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb
-rm -rf google-chrome-stable_current_amd64.deb
+# Browsers
+  # Chrome
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  sudo dpkg -i google-chrome-stable_current_amd64.deb
+  rm -rf google-chrome-stable_current_amd64.deb
 
-# Edge
-wget -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/microsoft.gpg
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
-sudo apt install microsoft-edge-stable
+  sudo snap install edge # Edge
+  sudo snap install firefox # Firefox
 
-# Snap
+# Text Editors
 sudo snap install helix --classic # Helix
-sudo snap install code --classic # VSCode
+sudo snap install code --classic  # VSCode
 
 # NVM + Node + NPM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
