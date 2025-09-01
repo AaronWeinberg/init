@@ -125,8 +125,13 @@ update(){
 
   # Only run fwupdmgr if not WSL or VPS
   if ! grep -qi microsoft /proc/version && [ "$(systemd-detect-virt)" = "none" ]; then
-    sudo fwupdmgr refresh
-    sudo fwupdmgr update
+  	sudo fwupdmgr refresh >/dev/null 2>&1
+
+  	# Check if any updates are available
+	if sudo fwupdmgr get-updates | grep -q "Upgrade available"; then
+	  echo "🔧 Firmware updates found, applying..."
+	  sudo fwupdmgr update
+	fi
   fi
 }
 
