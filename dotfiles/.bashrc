@@ -117,17 +117,17 @@ if ! shopt -oq posix; then
 fi
 
 update(){
-  sudo apt update && sudo apt -y upgrade
+  sudo apt update &&
+  sudo apt -y full-upgrade &&
+  sudo snap refresh &&
+  sudo apt -y autoremove && 
+  rm -rf /home/aaron/.local/share/Trash/* &&
 
   # Only run fwupdmgr if not WSL or VPS
   if ! grep -qi microsoft /proc/version && [ "$(systemd-detect-virt)" = "none" ]; then
     sudo fwupdmgr refresh
     sudo fwupdmgr update
   fi
-
-  sudo snap refresh
-  sudo apt autoremove -y
-  rm -rf /home/aaron/.local/share/Trash/*
 }
 
 # tells linux to look for npm binaries here
