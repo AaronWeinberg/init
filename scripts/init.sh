@@ -47,6 +47,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
   git \
   gnome-tweaks \
   gparted \
+  hx \
   htop \
   jq \
   powertop \
@@ -121,8 +122,7 @@ sudo dpkg -i "$INIT_DIR/google-chrome-stable_current_amd64.deb"
 sudo systemctl enable --now snapd.socket
 sudo snap install edge
 
-# Text Editors
-sudo add-apt-repository ppa:maveonair/helix-editor && sudo apt update && sudo apt install helix
+# VS Code
 sudo snap install code --classic
 
 # Etcher (Artifacts moved to init folder)
