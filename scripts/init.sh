@@ -138,7 +138,7 @@ sudo hostnamectl set-hostname ${host} # Change to host-specific hostname
   rm -rf google-chrome-stable_current_amd64.deb # Chrome
 
   sudo snap install edge # Edge
-  sudo snap install firefox # Firefox
+  #sudo snap install firefox # Firefox
 
 # Text Editors
   sudo add-apt-repository ppa:maveonair/helix-editor && \ 
