@@ -142,8 +142,10 @@ sudo hostnamectl set-hostname ${host} # Change to host-specific hostname
   sudo snap install firefox # Firefox
 
 # Text Editors
-sudo snap install helix --classic # Helix
-sudo snap install code --classic  # VSCode
+sudo add-apt-repository ppa:maveonair/helix-editor && \ # Helix
+sudo apt update && \
+sudo apt install helix
+sudo snap install code --classic # VSCode
 
 # NVM + Node + NPM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
