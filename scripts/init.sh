@@ -133,19 +133,22 @@ host=${host:-wsl} # Set host to 'wsl' if it was not set above
 sudo hostnamectl set-hostname ${host} # Change to host-specific hostname
 
 # Browsers
-  ### Chrome
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   sudo dpkg -i google-chrome-stable_current_amd64.deb
-  rm -rf google-chrome-stable_current_amd64.deb
+  rm -rf google-chrome-stable_current_amd64.deb # Chrome
 
   sudo snap install edge # Edge
   sudo snap install firefox # Firefox
 
 # Text Editors
-sudo add-apt-repository ppa:maveonair/helix-editor && \ # Helix
-sudo apt update && \
-sudo apt install helix
-sudo snap install code --classic # VSCode
+  sudo add-apt-repository ppa:maveonair/helix-editor && \ 
+  sudo apt update && \
+  sudo apt install helix # Helix
+  sudo snap install code --classic # VSCode
+
+# Other Tools
+  curl -s https://api.github.com/repos/balena-io/etcher/releases/latest | grep -oP '"browser_download_url": "\K[^"]+amd64[^"]*\.deb(?=")' | xargs wget
+  sudo apt install ./balena-etcher*.deb # Balena Etcher
 
 # NVM + Node + NPM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
