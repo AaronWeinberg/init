@@ -7,16 +7,6 @@ dconf dump / > .dconf;
 ```sh
 wget https://raw.githubusercontent.com/AaronWeinberg/init/master/scripts/init.sh && sudo chmod +x init.sh && command="./init.sh"; echo $command; eval $command 2>&1 | tee init.log && rm init.sh
 ```
-# New Desktop Setup
-## Install GNOME Shell Integration extensions:
-  - App Icons Taskbar
-  - Autohide Battery
-  - Autohide Volume
-  - DDTERM
-  - Emoji Copy
-  - Hide Network Icon
-  - Just Perfection
-
 # New VPS Setup
 
 ## Change username
