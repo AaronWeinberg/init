@@ -112,46 +112,90 @@ else
     sed -i "s/<SSH_USER>/${user}/g" "$sshDir/config"
 
     if ! grep -qi Microsoft /proc/version; then 
-        echo "--- Configuring Physical Desktop Tweaks ---"
+        # --- Configuring Physical Desktop Tweaks ---
         host='desktop'
 
         apt_install fonts-firacode gnome-tweaks gparted powertop dconf-cli dconf-editor jq unzip
 
-        # Dconf Load
+        # 1. Dconf Load (Wrapped in DBus session)
+        # 1. Load your previous Dconf settings
         wget -O "$INIT_DIR/.dconf" "${baseUrl}/.dconf"
-        dconf load / < "$INIT_DIR/.dconf"
-
-        # GNOME Extensions
+        if [ -f "$INIT_DIR/.dconf" ]; then
+            dbus-run-session -- dconf load / < "$INIT_DIR/.dconf"
+        fi
+        
+        # 2. Reinstall Extensions based on the Dconf we just loaded
         if command -v gnome-shell &> /dev/null; then
+            echo "--- Synchronizing GNOME Extensions from Dconf ---"
+            
+            # Extract list and turn into a clean bash-iterable list
+            EXT_LIST=$(dbus-run-session -- gsettings get org.gnome.shell enabled-extensions | tr -d "[]'," | tr ' ' '\n')
+        
             GNOME_VER=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1)
             EXT_DIR="$HOME/.local/share/gnome-shell/extensions"
-            LIST_FILE="$HOME/dev/extensions.list"
             mkdir -p "$EXT_DIR"
-            if [ -f "$LIST_FILE" ]; then
-                while IFS= read -r uuid || [ -n "$uuid" ]; do
-                    [ -z "$uuid" ] && continue
-                    if [ ! -d "$EXT_DIR/$uuid" ]; then
-                        DOWNLOAD_URL=$(curl -s "https://extensions.gnome.org/extension-query/?search=$uuid" | jq -r ".extensions[] | select(.uuid==\"$uuid\") | .shell_version_map[\"$GNOME_VER\"].pk")
-                        if [ "$DOWNLOAD_URL" != "null" ]; then
-                            wget -q -O "/tmp/$uuid.zip" "https://extensions.gnome.org/download-extension/${uuid}.shell-extension.zip?version_pk=$DOWNLOAD_URL"
+        
+            for uuid in $EXT_LIST; do
+                [ -z "$uuid" ] && continue
+                
+                # Skip system-level extensions
+                [[ "$uuid" == *"ubuntu.com"* || "$uuid" == *"fedora"* ]] && continue
+        
+                if [ ! -d "$EXT_DIR/$uuid" ]; then
+                    echo "Attempting to sync: $uuid"
+                    
+                    # Query API: Try current version, fallback to N-1, then N-2 (GNOME 46)
+                    # Many older extensions work fine on 48 if we grab the v46/47 build
+                    PK=$(curl -s "https://extensions.gnome.org/extension-query/?search=$uuid" | \
+                         jq -r ".extensions[] | select(.uuid==\"$uuid\") | 
+                         (.shell_version_map[\"$GNOME_VER\"].pk // 
+                          .shell_version_map[\"$((GNOME_VER-1))\"].pk // 
+                          .shell_version_map[\"$((GNOME_VER-2))\"].pk)")
+                    
+                    if [ "$PK" != "null" ] && [ -n "$PK" ]; then
+                        DL_URL="https://extensions.gnome.org/download-extension/${uuid}.shell-extension.zip?version_pk=$PK"
+                        
+                        # User-Agent is required to prevent 403 Forbidden/Empty zip errors
+                        wget -q --user-agent="Mozilla/5.0" -O "/tmp/$uuid.zip" "$DL_URL"
+                        
+                        # Check if it's a valid zip before extraction
+                        if file "/tmp/$uuid.zip" | grep -q "Zip archive data"; then
                             mkdir -p "$EXT_DIR/$uuid"
                             unzip -o "/tmp/$uuid.zip" -d "$EXT_DIR/$uuid" > /dev/null
+                            echo " [+] Installed $uuid"
+                        else
+                            echo " [!] Failed: $uuid (Downloaded file was not a valid ZIP)"
                         fi
+                        rm -f "/tmp/$uuid.zip"
+                    else
+                        echo " [-] Skipped: $uuid (No compatible version found for GNOME $GNOME_VER, 47, or 46)"
                     fi
-                done < "$LIST_FILE"
-                CLEAN_LIST=$(awk '{printf "'\''%s'\'', ", $0}' "$LIST_FILE" | sed 's/, $//')
-                gsettings set org.gnome.shell enabled-extensions "[$CLEAN_LIST]"
-            fi
+                fi
+            done
+        
+            # 3. FORCE COMPATIBILITY
+            # This disables version checking so extensions that "think" they only work on 47 will run on 48
+            dbus-run-session -- gsettings set org.gnome.shell disable-extension-version-validation true
+            echo "--- Extension sync complete. Version validation disabled. ---"
         fi
 
-        # Etcher (Standalone repo logic is complex for Etcher, keeping wget for simplicity)
-        curl -s https://api.github.com/repos/balena-io/etcher/releases/latest | grep -oP '"browser_download_url": "\K[^"]+amd64[^"]*\.deb(?=")' | xargs wget -P "$INIT_DIR"
-        sudo apt install "$INIT_DIR"/balena-etcher*.deb -y || sudo apt-get install -f -y
+        # --- Firmware & Nvidia Repo Setup ---
+        echo "--- Cleaning up APT sources and enabling Non-Free ---"
         
-        # Firmware & Nvidia Repo Setup
-        echo "deb http://deb.debian.org/debian $(lsb_release -cs) main contrib non-free non-free-firmware" | sudo tee /etc/apt/sources.list.d/nonfree.list
+        # 1. Fix the main sources.list to include contrib, non-free, and non-free-firmware
+        # This handles the Trixie 'main non-free-firmware' default correctly
+        sudo sed -i '/^deb/ s/\(main\b\)/\1 contrib non-free/g' /etc/apt/sources.list
+        
+        # 2. Delete the duplicate file that was causing errors
+        if [ -f /etc/apt/sources.list.d/nonfree.list ]; then
+            sudo rm /etc/apt/sources.list.d/nonfree.list
+        fi
+
         sudo apt-get update
-        apt_install chrome-gnome-shell firmware-misc-nonfree nvidia-driver
+
+        # 3. Install the packages (using the new name for the chrome-gnome-shell connector)
+        echo "--- Installing Drivers and GNOME Connector ---"
+        apt_install gnome-browser-connector firmware-misc-nonfree nvidia-driver
 
         # Grub
         wget -O "$INIT_DIR/grub" "${baseUrl}/grub"
