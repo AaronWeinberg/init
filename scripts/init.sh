@@ -30,11 +30,7 @@ sudo apt-get update
 sudo apt-get install --fix-broken -y
 sudo apt-get upgrade -y
 
-# 4. Standard Directories
-mkdir -p ~/dev ~/.npm-global "$sshDir"
-chmod 700 "$sshDir"
-
-# 5. Core Packages & Dotfiles
+# 4. Core Packages & Dotfiles
 apt_install bash-completion byobu ca-certificates curl dos2unix git htop hx wget gpg
 
 wget -O ~/.bashrc "${baseUrl}/.bashrc"
@@ -51,21 +47,24 @@ wget -O ~/.gitconfig "${baseUrl}/.gitconfig"
 mkdir -p ~/.config/helix
 wget -O ~/.config/helix/config.toml "${baseUrl}/config.toml"
 
-# 6. Node & NVM
+# 5. Node & NVM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 nvm install --lts
+mkdir -p ~/.npm-global
 wget -O ~/.npmrc "${baseUrl}/.npmrc"
 npm i -g eslint eslint-config-prettier pnpm prettier typescript
 
-# 7. Shared SSH Keys (Private key needs manual paste later)
+# 6. Shared SSH Keys (Private key needs manual paste later)
+mkdir -p "$sshDir"
+chmod 700 "$sshDir"
 wget -nc -P "$sshDir" "${baseUrl}/id_ed25519.pub"
 touch "$sshDir/id_ed25519" "$sshDir/known_hosts"
 chmod 600 "$sshDir/id_ed25519"
 chmod 644 "$sshDir/id_ed25519.pub" "$sshDir/known_hosts"
 
-# 8. Host-specific Logic
+# 7. Host-specific Logic
 if [[ $hypervisor == *'KVM'* ]]; then 
     echo "--- Configuring VPS Environment ---"
     host='vps1'
@@ -104,7 +103,7 @@ else
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
 
     sudo apt-get update
-    apt_install code microsoft-edge-stable google-chrome-stable wireguard xclip
+    apt_install code google-chrome-stable microsoft-edge-stable wireguard xclip
 
     # Local SSH Config
     wget -nc -P "$sshDir" "${baseUrl}/config"
@@ -167,7 +166,7 @@ else
     fi
 fi
 
-# 9. Hostname & Cleanup
+# 8. Hostname & Cleanup
 sudo hostnamectl set-hostname "${host:-wsl}"
 sudo apt-get purge -y snapd
 sudo apt-get autoremove -y
