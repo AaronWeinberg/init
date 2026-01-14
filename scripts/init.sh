@@ -75,7 +75,7 @@ if [[ $hypervisor == *'KVM'* ]]; then
     curl -fsSL https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt | sudo tee /etc/apt/sources.list.d/caddy-stable.list
     
     sudo apt-get update
-    apt_install fail2ban ufw libnss3-tools caddy
+    apt_install caddy fail2ban libnss3-tools ufw
 
     # SSH & SSHD
     wget -nc -P "$sshDir" "${baseUrl}/authorized_keys"
