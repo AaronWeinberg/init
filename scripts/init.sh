@@ -59,10 +59,6 @@ npm i -g eslint eslint-config-prettier pnpm prettier typescript
 # 6. Shared SSH Keys (Private key needs manual paste later)
 mkdir -p "$sshDir"
 chmod 700 "$sshDir"
-wget -nc -P "$sshDir" "${baseUrl}/id_ed25519.pub"
-touch "$sshDir/id_ed25519" "$sshDir/known_hosts"
-chmod 600 "$sshDir/id_ed25519"
-chmod 644 "$sshDir/id_ed25519.pub" "$sshDir/known_hosts"
 
 # 7. Host-specific Logic
 if [[ $hypervisor == *'KVM'* ]]; then 
@@ -77,7 +73,7 @@ if [[ $hypervisor == *'KVM'* ]]; then
     apt_install caddy fail2ban libnss3-tools ufw
 
     # SSH & SSHD
-    wget -nc -P "$sshDir" "${baseUrl}/authorized_keys"
+    wget -N -P "$sshDir" "${baseUrl}/authorized_keys"
     chmod 600 "$sshDir/authorized_keys"
     sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
     sudo wget -N -P /etc/ssh "${baseUrl}/sshd_config" -o /dev/null
@@ -90,6 +86,9 @@ if [[ $hypervisor == *'KVM'* ]]; then
     sudo ufw allow https
     sudo ufw allow "${vps_port:-$default_port}/tcp"
     sudo ufw --force enable
+
+    # Restart SSHD after config & firewall changes
+    sudo systemctl restart ssh
 
 else 
     echo "--- Configuring Desktop/WSL (Snap-Free/Repo-First) ---"
@@ -106,10 +105,15 @@ else
     apt_install code google-chrome-stable microsoft-edge-stable wireguard xclip
 
     # Local SSH Config
-    wget -nc -P "$sshDir" "${baseUrl}/config"
-    sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" "$sshDir/config"
-    sed -i "s/<SSH_PORT>/${vps_port:-${default_port}}/g" "$sshDir/config"
-    sed -i "s/<SSH_USER>/${user}/g" "$sshDir/config"
+    config="$sshDir/config"
+    pub="$sshDir/id_ed25519.pub"
+    wget -N -P "$sshDir" "${baseUrl}/id_ed25519.pub"
+    wget -N -P "$sshDir" "${baseUrl}/config"
+    chmod 644 "$pub"
+    chmod 600 "$config"
+    sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" "$config"
+    sed -i "s/<SSH_PORT>/${vps_port:-${default_port}}/g" "$config"
+    sed -i "s/<SSH_USER>/${user}/g" "$config"
 
     if ! grep -qi Microsoft /proc/version; then 
         # --- Configuring Physical Desktop Tweaks ---
@@ -117,7 +121,7 @@ else
 
         apt_install fonts-firacode gnome-tweaks gparted powertop dconf-cli dconf-editor jq unzip
 
-        # 1. Dconf Load (Wrapped in DBus session)
+        # Dconf Load (Wrapped in DBus session)
         # 1. Load your previous Dconf settings
         wget -O "$INIT_DIR/.dconf" "${baseUrl}/.dconf"
         if [ -f "$INIT_DIR/.dconf" ]; then
@@ -214,7 +218,6 @@ fi
 sudo hostnamectl set-hostname "${host:-wsl}"
 sudo apt-get purge -y snapd
 sudo apt-get autoremove -y
-sudo systemctl restart ssh
 rm -rf "$INIT_DIR"/*.deb
 
 # --- FINAL SUMMARY ---
