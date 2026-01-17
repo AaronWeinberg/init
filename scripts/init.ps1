@@ -1,142 +1,134 @@
-#!/bin/bash
-
 ### ### ### ### ### ### ###
 #  Initial Windows Setup  #
 ### ### ### ### ### ### ###
 
-$configDir = "~\.config"
+# --- Init Directory & Logging ---
+$INIT_DIR = "$HOME\init"
+New-Item -ItemType Directory -Force -Path $INIT_DIR | Out-Null
+
+$LOG_FILE = "$INIT_DIR\init.log"
+Start-Transcript -Path $LOG_FILE -Force
+
+Write-Host ">>> Initializing Windows setup. Log: $LOG_FILE"
+
+# Paths & URLs
+$configDir = "$HOME\.config"
 $baseUrl = "https://raw.githubusercontent.com/AaronWeinberg/init/master"
-$githubScriptUrl = "$baseUrl/scripts/"
-$githubConfigUrl = "$baseUrl/dotfiles/"
+$githubScriptUrl = "$baseUrl/scripts"
+$githubConfigUrl = "$baseUrl/dotfiles"
 
-# windows update #
-install-module -force -name PSWindowsUpdate
-gcm -module PSWindowsUpdate | out-null
-install-windowsupdate -acceptall # windows update -no prompt -no auto-restart
+# --- Windows Update ---
+Install-Module PSWindowsUpdate -Force
+Import-Module PSWindowsUpdate
+Install-WindowsUpdate -AcceptAll -IgnoreReboot
 
-# winget #
-winget list --accept-source-agreements # installs winget
+# --- Winget Installs ---
+winget list --accept-source-agreements | Out-Null
 
-  ## dev
-  winget add "GIMP.GIMP" --accept-package-agreements
-  winget add "Helix.Helix" --accept-package-agreements
-  winget add "Microsoft Visual Studio Code" --accept-package-agreements
+## Dev
+winget install --id GIMP.GIMP --accept-package-agreements --accept-source-agreements
+winget install --id Helix.Helix --accept-package-agreements --accept-source-agreements
+winget install --id Microsoft.VisualStudioCode --accept-package-agreements --accept-source-agreements
 
-  ## gaming
-  winget add "Battle.net" --accept-package-agreements
-  winget add "Overwolf.CurseForge" --accept-package-agreements
-  winget add "Wago.Addons" --accept-package-agreements
-  winget add "Valve.Steam" --accept-package-agreements
-  
-  ## peripherals
-  winget add "Logitech G HUB" --accept-package-agreements
+## Gaming
+winget install --id Blizzard.BattleNet --accept-package-agreements --accept-source-agreements
+winget install --id Overwolf.CurseForge --accept-package-agreements --accept-source-agreements
+winget install --id Wago.Addons --accept-package-agreements --accept-source-agreements
+winget install --id Valve.Steam --accept-package-agreements --accept-source-agreements
 
-  ## utility
-  winget add "Balena.Etcher" --accept-package-agreements
-  winget add "Dell.CommandUpdate" --accept-package-agreements
-  winget add "Google.Chrome" --accept-package-agreements
-  winget add "Mozilla.Firefox" --accept-package-agreements
-  winget add "Wireguard.Wireguard" --accept-package-agreements
-  
-# bloatware #
-winget rm 'Clipchamp'
-winget rm 'Cortana'
-winget rm 'Feedback Hub'
-winget rm 'Get Help'
-winget rm 'LinkedIn'
-winget rm 'Mail and Calendar'
-winget rm 'Microsoft Bing Search'
-winget rm 'Microsoft Family'
-winget rm 'Microsoft.GamingApp_8wekyb3d8bbwe'
-winget rm 'Microsoft News'
-winget rm 'Microsoft OneDrive'
-winget rm 'Microsoft People'
-winget rm 'Microsoft Sticky Notes'
-winget rm 'Microsoft Teams'
-winget rm 'Microsoft Tips'
-winget rm 'Microsoft To Do'
-winget rm 'Movies & TV'
-winget rm 'MSN Weather'
-winget rm 'NVIDIA Control Panel'
-winget rm 'Office'
-winget rm 'OneDrive'
-winget rm 'Outlook For Windows'
-winget rm 'Phone Link'
-winget rm 'Power Automate'
-winget rm 'Quick Assist'
-winget rm 'Solitaire & Casual Games'
-winget rm 'Spotify Music'
-winget rm 'Windows Camera'
-winget rm 'Windows Clock'
-winget rm 'Windows Maps'
-winget rm 'Windows Voice Recorder'
-winget rm 'Xbox Game Bar'
-winget rm 'Xbox Game Bar Plugin'
-winget rm 'Xbox Game Speech Window'
-winget rm 'Xbox Identity Provider'
+## Peripherals
+winget install --id Logitech.GHUB --accept-package-agreements --accept-source-agreements
 
-# Disable Nvidia container service
+## Utility
+winget install --id Balena.Etcher --accept-package-agreements --accept-source-agreements
+winget install --id Dell.CommandUpdate --accept-package-agreements --accept-source-agreements
+winget install --id Google.Chrome --accept-package-agreements --accept-source-agreements
+winget install --id Mozilla.Firefox --accept-package-agreements --accept-source-agreements
+winget install --id WireGuard.WireGuard --accept-package-agreements --accept-source-agreements
+
+# --- Bloatware Removal ---
+$removeList = @(
+    'Clipchamp', 'Cortana', 'Feedback Hub', 'Get Help', 'LinkedIn',
+    'Mail and Calendar', 'Microsoft Bing Search', 'Microsoft Family',
+    'Microsoft.GamingApp_8wekyb3d8bbwe', 'Microsoft News', 'Microsoft OneDrive',
+    'Microsoft People', 'Microsoft Sticky Notes', 'Microsoft Teams',
+    'Microsoft Tips', 'Microsoft To Do', 'Movies & TV', 'MSN Weather',
+    'NVIDIA Control Panel', 'Office', 'OneDrive', 'Outlook For Windows',
+    'Phone Link', 'Power Automate', 'Quick Assist', 'Solitaire & Casual Games',
+    'Spotify Music', 'Windows Camera', 'Windows Clock', 'Windows Maps',
+    'Windows Voice Recorder', 'Xbox Game Bar', 'Xbox Game Bar Plugin',
+    'Xbox Game Speech Window', 'Xbox Identity Provider'
+)
+
+foreach ($app in $removeList) {
+    winget uninstall --id $app --purge --accept-source-agreements --accept-package-agreements 2>$null
+}
+
+# --- Disable Nvidia Container Service ---
 sc.exe config "NVDisplay.ContainerLocalSystem" start= disabled
 sc.exe stop "NVDisplay.ContainerLocalSystem"
 
-# settings #
-wsl --install
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /f # remove Gallery from explorer
+# --- WSL Install (commented out) ---
+# wsl --install
 
-  ## dotfiles ##
-  curl "$githubConfigUrl\settings.json" -o "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" # create or replace settings.json
-  mkdir -ea 0 "$env:APPDATA\helix" # Helix config directory
-  curl "$githubConfigUrl/config.toml" -o ~\AppData\Roaming\helix\config.toml # Helix config
+# --- Remove Gallery from Explorer ---
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /f
 
-  ## RealTimeIsUniversal ##
-  $registryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation"
-  mkdir -force "$registryPath"
-  New-ItemProperty -path "$registryPath" -name "RealTimeIsUniversal" -Value 1 -PropertyType DWORD -force | Out-Null
+# --- Dotfiles ---
+curl "$githubConfigUrl/settings.json" -o "$Env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
 
-  ## ctrl2cap ##
-  $extractPath = "~\Downloads\Ctrl2Cap" # path to unzipped file
-  $zipFile = "$extractPath.zip" # path to zipped file
-  
-  curl "https://download.sysinternals.com/files/Ctrl2Cap.zip" -o "$zipFile" # download ctrl2cap
-  Expand-Archive -literalpath "$zipFile" -destinationpath "$extractPath" -force # unzip
-  cd "$extractPath" # change directory to ctrl2cap
-  
-  echo Y | cmd.exe --% /c ctrl2cap /install # automatically accept installation prompt
-  
-  cd ~ # change directory away from ctrl2cap
-  rm -ea 0 -force "$zipFile"; rm -r -ea 0 -force "$extractPath" # delete Ctrl2Cap files
+New-Item -ItemType Directory -Force -Path "$env:APPDATA\helix" | Out-Null
+curl "$githubConfigUrl/config.toml" -o "$env:APPDATA\helix\config.toml"
 
+# --- RealTimeIsUniversal ---
+$registryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation"
+New-Item -Path $registryPath -Force | Out-Null
+New-ItemProperty -Path $registryPath -Name "RealTimeIsUniversal" -Value 1 -PropertyType DWORD -Force | Out-Null
 
-  ## disable tips and tricks on the lock screen ##
-    # Set the path
-    $path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
-    
-    # Set ContentDeliveryAllowed to 1
-    Set-ItemProperty -Path $path -Name "ContentDeliveryAllowed" -Value 1
-    
-    # Set RotatingLockScreenEnabled to 1
-    Set-ItemProperty -Path $path -Name "RotatingLockScreenEnabled" -Value 1
-    
-    # Set RotatingLockScreenOverlayEnabled to 0
-    Set-ItemProperty -Path $path -Name "RotatingLockScreenOverlayEnabled" -Value 0
-    
-    # Set SubscribedContent-338387Enabled to 0
-    Set-ItemProperty -Path $path -Name "SubscribedContent-338387Enabled" -Value 0
+# --- Ctrl2Cap ---
+$extractPath = "$HOME\Downloads\Ctrl2Cap"
+$zipFile = "$extractPath.zip"
 
-  ## powershell ##
-  $powershellPath = "C:\Users\aaron\OneDrive\Documents\WindowsPowerShell" # path to PowerShell
-    
-    ### update module ###
-    $updateUrl = "$githubScriptUrl\update.psm1" # URL of update.psm1 file on GitHub
-    $updatePath = "$powershellPath\Modules\update" # path to update module directory
-    $updateFile = "$updatePath\update.psm1" # path to update module
+curl "https://download.sysinternals.com/files/Ctrl2Cap.zip" -o "$zipFile"
+Expand-Archive -LiteralPath "$zipFile" -DestinationPath "$extractPath" -Force
 
-    New-Item -Path "$powershellPath\Modules\update" -ItemType Directory -Force
-    Invoke-WebRequest -Uri $updateUrl -OutFile $updateFile
-    Import-Module "$env:USERPROFILE\Documents\WindowsPowerShell\Modules\update\update.psm1" -Force # install update module
-      
-    ### profile ###
-    $profileUrl = "$githubConfigUrl\Microsoft.PowerShell_profile.ps1" # URL of profile on GitHub
-    $profileFile = "$powershellPath\Microsoft.PowerShell_profile.ps1" # path to profile
-    
-    curl "$profileUrl" -o "$profileFile"
+Push-Location "$extractPath"
+echo Y | cmd.exe --% /c ctrl2cap /install
+Pop-Location
+
+Remove-Item -Force "$zipFile" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$extractPath" -ErrorAction SilentlyContinue
+
+# --- Disable Lock Screen Tips ---
+$cdm = "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+Set-ItemProperty -Path $cdm -Name "ContentDeliveryAllowed" -Value 1
+Set-ItemProperty -Path $cdm -Name "RotatingLockScreenEnabled" -Value 1
+Set-ItemProperty -Path $cdm -Name "RotatingLockScreenOverlayEnabled" -Value 0
+Set-ItemProperty -Path $cdm -Name "SubscribedContent-338387Enabled" -Value 0
+
+# --- PowerShell Setup ---
+$powershellPath = "$env:USERPROFILE\Documents\WindowsPowerShell"
+
+# Update module
+$updateUrl = "$githubScriptUrl/update.psm1"
+$updatePath = "$powershellPath\Modules\update"
+$updateFile = "$updatePath\update.psm1"
+
+New-Item -Path $updatePath -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri $updateUrl -OutFile $updateFile
+Import-Module $updateFile -Force
+
+# PowerShell profile
+$profileUrl = "$githubConfigUrl/Microsoft.PowerShell_profile.ps1"
+$profileFile = "$powershellPath\Microsoft.PowerShell_profile.ps1"
+
+curl "$profileUrl" -o "$profileFile"
+
+# --- Final Summary ---
+Write-Host ""
+Write-Host "################################################"
+Write-Host "   WINDOWS SETUP COMPLETE"
+Write-Host "   Log File: $LOG_FILE"
+Write-Host "################################################"
+
+Stop-Transcript
