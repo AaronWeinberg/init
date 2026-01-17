@@ -42,6 +42,9 @@ release-check-time=uint32 1714075078
 [org/gnome/Characters]
 recent-characters=['👩🏻\u200d🍳']
 
+[org/gnome/Connections]
+first-run=false
+
 [org/gnome/Mines]
 use-animations=false
 window-height=426
@@ -261,6 +264,37 @@ window-ratio=(0.98039215686274506, 0.75757575757575757)
 migrated=true
 network-monitor-gio-name=''
 
+[org/gnome/evolution]
+version='3.56.2'
+
+[org/gnome/evolution/calendar]
+week-start-day-name='monday'
+work-day-friday=true
+work-day-monday=true
+work-day-saturday=false
+work-day-sunday=false
+work-day-thursday=true
+work-day-tuesday=true
+work-day-wednesday=true
+
+[org/gnome/evolution/mail]
+browser-close-on-reply-policy='ask'
+forward-style-name='attached'
+image-loading-policy='never'
+paned-size=1117419
+reply-style-name='quoted'
+show-startup-wizard=false
+
+[org/gnome/evolution/shell]
+default-component-id='mail'
+
+[org/gnome/evolution/shell/window]
+height=900
+maximized=false
+width=1440
+x=26
+y=23
+
 [org/gnome/file-roller/dialogs/extract]
 recreate-folders=true
 skip-newer=false
@@ -325,7 +359,7 @@ last-folder-path='/home/aaron/Downloads'
 last-folder-path='/home/aaron'
 
 [org/gnome/portal/filechooser/org.chromium.Chromium]
-last-folder-path='/home/aaron/Documents'
+last-folder-path='/home/aaron'
 
 [org/gnome/portal/filechooser/org.gnome.Settings]
 last-folder-path='/home/aaron/Downloads'
@@ -334,7 +368,7 @@ last-folder-path='/home/aaron/Downloads'
 last-folder-path='/home/aaron/Documents'
 
 [org/gnome/settings-daemon/plugins/color]
-night-light-last-coordinates=(32.930282937456568, -96.896100000000004)
+night-light-last-coordinates=(32.927796833598315, -96.896100000000004)
 
 [org/gnome/settings-daemon/plugins/power]
 ambient-enabled=false
@@ -345,7 +379,7 @@ sleep-inactive-ac-type='nothing'
 [org/gnome/shell]
 app-picker-layout=[{'org.gnome.Contacts.desktop': <{'position': <0>}>, 'org.gnome.Weather.desktop': <{'position': <1>}>, 'org.gnome.Calendar.desktop': <{'position': <2>}>, 'org.gnome.clocks.desktop': <{'position': <3>}>, 'org.gnome.Maps.desktop': <{'position': <4>}>, 'org.gnome.Music.desktop': <{'position': <5>}>, 'simple-scan.desktop': <{'position': <6>}>, 'libreoffice-startcenter.desktop': <{'position': <7>}>, 'org.gnome.Calculator.desktop': <{'position': <8>}>, 'org.gnome.Totem.desktop': <{'position': <9>}>, 'org.gnome.TextEditor.desktop': <{'position': <10>}>, 'org.gnome.Settings.desktop': <{'position': <11>}>, 'org.gnome.Snapshot.desktop': <{'position': <12>}>, 'byobu.desktop': <{'position': <13>}>, 'org.gnome.Characters.desktop': <{'position': <14>}>, 'Utilities': <{'position': <15>}>, 'libreoffice-calc.desktop': <{'position': <16>}>, 'yelp.desktop': <{'position': <17>}>, 'google-chrome.desktop': <{'position': <18>}>, 'microsoft-edge.desktop': <{'position': <19>}>, 'org.gnome.Tour.desktop': <{'position': <20>}>, 'libreoffice-draw.desktop': <{'position': <21>}>, 'htop.desktop': <{'position': <22>}>, 'libreoffice-impress.desktop': <{'position': <23>}>}, {'libreoffice-writer.desktop': <{'position': <0>}>, 'org.gnome.Nautilus.desktop': <{'position': <1>}>, 'org.gnome.Shotwell.desktop': <{'position': <2>}>, 'org.gnome.SoundRecorder.desktop': <{'position': <3>}>, 'Helix.desktop': <{'position': <4>}>, 'org.gnome.font-viewer.desktop': <{'position': <5>}>, 'org.gnome.Loupe.desktop': <{'position': <6>}>, 'im-config.desktop': <{'position': <7>}>, 'org.freedesktop.MalcontentControl.desktop': <{'position': <8>}>, 'org.gnome.SystemMonitor.desktop': <{'position': <9>}>, 'code.desktop': <{'position': <10>}>, 'org.gnome.Evolution.desktop': <{'position': <11>}>, 'firefox-esr.desktop': <{'position': <12>}>, 'org.gnome.Software.desktop': <{'position': <13>}>}]
 command-history=['r']
-enabled-extensions=['sound-output-device-chooser@kgshank.net', 'dash-to-dock@micxgx.gmail.com', 'audio-output-switcher@anduchs', 'autohide-battery@sitnik.ru', 'aztaskbar@aztaskbar.gitlab.com', 'autohide-volume@unboiled.info', 'just-perfection-desktop@just-perfection', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'ddterm@amezin.github.com', 'emoji-selector@maestroschan.fr', 'tilingshell@ferrarodomenico.com', 'quicksettings-audio-devices-hider@marcinjahn.com', 'emoji-copy@felipeftn']
+enabled-extensions=['autohide-battery@sitnik.ru', 'aztaskbar@aztaskbar.gitlab.com', 'autohide-volume@unboiled.info', 'ddterm@amezin.github.com', 'tilingshell@ferrarodomenico.com', 'quicksettings-audio-devices-hider@marcinjahn.com', 'emoji-copy@felipeftn']
 favorite-apps=@as []
 had-bluetooth-devices-setup=true
 last-selected-power-profile='power-saver'
@@ -440,8 +474,8 @@ workspace-wrap-around=false
 workspaces-in-app-grid=false
 
 [org/gnome/shell/extensions/quicksettings-audio-devices-hider]
-available-input-names=['Microphone – PRO X Wireless Gaming Headset', 'SoundWire microphones – Comet Lake PCH cAVS']
-available-output-names=['Analog Output – PRO X Wireless Gaming Headset', 'Digital Output (S/PDIF) – PRO X Wireless Gaming Headset', 'HDMI / DisplayPort 1 Output – Comet Lake PCH cAVS', 'Speaker – Comet Lake PCH cAVS']
+available-input-names=['SoundWire microphones – Comet Lake PCH cAVS', 'Microphone – PRO X Wireless Gaming Headset']
+available-output-names=['Analog Output – PRO X Wireless Gaming Headset', 'Speaker – Comet Lake PCH cAVS', 'Digital Output (S/PDIF) – PRO X Wireless Gaming Headset', 'HDMI / DisplayPort 1 Output – Comet Lake PCH cAVS']
 excluded-output-names=['Speaker – Comet Lake PCH cAVS', 'Digital Output (S/PDIF) – PRO X Wireless Gaming Headset']
 
 [org/gnome/shell/extensions/tiling-assistant]
@@ -461,10 +495,10 @@ window-use-custom-border-color=true
 locations=@av []
 
 [org/gnome/software]
-check-timestamp=int64 1768576092
+check-timestamp=int64 1768655243
 first-run=false
 online-updates-timestamp=int64 1762362080
-update-notification-timestamp=int64 1763295001
+update-notification-timestamp=int64 1768655248
 
 [org/gnome/system/location]
 enabled=true
