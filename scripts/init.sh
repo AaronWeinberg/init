@@ -27,6 +27,7 @@ sudo apt-get update
 apt_install bash-completion byobu ca-certificates curl dos2unix git htop hx wget gpg
 
 wget -O ~/.bashrc "${baseUrl}/.bashrc"
+wget -O ~/.bash_aliases "${baseUrl}/.bash_aliases"
 wget -O ~/.inputrc "${baseUrl}/.inputrc"
 
 # Byobu
