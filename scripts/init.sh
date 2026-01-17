@@ -75,7 +75,7 @@ if [[ $hypervisor == *'KVM'* ]]; then
     apt_install caddy fail2ban libnss3-tools ufw
 
     # SSH & SSHD
-    wget -N -P "$sshDir" "${baseUrl}/authorized_keys"
+    wget -O "$sshDir/authorized_keys" "${baseUrl}/id_ed25519.pub"
     chmod 600 "$sshDir/authorized_keys"
     sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
     sudo wget -N -P /etc/ssh "${baseUrl}/sshd_config" -o /dev/null
