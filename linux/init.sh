@@ -30,7 +30,7 @@ sshDir="$HOME/.ssh"
 sudo apt-get update
 
 # 4. Core Packages & Dotfiles
-apt_install bash-completion byobu ca-certificates curl dos2unix git htop hx wget gpg
+apt_install bash-completion byobu ca-certificates curl dos2unix git gpg htop hx wget
 
 # Linux-only dotfiles
 wget -O ~/.bashrc        "${linuxUrl}/.bashrc"
