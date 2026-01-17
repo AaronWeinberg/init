@@ -130,12 +130,7 @@ else
         sudo sed -i '/^deb/ s/\(main\b\)/\1 contrib non-free/g' /etc/apt/sources.list
         [ -f /etc/apt/sources.list.d/nonfree.list ] && sudo rm /etc/apt/sources.list.d/nonfree.list
 
-        apt_install gnome-browser-connector firmware-misc-nonfree nvidia-driver
-
-        # Steam
-        sudo dpkg --add-architecture i386
-        sudo apt-get update
-        apt_install steam-installer
+        apt_install gnome-browser-connector firmware-misc-nonfree nvidia-driver steam
 
         # Dconf Load
         wget -O "$INIT_DIR/.dconf" "${linuxUrl}/.dconf"
