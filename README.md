@@ -1,30 +1,86 @@
 # Init Scripts & System Setup
 
-A reproducible, deterministic setup workflow for Linux, Windows, and VPS environments.  
-This repository contains explicit, auditable scripts and configuration files designed to bootstrap a clean system with minimal assumptions and zero hidden state.
+A reproducible, deterministic setup workflow for Linux desktops, VPS environments, and Windows systems.
+This repository contains **explicit, auditable, idempotent scripts** designed to bootstrap a clean system with minimal assumptions and no hidden state.
+
+The Linux bootstrap script is:
+
+* **Idempotent** (safe to re-run)
+* **Cloud-init compatible**
+* **Non-interactive**
+* **Dry-run capable**
+* Modular, with all side-effects isolated and explicit
 
 ---
 
-## 🐧 Linux Setup
+## 🐧 Linux Desktop Setup (GNOME)
 
 ### Save Current Settings (Before Reinstall)
+
+Run this **once** on your existing system to capture GNOME state:
+
 ```sh
 dconf dump / > .dconf
 ```
 
-### Run Init Script
+Commit `.dconf` to this repository so it can be restored automatically.
+
+---
+
+### Run Bootstrap Script
+
 ```sh
-wget -O init.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/init/linux/init.sh \
-  && sudo chmod +x init.sh \
-  && ./init.sh \
-  && rm init.sh
+wget -O bootstrap.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/init/linux/bootstrap.sh \
+  && chmod +x bootstrap.sh \
+  && ./bootstrap.sh \
+  && rm bootstrap.sh
 ```
+
+### Dry-Run (No Changes)
+
+```sh
+./bootstrap.sh --dry-run
+```
+
+This prints every command that *would* run without modifying the system.
+
+---
+
+### What the Linux Script Does
+
+**Core**
+
+* Installs base packages (`curl`, `wget`, `git`, `ufw`)
+* Installs dotfiles (`.bashrc`, `.gitconfig`)
+* Installs NVM + Node LTS
+* Enables Byobu (explicit side effect)
+
+**Desktop (non-WSL only)**
+
+* Restores GNOME settings from `.dconf`
+* Installs GNOME extension tooling
+* Installs & enables:
+
+  * Dash-to-Dock
+  * User Themes
+
+**VPS / Virtualized Hosts**
+
+* Applies SSH hardening:
+
+  * Custom port
+  * Key-only auth
+  * Root login disabled
+  * Config validated before restart
+
+All behavior is explicit and repeatable.
 
 ---
 
 ## 🖥️ VPS Setup
 
-### Change Username
+### Optional: Change Username (Before Running Bootstrap)
+
 ```sh
 sudo groupadd new_username
 sudo usermod -l new_username old_username
@@ -33,21 +89,69 @@ sudo usermod -d /home/new_username new_username
 sudo chown -R new_username:new_username /home/new_username
 ```
 
-### Update Domains in Caddyfile
-Adjust domain entries in your `Caddyfile` as needed.
+Log out and back in **before** running the bootstrap script.
 
 ---
 
-## 🚀 Bare‑Repo Deployment (“DIY Heroku”)
+### Run Bootstrap (VPS)
+
+```sh
+wget -O bootstrap.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/init/linux/bootstrap.sh \
+  && chmod +x bootstrap.sh \
+  && ./bootstrap.sh \
+  && rm bootstrap.sh
+```
+
+The script will automatically:
+
+* Detect virtualization
+* Harden SSH safely
+* Avoid desktop-only steps
+
+---
+
+### SSH Notes (Important)
+
+* SSH configuration is **validated with `sshd -t` before restart**
+* Firewall rules are applied before restarting SSH
+* If SSH fails validation, the service is **not restarted**
+
+---
+
+## ☁️ Cloud-Init Usage
+
+The Linux script is cloud-init safe and non-interactive.
+
+### Example cloud-init config
+
+```yaml
+#cloud-config
+runcmd:
+  - [ bash, /usr/local/bin/bootstrap.sh ]
+```
+
+### Dry-Run via Cloud-Init
+
+```yaml
+#cloud-config
+runcmd:
+  - [ bash, /usr/local/bin/bootstrap.sh, --dry-run ]
+```
+
+---
+
+## 🚀 Bare-Repo Deployment (“DIY Heroku”)
 
 ### Create Bare Repo
+
 ```sh
 mkdir -p ~/Development/myProj.git
 cd ~/Development/myProj.git
 git init --bare
 ```
 
-### Add Post‑Receive Hook
+### Add Post-Receive Hook
+
 ```sh
 cd hooks
 touch post-receive
@@ -55,17 +159,23 @@ chmod u+x post-receive
 ```
 
 **post-receive**
+
 ```sh
-set -eu
+#!/usr/bin/env bash
+set -euo pipefail
+
 proj=~/Development/myProj
 rm -rf "$proj"
 mkdir -p "$proj"
-echo "checkout to $proj"
+
+echo "Checking out to $proj"
 git --work-tree="$proj" checkout -f
-echo "prod installed"
+
+echo "Deployment complete"
 ```
 
 ### Add Remote From Local Machine
+
 ```sh
 git remote add prod box1:~/Development/myProj.git
 git push prod
@@ -76,86 +186,73 @@ git push prod
 ## 🪟 Windows Setup
 
 ### Run Init Script (PowerShell as Administrator)
+
 ```powershell
-Set-ExecutionPolicy Unrestricted; Invoke-WebRequest -Uri "https://raw.githubusercontent.com/AaronWeinberg/init/master/init/windows/init.ps1" -OutFile init.ps1; .\init.ps1; rm init.ps1
+Set-ExecutionPolicy Unrestricted -Scope Process -Force
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/AaronWeinberg/init/master/init/windows/init.ps1" -OutFile init.ps1
+.\init.ps1
+Remove-Item init.ps1
 ```
 
 ---
 
 ## ⚙️ Windows Configuration Checklist
 
-### System
-- Night light: **On**
-- Notifications: **Off**
-- Additional notification settings: **All off**
-- Multitasking → Tabs from apps: **Don’t show tabs**
+*(unchanged, manual by design)*
 
-### Bluetooth & Devices
-- Add: keyboard, mouse, controller
+* System
 
-### Personalization
-- Theme: **Dark**
-- Desktop icons → Recycle Bin: **Off**
-- Background:
-  - Slideshow: `C:\Users\aaron\OneDrive\Backgrounds`
-  - Change every **1 minute**
-  - Shuffle: **On**
-- Lock screen:
-  - Slideshow: same folder
-  - Fun facts/tips: **Off**
-- Start menu:
-  - Recently added apps: **Off**
-  - Recently opened items: **Off**
-  - Tips: **Off**
-- Taskbar:
-  - Disable: search, task view, widgets, chat
+  * Night light: **On**
+  * Notifications: **Off**
+* Personalization
 
-### Apps
-- Startup: **Disable all**
+  * Theme: **Dark**
+  * Background slideshow (OneDrive)
+* Taskbar
 
-### Accounts
-- Sign‑in options:
-  - Facial recognition
-  - Fingerprint
+  * Disable search, widgets, chat
+* Apps
 
-### Time & Language
-- Time zone: **Automatic**
-- Regional format: **yyyy‑mm‑dd**, **24‑hour time**
+  * Startup: **Disable all**
+* Privacy & Security
 
-### Privacy & Security
-- For Developers → File Explorer:
-  - Show file extensions: **On**
-  - Show hidden/system files: **On**
-  - Show full path in title bar: **On**
+  * Show file extensions
+  * Show hidden/system files
+* Windows Update
 
-### Windows Update
-- Get latest updates ASAP: **On**
-- Advanced options:
-  - Microsoft product updates: **On**
-  - Optional updates: install
-
-### Additional Windows Setup
-- OneDrive → Backgrounds → **Always keep on this device**
-- Dell Command Update → run updates
-- File Explorer:
-  - Remove from Quick Access: Pictures, Music, Videos
-- Unpin all apps from taskbar and Start menu
+  * Enable optional updates
 
 ---
 
 ## 🔧 Common Setup
 
 ### Printer Drivers
-- **Linux:**  
-  https://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=mfcl2690dw_us&os=128&dlid=dlf006893_000&flang=4&type3=625
-- **Windows:**  
-  https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=mfcl2690dw_us
+
+* **Linux:**
+  [https://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=mfcl2690dw_us&os=128&dlid=dlf006893_000&flang=4&type3=625](https://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=mfcl2690dw_us&os=128&dlid=dlf006893_000&flang=4&type3=625)
+* **Windows:**
+  [https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=mfcl2690dw_us](https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=mfcl2690dw_us)
 
 ### Browsers
-- Install extensions and sync settings for:
-  - Edge
-  - Firefox
-  - Chrome
+
+* Install extensions and sync settings for:
+
+  * Edge
+  * Firefox
+  * Chrome
 
 ### Networking
-- Import WireGuard tunnel from `.conf` file
+
+* Import WireGuard tunnel from `.conf` file
+
+---
+
+## Philosophy
+
+* No implicit state
+* No magic prompts
+* All side effects are isolated and intentional
+* Safe to re-run
+* Easy to audit
+
+If something changes your system, it’s in a function and named clearly.
