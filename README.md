@@ -30,7 +30,7 @@ Commit `.dconf` to this repository so it can be restored automatically.
 ### Run Bootstrap Script
 
 ```sh
-wget -O bootstrap.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/init/linux/bootstrap.sh \
+wget -O bootstrap.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/bootstrap.sh \
   && chmod +x bootstrap.sh \
   && ./bootstrap.sh \
   && rm bootstrap.sh
@@ -189,7 +189,7 @@ git push prod
 
 ```powershell
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/AaronWeinberg/init/master/init/windows/init.ps1" -OutFile init.ps1
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/AaronWeinberg/init/master/windows/init.ps1" -OutFile init.ps1
 .\init.ps1
 Remove-Item init.ps1
 ```
