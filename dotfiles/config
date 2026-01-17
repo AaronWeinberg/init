@@ -1,9 +1,0 @@
-Host vps1
-  HostName %h
-  Port <SSH_PORT>
-  User <SSH_USER>
-
-Host fresh-vps1
-  HostName %h
-  Port 22
-  User <SSH_USER>
