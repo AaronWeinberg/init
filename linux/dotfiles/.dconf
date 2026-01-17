@@ -59,7 +59,7 @@ active-plugins=['screensaver', 'skipto', 'rotation', 'screenshot', 'mpris', 'app
 subtitle-encoding='UTF-8'
 
 [org/gnome/control-center]
-last-panel='display'
+last-panel='background'
 window-state=(980, 625, false)
 
 [org/gnome/deja-dup]
@@ -74,6 +74,11 @@ folder-children=['Utilities', 'YaST']
 [org/gnome/desktop/app-folders/folders/Pardus]
 categories=['X-Pardus-Apps']
 name='X-Pardus-Apps.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/System]
+apps=['nm-connection-editor.desktop', 'org.gnome.baobab.desktop', 'org.gnome.DiskUtility.desktop', 'im-config.desktop', 'org.gnome.Logs.desktop', 'org.freedesktop.MalcontentControl.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.SystemMonitor.desktop']
+name='X-GNOME-Shell-System.directory'
 translate=true
 
 [org/gnome/desktop/app-folders/folders/Utilities]
@@ -106,7 +111,9 @@ sources=[('xkb', 'us')]
 xkb-options=['caps:ctrl_modifier']
 
 [org/gnome/desktop/interface]
+clock-format='24h'
 clock-show-date=true
+clock-show-weekday=true
 color-scheme='prefer-dark'
 enable-animations=true
 enable-hot-corners=false
@@ -118,7 +125,7 @@ icon-theme='Yaru-blue'
 show-battery-percentage=true
 
 [org/gnome/desktop/notifications]
-application-children=['firefox-firefox', 'google-chrome', 'org-gnome-shell-portalhelper', 'code-code', 'gnome-power-panel', 'org-gnome-shell-extensions', 'update-manager', 'gnome-network-panel', 'steam', 'ca-desrt-dconf-editor', 'gnome-datetime-panel', 'org-gnome-nautilus', 'microsoft-edge', 'org-gnome-chromegnomeshell', 'org-gnome-dejadup', 'balena-etcher-electron', 'io-snapcraft-sessionagent', 'snap-store-ubuntu-software-local-file', 'gnome-printers-panel', 'org-gnome-software', 'org-gnome-extensions-desktop']
+application-children=['firefox-firefox', 'google-chrome', 'org-gnome-shell-portalhelper', 'code-code', 'gnome-power-panel', 'org-gnome-shell-extensions', 'update-manager', 'gnome-network-panel', 'steam', 'ca-desrt-dconf-editor', 'gnome-datetime-panel', 'org-gnome-nautilus', 'microsoft-edge', 'org-gnome-chromegnomeshell', 'org-gnome-dejadup', 'balena-etcher-electron', 'io-snapcraft-sessionagent', 'snap-store-ubuntu-software-local-file', 'gnome-printers-panel', 'org-gnome-software', 'org-gnome-extensions-desktop', 'firefox-esr', 'code']
 show-banners=true
 
 [org/gnome/desktop/notifications/application/apport-gtk]
@@ -132,6 +139,12 @@ application-id='ca.desrt.dconf-editor.desktop'
 
 [org/gnome/desktop/notifications/application/code-code]
 application-id='code_code.desktop'
+
+[org/gnome/desktop/notifications/application/code]
+application-id='code.desktop'
+
+[org/gnome/desktop/notifications/application/firefox-esr]
+application-id='firefox-esr.desktop'
 
 [org/gnome/desktop/notifications/application/firefox-firefox]
 application-id='firefox_firefox.desktop'
@@ -191,7 +204,7 @@ application-id='steam.desktop'
 application-id='update-manager.desktop'
 
 [org/gnome/desktop/peripherals/keyboard]
-numlock-state=true
+numlock-state=false
 
 [org/gnome/desktop/peripherals/mouse]
 speed=-0.62831858407079644
@@ -295,11 +308,15 @@ search-filter-time-type='last_modified'
 
 [org/gnome/nautilus/window-state]
 initial-size=(890, 550)
+initial-size-file-chooser=(890, 550)
 maximized=false
 
 [org/gnome/nm-applet/eap/9f5e8005-9af2-4f32-b6ff-cf1d75178506]
 ignore-ca-cert=false
 ignore-phase2-ca-cert=false
+
+[org/gnome/portal/filechooser/com.google.Chrome]
+last-folder-path='/home/aaron/Documents'
 
 [org/gnome/portal/filechooser/google-chrome]
 last-folder-path='/home/aaron/Downloads'
@@ -308,7 +325,7 @@ last-folder-path='/home/aaron/Downloads'
 last-folder-path='/home/aaron'
 
 [org/gnome/portal/filechooser/org.chromium.Chromium]
-last-folder-path='/home/aaron/Downloads'
+last-folder-path='/home/aaron/Documents'
 
 [org/gnome/portal/filechooser/org.gnome.Settings]
 last-folder-path='/home/aaron/Downloads'
@@ -317,7 +334,7 @@ last-folder-path='/home/aaron/Downloads'
 last-folder-path='/home/aaron/Documents'
 
 [org/gnome/settings-daemon/plugins/color]
-night-light-last-coordinates=(32.935499280057591, -96.896100000000004)
+night-light-last-coordinates=(32.930282937456568, -96.896100000000004)
 
 [org/gnome/settings-daemon/plugins/power]
 ambient-enabled=false
@@ -326,9 +343,9 @@ sleep-inactive-ac-timeout=3600
 sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
-app-picker-layout=[{'software-properties-drivers.desktop': <{'position': <0>}>, 'firmware-updater_firmware-updater.desktop': <{'position': <1>}>, 'gnome-language-selector.desktop': <{'position': <2>}>, 'org.gnome.clocks.desktop': <{'position': <3>}>, 'nvidia-settings.desktop': <{'position': <4>}>, 'org.gnome.PowerStats.desktop': <{'position': <5>}>, 'software-properties-gtk.desktop': <{'position': <6>}>, 'update-manager.desktop': <{'position': <7>}>, 'org.gnome.Calculator.desktop': <{'position': <8>}>, 'gnome-session-properties.desktop': <{'position': <9>}>, 'org.gnome.TextEditor.desktop': <{'position': <10>}>, 'org.gnome.Settings.desktop': <{'position': <11>}>, 'gnome-system-monitor.desktop': <{'position': <12>}>, 'byobu.desktop': <{'position': <13>}>, 'org.gnome.Terminal.desktop': <{'position': <14>}>, 'Utilities': <{'position': <15>}>, 'org.gnome.Extensions.desktop': <{'position': <16>}>, 'yelp.desktop': <{'position': <17>}>, 'google-chrome.desktop': <{'position': <18>}>, 'microsoft-edge.desktop': <{'position': <19>}>, 'ca.desrt.dconf-editor.desktop': <{'position': <20>}>, 'gparted.desktop': <{'position': <21>}>, 'htop.desktop': <{'position': <22>}>, 'code_code.desktop': <{'position': <23>}>}, {'snap-store_snap-store.desktop': <{'position': <0>}>, 'org.gnome.Nautilus.desktop': <{'position': <1>}>, 'firefox_firefox.desktop': <{'position': <2>}>, 'gimp_gimp.desktop': <{'position': <3>}>}]
+app-picker-layout=[{'org.gnome.Contacts.desktop': <{'position': <0>}>, 'org.gnome.Weather.desktop': <{'position': <1>}>, 'org.gnome.Calendar.desktop': <{'position': <2>}>, 'org.gnome.clocks.desktop': <{'position': <3>}>, 'org.gnome.Maps.desktop': <{'position': <4>}>, 'org.gnome.Music.desktop': <{'position': <5>}>, 'simple-scan.desktop': <{'position': <6>}>, 'libreoffice-startcenter.desktop': <{'position': <7>}>, 'org.gnome.Calculator.desktop': <{'position': <8>}>, 'org.gnome.Totem.desktop': <{'position': <9>}>, 'org.gnome.TextEditor.desktop': <{'position': <10>}>, 'org.gnome.Settings.desktop': <{'position': <11>}>, 'org.gnome.Snapshot.desktop': <{'position': <12>}>, 'byobu.desktop': <{'position': <13>}>, 'org.gnome.Characters.desktop': <{'position': <14>}>, 'Utilities': <{'position': <15>}>, 'libreoffice-calc.desktop': <{'position': <16>}>, 'yelp.desktop': <{'position': <17>}>, 'google-chrome.desktop': <{'position': <18>}>, 'microsoft-edge.desktop': <{'position': <19>}>, 'org.gnome.Tour.desktop': <{'position': <20>}>, 'libreoffice-draw.desktop': <{'position': <21>}>, 'htop.desktop': <{'position': <22>}>, 'libreoffice-impress.desktop': <{'position': <23>}>}, {'libreoffice-writer.desktop': <{'position': <0>}>, 'org.gnome.Nautilus.desktop': <{'position': <1>}>, 'org.gnome.Shotwell.desktop': <{'position': <2>}>, 'org.gnome.SoundRecorder.desktop': <{'position': <3>}>, 'Helix.desktop': <{'position': <4>}>, 'org.gnome.font-viewer.desktop': <{'position': <5>}>, 'org.gnome.Loupe.desktop': <{'position': <6>}>, 'im-config.desktop': <{'position': <7>}>, 'org.freedesktop.MalcontentControl.desktop': <{'position': <8>}>, 'org.gnome.SystemMonitor.desktop': <{'position': <9>}>, 'code.desktop': <{'position': <10>}>, 'org.gnome.Evolution.desktop': <{'position': <11>}>, 'firefox-esr.desktop': <{'position': <12>}>, 'org.gnome.Software.desktop': <{'position': <13>}>}]
 command-history=['r']
-enabled-extensions=['sound-output-device-chooser@kgshank.net', 'dash-to-dock@micxgx.gmail.com', 'audio-output-switcher@anduchs', 'autohide-battery@sitnik.ru', 'aztaskbar@aztaskbar.gitlab.com', 'autohide-volume@unboiled.info', 'just-perfection-desktop@just-perfection', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'ddterm@amezin.github.com', 'emoji-selector@maestroschan.fr', 'tilingshell@ferrarodomenico.com', 'quicksettings-audio-devices-hider@marcinjahn.com']
+enabled-extensions=['sound-output-device-chooser@kgshank.net', 'dash-to-dock@micxgx.gmail.com', 'audio-output-switcher@anduchs', 'autohide-battery@sitnik.ru', 'aztaskbar@aztaskbar.gitlab.com', 'autohide-volume@unboiled.info', 'just-perfection-desktop@just-perfection', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'ddterm@amezin.github.com', 'emoji-selector@maestroschan.fr', 'tilingshell@ferrarodomenico.com', 'quicksettings-audio-devices-hider@marcinjahn.com', 'emoji-copy@felipeftn']
 favorite-apps=@as []
 had-bluetooth-devices-setup=true
 last-selected-power-profile='power-saver'
@@ -347,6 +364,7 @@ panel-on-all-monitors=false
 position-in-panel='CENTER'
 show-apps-button=(false, 0)
 show-window-titles=false
+update-notifier-project-version=37
 
 [org/gnome/shell/extensions/dash-to-dock]
 autohide=false
@@ -367,7 +385,11 @@ show-trash=false
 transparency-mode='DYNAMIC'
 
 [org/gnome/shell/extensions/ding]
+check-x11wayland=true
 show-home=false
+
+[org/gnome/shell/extensions/emoji-copy]
+recently-used=['😍', '😂', '❤️', '😭', '😊', '😒', '😘', '😩', '🤔', '☺️', '👌']
 
 [org/gnome/shell/extensions/emoji-selector]
 always-show=false
@@ -419,7 +441,7 @@ workspaces-in-app-grid=false
 
 [org/gnome/shell/extensions/quicksettings-audio-devices-hider]
 available-input-names=['Microphone – PRO X Wireless Gaming Headset', 'SoundWire microphones – Comet Lake PCH cAVS']
-available-output-names=['Analog Output – PRO X Wireless Gaming Headset', 'Digital Output (S/PDIF) – PRO X Wireless Gaming Headset', 'Speaker – Comet Lake PCH cAVS', 'HDMI / DisplayPort 1 Output – Comet Lake PCH cAVS']
+available-output-names=['Analog Output – PRO X Wireless Gaming Headset', 'Digital Output (S/PDIF) – PRO X Wireless Gaming Headset', 'HDMI / DisplayPort 1 Output – Comet Lake PCH cAVS', 'Speaker – Comet Lake PCH cAVS']
 excluded-output-names=['Speaker – Comet Lake PCH cAVS', 'Digital Output (S/PDIF) – PRO X Wireless Gaming Headset']
 
 [org/gnome/shell/extensions/tiling-assistant]
@@ -432,14 +454,14 @@ tiling-popup-all-workspace=true
 last-version-name-installed='17.1'
 layouts-json='[{"id":"Layout 1","tiles":[{"x":0,"y":0,"width":0.22,"height":0.5,"groups":[1,2]},{"x":0,"y":0.5,"width":0.22,"height":0.5,"groups":[1,2]},{"x":0.22,"y":0,"width":0.56,"height":1,"groups":[2,3]},{"x":0.78,"y":0,"width":0.22,"height":0.5,"groups":[3,4]},{"x":0.78,"y":0.5,"width":0.22,"height":0.5,"groups":[3,4]}]},{"id":"Layout 2","tiles":[{"x":0,"y":0,"width":0.22,"height":1,"groups":[1]},{"x":0.22,"y":0,"width":0.56,"height":1,"groups":[1,2]},{"x":0.78,"y":0,"width":0.22,"height":1,"groups":[2]}]},{"id":"Layout 3","tiles":[{"x":0,"y":0,"width":0.33,"height":1,"groups":[1]},{"x":0.33,"y":0,"width":0.67,"height":1,"groups":[1]}]},{"id":"Layout 4","tiles":[{"x":0,"y":0,"width":0.67,"height":1,"groups":[1]},{"x":0.67,"y":0,"width":0.33,"height":1,"groups":[1]}]}]'
 overridden-settings="{\"org.gnome.mutter.keybindings\":{\"toggle-tiled-right\":\"['<Super>Right']\",\"toggle-tiled-left\":\"['<Super>Left']\"},\"org.gnome.desktop.wm.keybindings\":{\"maximize\":\"['<Super>Up']\",\"unmaximize\":\"['<Super>Down', '<Alt>F5']\"},\"org.gnome.mutter\":{\"edge-tiling\":\"true\"}}"
-selected-layouts=[['Layout 1'], ['Layout 1']]
+selected-layouts=[['Layout 1'], ['Layout 1'], ['Layout 1']]
 window-use-custom-border-color=true
 
 [org/gnome/shell/world-clocks]
 locations=@av []
 
 [org/gnome/software]
-check-timestamp=int64 1768222284
+check-timestamp=int64 1768576092
 first-run=false
 online-updates-timestamp=int64 1762362080
 update-notification-timestamp=int64 1763295001
@@ -476,6 +498,7 @@ custom-colors=[(0.090196078431372562, 0.078431372549019607, 0.12941176470588237,
 selected-color=(true, 0.090196078431372562, 0.078431372549019607, 0.12941176470588237, 1.0)
 
 [org/gtk/settings/file-chooser]
+clock-format='24h'
 date-format='regular'
 location-mode='path-bar'
 show-hidden=false
@@ -486,8 +509,11 @@ sort-column='name'
 sort-directories-first=true
 sort-order='ascending'
 type-format='category'
-window-position=(358, 48)
+window-position=(26, 23)
 window-size=(1203, 902)
+
+[system/locale]
+region='en_GB.UTF-8'
 
 [system/proxy]
 mode='none'
