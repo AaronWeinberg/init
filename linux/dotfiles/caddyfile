@@ -1,0 +1,17 @@
+exampleRoot.com {
+  root * /var/www/exampleRoot
+  file_server
+}
+
+www.exampleRoot.com {
+  redir https://exampleRoot.com{uri}
+}
+
+exampleSub.exampleRoot.com {
+  root * /var/www/exampleSub
+  file_server
+}
+
+www.exampleSub.exampleRoot.com {
+  redir https://exampleSub.exampleRoot.com{uri}
+}
