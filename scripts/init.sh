@@ -6,6 +6,7 @@
 
 # 1. Init Dir & Logging
 INIT_DIR="$HOME/init"
+echo ">>> Initializing setup in $INIT_DIR <<<"
 mkdir -p "$INIT_DIR"
 LOG_FILE="$INIT_DIR/init.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
@@ -15,20 +16,12 @@ apt_install() {
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y "$@"
 }
 baseUrl='https://raw.githubusercontent.com/AaronWeinberg/init/master/dotfiles'
+host='desktop'
 hypervisor=$(lscpu | grep -i 'hypervisor vendor' | awk -F ': ' '{print $2}')
 sshDir="$HOME/.ssh"
-user='debian'
-default_ip='192.168.1.100'
-default_port='22'
-
-echo ">>> Initializing setup in $INIT_DIR <<<"
-read -p "Enter VPS port [Port ${default_port}]: " vps_port
-read -p "Enter VPS IP [${default_ip}]: " vps_ip
 
 # 3. Essential Bootstrap
 sudo apt-get update
-sudo apt-get install --fix-broken -y
-sudo apt-get upgrade -y
 
 # 4. Core Packages & Dotfiles
 apt_install bash-completion byobu ca-certificates curl dos2unix git htop hx wget gpg
@@ -36,34 +29,42 @@ apt_install bash-completion byobu ca-certificates curl dos2unix git htop hx wget
 wget -O ~/.bashrc "${baseUrl}/.bashrc"
 wget -O ~/.inputrc "${baseUrl}/.inputrc"
 
-# Byobu Config
+# Byobu
 sudo wget -O /usr/share/byobu/keybindings/f-keys.tmux "${baseUrl}/f-keys.tmux"
 mkdir -p ~/.byobu
 wget -O ~/.byobu/.tmux.conf "${baseUrl}/.tmux.conf"
 byobu-enable
 
-# Git & Helix Config
+# Git
 wget -O ~/.gitconfig "${baseUrl}/.gitconfig"
+
+# Helix
 mkdir -p ~/.config/helix
 wget -O ~/.config/helix/config.toml "${baseUrl}/config.toml"
 
 # 5. Node & NVM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
 nvm install --lts
+
 mkdir -p ~/.npm-global
 wget -O ~/.npmrc "${baseUrl}/.npmrc"
 npm i -g eslint eslint-config-prettier pnpm prettier typescript
 
-# 6. Shared SSH Keys (Private key needs manual paste later)
+# 6. SSH
 mkdir -p "$sshDir"
 chmod 700 "$sshDir"
 
 # 7. Host-specific Logic
 if [[ $hypervisor == *'KVM'* ]]; then 
-    echo "--- Configuring VPS Environment ---"
-    host='vps1'
+    host='vps'
+    echo "--- Configuring $host Environment ---"
+
+    default_port=22
+    read -p "Enter the VPS port [Port ${default_port}]: " vps_port
 
     # Caddy Repo
     curl -fsSL https://dl.cloudsmith.io/public/caddy/stable/gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
@@ -91,7 +92,8 @@ if [[ $hypervisor == *'KVM'* ]]; then
     sudo systemctl restart ssh
 
 else 
-    echo "--- Configuring Desktop/WSL (Snap-Free/Repo-First) ---"
+    host='wsl'
+    echo "--- Configuring desktop/$host Environment ---"
     
     # Add Microsoft (Code/Edge) and Google (Chrome) Keys/Repos
     curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
@@ -105,24 +107,38 @@ else
     apt_install code google-chrome-stable microsoft-edge-stable wireguard xclip
 
     # Local SSH Config
-    config="$sshDir/config"
-    pub="$sshDir/id_ed25519.pub"
     wget -N -P "$sshDir" "${baseUrl}/id_ed25519.pub"
-    wget -N -P "$sshDir" "${baseUrl}/config"
-    chmod 644 "$pub"
-    chmod 600 "$config"
-    sed -i "s/<VPS1_IP>/${vps_ip:-${default_ip}}/g" "$config"
-    sed -i "s/<SSH_PORT>/${vps_port:-${default_port}}/g" "$config"
-    sed -i "s/<SSH_USER>/${user}/g" "$config"
+    chmod 644 "$sshDir/id_ed25519.pub"
 
     if ! grep -qi Microsoft /proc/version; then 
-        # --- Configuring Physical Desktop Tweaks ---
         host='desktop'
+        echo "--- Configuring $host Environment ---"
 
-        apt_install fonts-firacode gnome-tweaks gparted powertop dconf-cli dconf-editor jq unzip
+        apt_install dconf-cli dconf-editor fonts-firacode gnome-tweaks gparted jq powertop unzip
+
+        # --- Firmware & Nvidia Repo Setup ---
+        echo "--- Cleaning up APT sources and enabling Non-Free ---"
+        
+        # 1. Fix the main sources.list to include contrib, non-free, and non-free-firmware
+        # This handles the Trixie 'main non-free-firmware' default correctly
+        sudo sed -i '/^deb/ s/\(main\b\)/\1 contrib non-free/g' /etc/apt/sources.list
+        
+        # 2. Delete the duplicate file that was causing errors
+        if [ -f /etc/apt/sources.list.d/nonfree.list ]; then
+            sudo rm /etc/apt/sources.list.d/nonfree.list
+        fi
+
+        # 3. Install the packages (using the new name for the chrome-gnome-shell connector)
+        echo "--- Installing Drivers and GNOME Connector ---"
+        apt_install gnome-browser-connector firmware-misc-nonfree nvidia-driver
+
+        # Steam
+        sudo dpkg --add-architecture i386
+        sudo apt-get update
+        apt_install steam-installer
 
         # Dconf Load (Wrapped in DBus session)
-        # 1. Load your previous Dconf settings
+        # 1. Load previous Dconf settings
         wget -O "$INIT_DIR/.dconf" "${baseUrl}/.dconf"
         if [ -f "$INIT_DIR/.dconf" ]; then
             dbus-run-session -- dconf load / < "$INIT_DIR/.dconf"
@@ -133,7 +149,7 @@ else
             echo "--- Synchronizing GNOME Extensions from Dconf ---"
             
             # Extract list and turn into a clean bash-iterable list
-            EXT_LIST=$(dbus-run-session -- gsettings get org.gnome.shell enabled-extensions | tr -d "[]'," | tr ' ' '\n')
+            EXT_LIST=$(dbus-run-session -- gsettings get org.gnome.shell enabled-extensions | jq -r '.[]')
         
             GNOME_VER=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1)
             EXT_DIR="$HOME/.local/share/gnome-shell/extensions"
@@ -182,43 +198,12 @@ else
             dbus-run-session -- gsettings set org.gnome.shell disable-extension-version-validation true
             echo "--- Extension sync complete. Version validation disabled. ---"
         fi
-
-        # --- Firmware & Nvidia Repo Setup ---
-        echo "--- Cleaning up APT sources and enabling Non-Free ---"
-        
-        # 1. Fix the main sources.list to include contrib, non-free, and non-free-firmware
-        # This handles the Trixie 'main non-free-firmware' default correctly
-        sudo sed -i '/^deb/ s/\(main\b\)/\1 contrib non-free/g' /etc/apt/sources.list
-        
-        # 2. Delete the duplicate file that was causing errors
-        if [ -f /etc/apt/sources.list.d/nonfree.list ]; then
-            sudo rm /etc/apt/sources.list.d/nonfree.list
-        fi
-
-        sudo apt-get update
-
-        # 3. Install the packages (using the new name for the chrome-gnome-shell connector)
-        echo "--- Installing Drivers and GNOME Connector ---"
-        apt_install gnome-browser-connector firmware-misc-nonfree nvidia-driver
-
-        # Grub
-        wget -O "$INIT_DIR/grub" "${baseUrl}/grub"
-        sudo cp "$INIT_DIR/grub" /etc/default/grub
-        sudo mv /etc/grub.d/30_os-prober /etc/grub.d/09_os-prober
-        sudo update-grub
-
-        # Steam
-        sudo dpkg --add-architecture i386
-        sudo apt-get update
-        apt_install steam-installer
     fi
 fi
 
 # 8. Hostname & Cleanup
-sudo hostnamectl set-hostname "${host:-wsl}"
-sudo apt-get purge -y snapd
+sudo hostnamectl set-hostname "$host"
 sudo apt-get autoremove -y
-rm -rf "$INIT_DIR"/*.deb
 
 # --- FINAL SUMMARY ---
 echo ""
@@ -228,17 +213,3 @@ echo "################################################"
 echo " Hostname:    $(hostname)"
 echo " Setup Log:   $LOG_FILE"
 echo ""
-if [[ $hypervisor == *'KVM'* ]]; then
-    PUBLIC_IP=$(curl -s https://ifconfig.me)
-    echo " VPS ACCESS DETAILS:"
-    echo " IP Address:  $PUBLIC_IP"
-    echo " SSH Port:    ${vps_port:-$default_port}"
-    echo " Connection:  ssh $user@$PUBLIC_IP -p ${vps_port:-$default_port}"
-    echo ""
-    echo " ALERT: Test SSH in a NEW terminal before closing!"
-else
-    echo " LOCAL ENVIRONMENT READY"
-    echo " Snap has been purged and replaced with DEB repos."
-    echo " SSH Config updated for VPS at: ${vps_ip:-$default_ip}"
-fi
-echo "################################################"
