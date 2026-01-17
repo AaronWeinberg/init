@@ -28,7 +28,9 @@ apt_install bash-completion byobu ca-certificates curl dos2unix git htop hx wget
 
 wget -O ~/.bashrc "${baseUrl}/.bashrc"
 wget -O ~/.bash_aliases "${baseUrl}/.bash_aliases"
+wget -O ~/.eslintrc "${baseUrl}/.eslintrc"
 wget -O ~/.inputrc "${baseUrl}/.inputrc"
+wget -O ~/.prettierrc "${baseUrl}/.prettierrc"
 
 # Byobu
 sudo wget -O /usr/share/byobu/keybindings/f-keys.tmux "${baseUrl}/f-keys.tmux"
@@ -67,12 +69,19 @@ if [[ $hypervisor == *'KVM'* ]]; then
     default_port=22
     read -p "Enter the VPS port [Port ${default_port}]: " vps_port
 
-    # Caddy Repo
+    # Caddy
+    # 1. Repo
     curl -fsSL https://dl.cloudsmith.io/public/caddy/stable/gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
     curl -fsSL https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt | sudo tee /etc/apt/sources.list.d/caddy-stable.list
     
     sudo apt-get update
     apt_install caddy fail2ban libnss3-tools ufw
+
+    # 2. Caddyfile
+    # wget -O /etc/caddy/Caddyfile "${baseUrl}/Caddyfile"
+    # sudo chown root:root /etc/caddy/Caddyfile
+    # sudo chmod 644 /etc/caddy/Caddyfile
+    # sudo systemctl reload caddy
 
     # SSH & SSHD
     wget -O "$sshDir/authorized_keys" "${baseUrl}/id_ed25519.pub"
