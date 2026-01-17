@@ -185,13 +185,13 @@ git push prod
 
 ## 🪟 Windows Setup
 
-### Run Init Script (PowerShell as Administrator)
+### Run Bootstrap Script (PowerShell as Administrator)
 
 ```powershell
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/AaronWeinberg/init/master/windows/init.ps1" -OutFile init.ps1
-.\init.ps1
-Remove-Item init.ps1
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/AaronWeinberg/init/master/windows/bootstrap.ps1" -OutFile bootstrap.ps1
+.\bootstrap.ps1
+Remove-Item bootstrap.ps1
 ```
 
 ---
