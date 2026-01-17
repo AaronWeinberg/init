@@ -81,13 +81,20 @@ install_nvm() {
   run "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash"
 }
 
-install_node
-  enable_byobu() {
+install_node() {
   export NVM_DIR="$HOME/.nvm"
   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+
   run "nvm install --lts"
   run "nvm use --lts"
 }
+
+enable_byobu() {
+  log "Enabling Byobu"
+  pkg_install byobu
+  run "byobu-enable"
+}
+
 
 ### GNOME EXTENSIONS MODULE ####################################################
 install_gnome_extensions() {
