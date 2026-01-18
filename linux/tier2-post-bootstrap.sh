@@ -129,30 +129,25 @@ install_steam() {
 install_gnome_extensions() {
   log "Installing GNOME extensions (Tier-2)"
 
+  # Ensure the extension manager CLI exists
   pkg_install gnome-shell-extension-manager
 
-  local urls=(
-    "https://extensions.gnome.org/extension-data/ddtermamezin.github.com.v62.0.2.shell-extension.zip"
-    "https://extensions.gnome.org/extension-data/aztaskbaraztaskbar.gitlab.com.v31.0.shell-extension.zip"
-    "https://extensions.gnome.org/extension-data/autohide-batterysitnik.ru.v58.shell-extension.zip"
-    "https://extensions.gnome.org/extension-data/autohide-volumeunboiled.info.v11.shell-extension.zip"
-    "https://extensions.gnome.org/extension-data/tilingshellferrarodomenico.com.v17.2.shell-extension.zip"
-    "https://extensions.gnome.org/extension-data/quicksettings-audio-devices-hidermarcinjahn.com.v17.shell-extension.zip"
-    "https://extensions.gnome.org/extension-data/emoji-copyfelipeftn.v33.shell-extension.zip"
+  # List of extension UUIDs from your .dconf
+  local uuids=(
+    "ddterm@amezin.github.com"
+    "aztaskbar@aztaskbar.gitlab.com"
+    "autohide-battery@sitnik.ru"
+    "autohide-volume@unboiled.info"
+    "tilingshell@ferrarodomenico.com"
+    "quicksettings-audio-devices-hider@marcinjahn.com"
+    "emoji-copy@felipeftn"
   )
 
-  for url in "${urls[@]}"; do
-    log "Downloading $url"
-    tmp="$(mktemp)"
-    if curl -fsSL "$url" -o "$tmp"; then
-      gnome-extensions install --force "$tmp" || log "Install failed for $url"
-    else
-      log "Download failed for $url"
-    fi
-    rm -f "$tmp"
+  for uuid in "${uuids[@]}"; do
+    log "Installing GNOME extension $uuid for GNOME Shell 48"
+    gnome-extensions install --force "$uuid" || log "Failed to install $uuid"
   done
 }
-
 
 ### MAIN ######################################################################
 main() {
