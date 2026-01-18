@@ -36,6 +36,9 @@ pkg_install() {
 ssh_hardening() {
   log "Applying SSH hardening"
 
+  # --- Ensure SSH server exists ----------------------------------------------
+  pkg_install openssh-server
+
   # --- Prompt for SSH port ---------------------------------------------------
   local port
   read -rp "Enter SSH port for this host [${DEFAULT_SSH_PORT}]: " port
