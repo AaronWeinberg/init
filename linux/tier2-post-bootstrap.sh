@@ -129,45 +129,64 @@ install_steam() {
 install_gnome_extensions() {
   log "Installing GNOME extensions (Tier-2)"
 
-  pkg_install gnome-shell-extension-manager jq curl
+  # Tools required:
+  # - gnome-extensions: install extensions from zip
+  # - curl: fetch metadata and zips
+  # - jq: parse JSON from extensions.gnome.org
+  pkg_install gnome-shell-extension-manager curl jq
 
+  # Extension UUIDs (source of truth = your dconf enabled-extensions)
   local uuids=(
-    "ddterm@amezin.github.com"
-    "aztaskbar@aztaskbar.gitlab.com"
     "autohide-battery@sitnik.ru"
+    "aztaskbar@aztaskbar.gitlab.com"
     "autohide-volume@unboiled.info"
+    "ddterm@amezin.github.com"
     "tilingshell@ferrarodomenico.com"
     "quicksettings-audio-devices-hider@marcinjahn.com"
     "emoji-copy@felipeftn"
   )
 
+  # Extract GNOME Shell major version (e.g. 48 from 48.7)
   local shell_version
   shell_version="$(gnome-shell --version | awk '{print $3}' | cut -d. -f1)"
 
+  log "Detected GNOME Shell $shell_version"
+
   for uuid in "${uuids[@]}"; do
-    log "Resolving $uuid for GNOME Shell $shell_version"
+    log "Resolving extension $uuid"
 
-    # Query EGO API
-    info="$(curl -fsSL "https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$shell_version")" || {
-      log "Failed to query metadata for $uuid"
+    # Query GNOME Extensions metadata API
+    local info
+    if ! info="$(curl -fsSL \
+      "https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$shell_version")"; then
+      log "Metadata query failed for $uuid"
       continue
-    }
+    fi
 
-    download_path="$(echo "$info" | jq -r '.download_url')" || true
-    [[ -z "$download_path" || "$download_path" == "null" ]] && {
-      log "No compatible release for $uuid"
+    # Extract download path
+    local download_path
+    download_path="$(echo "$info" | jq -r '.download_url')"
+
+    if [[ -z "$download_path" || "$download_path" == "null" ]]; then
+      log "No compatible release for $uuid (Shell $shell_version)"
       continue
-    }
+    fi
 
+    # Download extension zip
+    local tmp
     tmp="$(mktemp)"
-    curl -fsSL "https://extensions.gnome.org$download_path" -o "$tmp" || {
+    if ! curl -fsSL "https://extensions.gnome.org$download_path" -o "$tmp"; then
       log "Download failed for $uuid"
       rm -f "$tmp"
       continue
-    }
+    fi
 
+    # Install (idempotent with --force)
     log "Installing $uuid"
-    gnome-extensions install --force "$tmp" || log "Install failed for $uuid"
+    if ! gnome-extensions install --force "$tmp"; then
+      log "Install failed for $uuid"
+    fi
+
     rm -f "$tmp"
   done
 }
