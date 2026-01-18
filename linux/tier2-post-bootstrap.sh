@@ -110,29 +110,19 @@ install_steam() {
 
   log "Installing Steam (Debian)"
 
-  if is_debian; then
-    log "Enabling contrib and non-free repositories"
+  # Enable contrib + non-free repos if not already present
+  sudo sed -i \
+    's/^\(deb .* main\)$/\1 contrib non-free non-free-firmware/' \
+    /etc/apt/sources.list
 
-    sudo sed -i \
-      's/^\(deb .* main\)$/\1 contrib non-free non-free-firmware/' \
-      /etc/apt/sources.list
+  # Enable 32-bit architecture
+  sudo dpkg --add-architecture i386
 
-    sudo dpkg --add-architecture i386
-    sudo apt-get update -y
+  # Refresh package lists
+  sudo apt-get update -y
 
-    pkg_install steam-installer
-
-  elif is_ubuntu; then
-    log "Installing Steam (Ubuntu)"
-
-    sudo add-apt-repository -y multiverse
-    sudo dpkg --add-architecture i386
-    sudo apt-get update -y
-
-    pkg_install steam
-  else
-    log "Unknown distro — skipping Steam"
-  fi
+  # Install Steam bootstrap package
+  pkg_install steam-installer
 }
 
 ### GNOME EXTENSIONS ###########################################################
