@@ -39,27 +39,46 @@ apply_dconf() {
 }
 
 ### GNOME EXTENSIONS ##########################################################
-enable_extensions_from_dconf() {
-  log "Enabling GNOME extensions from dconf state"
 
-  # dconf path used by GNOME to track enabled extensions
-  local enabled
-  enabled="$(dconf read /org/gnome/shell/enabled-extensions || true)"
+log "Ensuring GNOME extensions are enabled (Tier-3)"
 
-  if [[ -z "$enabled" || "$enabled" == "@as []" ]]; then
-    log "No enabled extensions found in dconf"
-    return
+local uuids=(
+  "autohide-battery@sitnik.ru"
+  "autohide-volume@unboiled.info"
+  "ddterm@amezin.github.com"
+  "tilingshell@ferrarodomenico.com"
+  "quicksettings-audio-devices-hider@marcinjahn.com"
+  "emoji-copy@felipeftn"
+)
+
+for uuid in "${uuids[@]}"; do
+  if gnome-extensions info "$uuid" &>/dev/null; then
+    gnome-extensions enable "$uuid" || true
   fi
+done
 
-  # Normalize list -> one per line
-  echo "$enabled" \
-    | tr -d "[]',@" \
-    | tr ' ' '\n' \
-    | while read -r ext; do
-        [[ -z "$ext" ]] && continue
-        gnome-extensions enable "$ext" 2>/dev/null || true
-      done
-}
+# ### GNOME EXTENSIONS ##########################################################
+# enable_extensions_from_dconf() {
+#   log "Enabling GNOME extensions from dconf state"
+
+#   # dconf path used by GNOME to track enabled extensions
+#   local enabled
+#   enabled="$(dconf read /org/gnome/shell/enabled-extensions || true)"
+
+#   if [[ -z "$enabled" || "$enabled" == "@as []" ]]; then
+#     log "No enabled extensions found in dconf"
+#     return
+#   fi
+
+#   # Normalize list -> one per line
+#   echo "$enabled" \
+#     | tr -d "[]',@" \
+#     | tr ' ' '\n' \
+#     | while read -r ext; do
+#         [[ -z "$ext" ]] && continue
+#         gnome-extensions enable "$ext" 2>/dev/null || true
+#       done
+# }
 
 ### MAIN ######################################################################
 main() {
