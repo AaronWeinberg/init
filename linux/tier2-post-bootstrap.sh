@@ -17,6 +17,14 @@ log() {
 }
 
 ### PLATFORM ##################################################################
+is_debian() {
+  grep -qi debian /etc/os-release 2>/dev/null
+}
+
+is_ubuntu() {
+  grep -qi ubuntu /etc/os-release 2>/dev/null
+}
+
 is_wsl() {
   grep -qi microsoft /proc/version 2>/dev/null
 }
@@ -129,10 +137,8 @@ install_steam() {
 install_gnome_extensions() {
   log "Installing GNOME extensions (Tier-2)"
 
-  # Ensure the extension manager CLI exists
-  pkg_install gnome-shell-extension-manager
+  pkg_install gnome-shell-extension-manager jq curl
 
-  # List of extension UUIDs from your .dconf
   local uuids=(
     "ddterm@amezin.github.com"
     "aztaskbar@aztaskbar.gitlab.com"
@@ -143,9 +149,34 @@ install_gnome_extensions() {
     "emoji-copy@felipeftn"
   )
 
+  local shell_version
+  shell_version="$(gnome-shell --version | awk '{print $3}' | cut -d. -f1)"
+
   for uuid in "${uuids[@]}"; do
-    log "Installing GNOME extension $uuid for GNOME Shell 48"
-    gnome-extensions install --force "$uuid" || log "Failed to install $uuid"
+    log "Resolving $uuid for GNOME Shell $shell_version"
+
+    # Query EGO API
+    info="$(curl -fsSL "https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$shell_version")" || {
+      log "Failed to query metadata for $uuid"
+      continue
+    }
+
+    download_path="$(echo "$info" | jq -r '.download_url')" || true
+    [[ -z "$download_path" || "$download_path" == "null" ]] && {
+      log "No compatible release for $uuid"
+      continue
+    }
+
+    tmp="$(mktemp)"
+    curl -fsSL "https://extensions.gnome.org$download_path" -o "$tmp" || {
+      log "Download failed for $uuid"
+      rm -f "$tmp"
+      continue
+    }
+
+    log "Installing $uuid"
+    gnome-extensions install --force "$tmp" || log "Install failed for $uuid"
+    rm -f "$tmp"
   done
 }
 
