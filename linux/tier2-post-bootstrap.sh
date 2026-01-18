@@ -36,10 +36,8 @@ pkg_install() {
 ssh_hardening() {
   log "Applying SSH hardening"
 
-  # --- Ensure SSH server exists ----------------------------------------------
   pkg_install openssh-server
 
-  # --- Prompt for SSH port ---------------------------------------------------
   local port
   read -rp "Enter SSH port for this host [${DEFAULT_SSH_PORT}]: " port
   port="${port:-$DEFAULT_SSH_PORT}"
@@ -51,20 +49,12 @@ ssh_hardening() {
 
   log "Using SSH port: $port"
 
-  # --- Install baseline config ----------------------------------------------
   sudo wget -q -O /etc/ssh/sshd_config "$DOTFILES_URL/sshd_config"
-
-  # --- Patch ONLY the port ---------------------------------------------------
   sudo sed -i "s/^#\?Port .*/Port ${port}/" /etc/ssh/sshd_config
-
-  # --- Validate before applying ---------------------------------------------
   sudo /usr/sbin/sshd -t
 
-  # --- Firewall --------------------------------------------------------------
   pkg_install ufw
   sudo ufw allow "${port}/tcp"
-
-  # --- Restart ---------------------------------------------------------------
   sudo systemctl restart ssh
 
   log "SSH hardening complete"
@@ -79,8 +69,7 @@ enable_byobu() {
 
 ### BROWSERS ##################################################################
 install_chrome() {
-  if command -v google-chrome >/dev/null; then return; fi
-
+  command -v google-chrome >/dev/null && return
   log "Installing Google Chrome"
 
   wget -qO - https://dl.google.com/linux/linux_signing_key.pub \
@@ -94,8 +83,7 @@ https://dl.google.com/linux/chrome/deb/ stable main" \
 }
 
 install_edge() {
-  if command -v microsoft-edge >/dev/null; then return; fi
-
+  command -v microsoft-edge >/dev/null && return
   log "Installing Microsoft Edge"
 
   wget -qO - https://packages.microsoft.com/keys/microsoft.asc \
@@ -110,16 +98,38 @@ https://packages.microsoft.com/repos/edge stable main" \
 
 ### STEAM #####################################################################
 install_steam() {
-  if command -v steam >/dev/null; then return; fi
+  command -v steam >/dev/null && return
 
   log "Installing Steam"
-  
-  # Enable multiverse (required for Steam)
   sudo add-apt-repository -y multiverse
   sudo apt-get update -y
-
   sudo dpkg --add-architecture i386
   pkg_install steam
+}
+
+### GNOME EXTENSIONS ###########################################################
+install_gnome_extensions() {
+  log "Installing GNOME extensions (Tier-2)"
+  require_desktop || return
+
+  pkg_install gnome-shell-extension-prefs
+
+local urls=(
+  "https://extensions.gnome.org/extension-data/ddtermamezin.github.com.v62.0.2.shell-extension.zip"
+  "https://extensions.gnome.org/extension-data/aztaskbaraztaskbar.gitlab.com.v31.0.shell-extension.zip"
+  "https://extensions.gnome.org/extension-data/autohide-batterysitnik.ru.v58.shell-extension.zip"
+  "https://extensions.gnome.org/extension-data/autohide-volumeunboiled.info.v11.shell-extension.zip"
+  "https://extensions.gnome.org/extension-data/tilingshellferrarodomenico.com.v17.2.shell-extension.zip"
+  "https://extensions.gnome.org/extension-data/quicksettings-audio-devices-hidermarcinjahn.com.v17.shell-extension.zip"
+  "https://extensions.gnome.org/extension-data/emoji-copyfelipeftn.v33.shell-extension.zip"
+)
+
+  for url in "${urls[@]}"; do
+    tmp="$(mktemp)"
+    curl -fsSL "$url" -o "$tmp" \
+      && gnome-extensions install --force "$tmp" || true
+    rm -f "$tmp"
+  done
 }
 
 ### MAIN ######################################################################
@@ -138,6 +148,7 @@ main() {
     install_chrome
     install_edge
     install_steam
+    install_gnome_extensions
   else
     log "No desktop detected — skipping desktop packages"
   fi
