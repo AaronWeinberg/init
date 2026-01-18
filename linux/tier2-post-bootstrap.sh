@@ -110,27 +110,31 @@ install_steam() {
 ### GNOME EXTENSIONS ###########################################################
 install_gnome_extensions() {
   log "Installing GNOME extensions (Tier-2)"
-  require_desktop || return
 
-  pkg_install gnome-shell-extension-prefs
+  pkg_install gnome-shell-extension-manager
 
-local urls=(
-  "https://extensions.gnome.org/extension-data/ddtermamezin.github.com.v62.0.2.shell-extension.zip"
-  "https://extensions.gnome.org/extension-data/aztaskbaraztaskbar.gitlab.com.v31.0.shell-extension.zip"
-  "https://extensions.gnome.org/extension-data/autohide-batterysitnik.ru.v58.shell-extension.zip"
-  "https://extensions.gnome.org/extension-data/autohide-volumeunboiled.info.v11.shell-extension.zip"
-  "https://extensions.gnome.org/extension-data/tilingshellferrarodomenico.com.v17.2.shell-extension.zip"
-  "https://extensions.gnome.org/extension-data/quicksettings-audio-devices-hidermarcinjahn.com.v17.shell-extension.zip"
-  "https://extensions.gnome.org/extension-data/emoji-copyfelipeftn.v33.shell-extension.zip"
-)
+  local urls=(
+    "https://extensions.gnome.org/extension-data/ddtermamezin.github.com.v62.0.2.shell-extension.zip"
+    "https://extensions.gnome.org/extension-data/aztaskbaraztaskbar.gitlab.com.v31.0.shell-extension.zip"
+    "https://extensions.gnome.org/extension-data/autohide-batterysitnik.ru.v58.shell-extension.zip"
+    "https://extensions.gnome.org/extension-data/autohide-volumeunboiled.info.v11.shell-extension.zip"
+    "https://extensions.gnome.org/extension-data/tilingshellferrarodomenico.com.v17.2.shell-extension.zip"
+    "https://extensions.gnome.org/extension-data/quicksettings-audio-devices-hidermarcinjahn.com.v17.shell-extension.zip"
+    "https://extensions.gnome.org/extension-data/emoji-copyfelipeftn.v33.shell-extension.zip"
+  )
 
   for url in "${urls[@]}"; do
+    log "Downloading $url"
     tmp="$(mktemp)"
-    curl -fsSL "$url" -o "$tmp" \
-      && gnome-extensions install --force "$tmp" || true
+    if curl -fsSL "$url" -o "$tmp"; then
+      gnome-extensions install --force "$tmp" || log "Install failed for $url"
+    else
+      log "Download failed for $url"
+    fi
     rm -f "$tmp"
   done
 }
+
 
 ### MAIN ######################################################################
 main() {
