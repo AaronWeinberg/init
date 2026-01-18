@@ -6,7 +6,7 @@ set -euo pipefail
 
 ### CONFIG ####################################################################
 BASE_URL="https://raw.githubusercontent.com/AaronWeinberg/init/master"
-DCONF_URL="$BASE_URL/linux/dconf/gnome.dconf"
+DCONF_URL="$BASE_URL/linux/dotfiles/.dconf"
 
 ### LOGGING ###################################################################
 log() {
