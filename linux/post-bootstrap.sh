@@ -113,6 +113,11 @@ install_steam() {
   if command -v steam >/dev/null; then return; fi
 
   log "Installing Steam"
+  
+  # Enable multiverse (required for Steam)
+  sudo add-apt-repository -y multiverse
+  sudo apt-get update -y
+
   sudo dpkg --add-architecture i386
   pkg_install steam
 }
