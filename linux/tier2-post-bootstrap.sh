@@ -104,22 +104,23 @@ https://packages.microsoft.com/repos/edge stable main" \
   pkg_install microsoft-edge-stable
 }
 
-### STEAM #####################################################################
+### STEAM ######################################################################
 install_steam() {
   command -v steam >/dev/null && return
 
   log "Installing Steam (Debian)"
 
   if is_debian; then
-    log "Enabling contrib and non-free-firmware"
+    log "Enabling contrib and non-free repositories"
 
     sudo sed -i \
-      's/^\(deb .* main\)$/\1 contrib non-free-firmware/' \
+      's/^\(deb .* main\)$/\1 contrib non-free non-free-firmware/' \
       /etc/apt/sources.list
 
     sudo dpkg --add-architecture i386
     sudo apt-get update -y
-    pkg_install steam
+
+    pkg_install steam-installer
 
   elif is_ubuntu; then
     log "Installing Steam (Ubuntu)"
@@ -127,6 +128,7 @@ install_steam() {
     sudo add-apt-repository -y multiverse
     sudo dpkg --add-architecture i386
     sudo apt-get update -y
+
     pkg_install steam
   else
     log "Unknown distro — skipping Steam"
