@@ -55,7 +55,7 @@ ssh_hardening() {
   sudo sed -i "s/^#\?Port .*/Port ${port}/" /etc/ssh/sshd_config
 
   # --- Validate before applying ---------------------------------------------
-  sudo sshd -t
+  sudo /usr/sbin/sshd -t
 
   # --- Firewall --------------------------------------------------------------
   pkg_install ufw
