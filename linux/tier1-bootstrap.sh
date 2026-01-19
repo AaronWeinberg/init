@@ -50,7 +50,7 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-### MODE VALIDATION (set -e SAFE) #############################################
+### MODE VALIDATION ###########################################################
 mode_count=0
 
 if [[ "$MODE_DESKTOP" == true ]]; then
@@ -81,7 +81,27 @@ pkg_install() {
 ### BASE PACKAGES #############################################################
 install_base_packages() {
   log "Installing base packages"
-  pkg_install curl wget git ca-certificates
+
+  local pkgs=(
+    curl
+    wget
+    git
+    ca-certificates
+    htop
+    dos2unix
+  )
+
+  # Desktop + WSL (human-facing systems)
+  if [[ "$MODE_VPS" == false ]]; then
+    pkgs+=(xclip)
+  fi
+
+  # Desktop-only UX packages
+  if [[ "$MODE_DESKTOP" == true ]]; then
+    pkgs+=(fonts-firacode)
+  fi
+
+  pkg_install "${pkgs[@]}"
 }
 
 ### HOSTNAME ##################################################################
@@ -105,9 +125,9 @@ install_linux_dotfiles() {
   # Ensure ownership (cloud-init safety)
   sudo chown -R "$USER:$USER" "$HOME"
 
-  wget -q -O "$HOME/.bashrc" "$LINUX_DOTFILES_URL/.bashrc"
+  wget -q -O "$HOME/.bashrc"        "$LINUX_DOTFILES_URL/.bashrc"
   wget -q -O "$HOME/.bash_aliases" "$LINUX_DOTFILES_URL/.bash_aliases"
-  wget -q -O "$HOME/.inputrc" "$LINUX_DOTFILES_URL/.inputrc"
+  wget -q -O "$HOME/.inputrc"      "$LINUX_DOTFILES_URL/.inputrc"
 }
 
 ### GIT CONFIG ################################################################
@@ -170,7 +190,6 @@ install_node() {
 
   log "Installing Node.js (LTS)"
 
-  # nvm is NOT nounset-safe (source + commands)
   set +u
   # shellcheck source=/dev/null
   source "$NVM_DIR/nvm.sh"
@@ -214,7 +233,7 @@ main() {
   set_hostname
   install_linux_dotfiles
   install_git_config
-  install_ssh_config
+  install_ssh_client
   install_helix_config
 
   if [[ "$MODE_WSL" == true ]]; then
@@ -223,7 +242,7 @@ main() {
     return
   fi
 
-  # Desktop + VPS get Node tooling
+  # Desktop + VPS
   install_nvm
   install_node
   install_npm_globals
