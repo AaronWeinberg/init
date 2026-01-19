@@ -116,11 +116,25 @@ install_git_config() {
   wget -q -O "$HOME/.gitignore_global" "$SHARED_GIT_URL/.gitignore_global"
 }
 
-### SSH CLIENT CONFIG #########################################################
-install_ssh_config() {
-  log "Installing SSH client configuration"
-  mkdir -p "$HOME/.ssh"
-  chmod 700 "$HOME/.ssh"
+### SSH CLIENT / IDENTITY #####################################################
+install_ssh_client() {
+  log "Setting up SSH client"
+
+  local ssh_dir="$HOME/.ssh"
+  local pubkey="$ssh_dir/id_ed25519.pub"
+
+  mkdir -p "$ssh_dir"
+  chmod 700 "$ssh_dir"
+
+  # Only install public key on Desktop + WSL
+  if [[ "$MODE_DESKTOP" == true || "$MODE_WSL" == true ]]; then
+    log "Installing SSH public key"
+    wget -q -O "$pubkey" "$SHARED_SSH_URL/id_ed25519.pub"
+    chmod 644 "$pubkey"
+    chown "$USER:$USER" "$pubkey"
+  else
+    log "Skipping SSH public key install (VPS mode)"
+  fi
 }
 
 ### HELIX CONFIG ##############################################################
