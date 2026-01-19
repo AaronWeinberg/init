@@ -138,10 +138,10 @@ install_gnome_extensions() {
   # Extension UUIDs (source of truth = your dconf enabled-extensions)
   local uuids=(
     "autohide-battery@sitnik.ru"
-    "aztaskbar@aztaskbar.gitlab.com"
+    # "aztaskbar@aztaskbar.gitlab.com"   # ❌ GNOME 48 incompatible
     "autohide-volume@unboiled.info"
-    "ddterm@amezin.github.com"
-    "tilingshell@ferrarodomenico.com"
+    "ddterm@amezin.github.com"          # ✅ GNOME 48 compatible
+    "tilingshell@ferrarodomenico.com"   # ✅ GNOME 48 compatible
     "quicksettings-audio-devices-hider@marcinjahn.com"
     "emoji-copy@felipeftn"
   )
