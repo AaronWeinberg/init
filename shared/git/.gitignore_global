@@ -1,0 +1,192 @@
+# Global Git ignore rules
+
+# Applies to all repositories for this user
+
+############################
+
+# OS / Editor junk
+
+############################
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+############################
+
+# Editor / IDE files
+
+############################
+
+# Vim
+
+*.swp
+*.swo
+*.swn
+*.swm
+*.bak
+*~
+
+# Emacs
+
+*~
+#*#
+.#*
+
+# VS Code
+
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# JetBrains
+
+.idea/
+*.iml
+
+############################
+
+# Build artifacts
+
+############################
+
+dist/
+build/
+out/
+target/
+bin/
+obj/
+
+############################
+
+# Logs
+
+############################
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+############################
+
+# Node / JS
+
+############################
+
+node_modules/
+.pnpm-store/
+.npm/
+.cache/
+.eslintcache
+
+############################
+
+# Python
+
+############################
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+.env
+.venv
+venv/
+ENV/
+env/
+pip-wheel-metadata/
+
+############################
+
+# Go
+
+############################
+
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+############################
+
+# Rust
+
+############################
+
+target/
+
+############################
+
+# Java
+
+############################
+
+*.class
+*.jar
+*.war
+*.ear
+
+############################
+
+# Terraform
+
+############################
+
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+############################
+
+# Secrets / credentials
+
+############################
+
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.asc
+.secrets
+.env.*
+.envrc
+
+############################
+
+# Archives
+
+############################
+
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+############################
+
+# Temporary files
+
+############################
+
+tmp/
+temp/
+.cache/
+*.tmp
+*.temp
+*.pid
+*.lock
