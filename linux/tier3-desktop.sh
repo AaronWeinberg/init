@@ -90,7 +90,6 @@ main() {
   log "Starting Tier-3 GNOME configuration"
 
   apply_dconf
-  enable_extensions_from_dconf
 
   log "Tier-3 GNOME configuration complete"
 }
