@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
-# Tier 2 Post-Bootstrap
-# Explicit, user-invoked configuration with side effects
+# Tier 2 – Post-Bootstrap
+# Explicit, role-based configuration with side effects
+#
+# Modes (exactly one required):
+#   --desktop   Workstation / GNOME system
+#   --vps       Server / VPS (sshd only, no desktop)
+#   --wsl       WSL environment (no sshd, no system services)
 
 set -euo pipefail
 
@@ -16,28 +21,60 @@ log() {
   echo "[post-bootstrap] $*"
 }
 
+### MODE FLAGS ###############################################################
+MODE_DESKTOP=false
+MODE_VPS=false
+MODE_WSL=false
+
+usage() {
+  cat <<EOF
+Usage: $0 [--desktop | --vps | --wsl]
+
+  --desktop   Desktop / workstation setup (GNOME, browsers, Steam)
+  --vps       Server / VPS setup (SSH hardening only)
+  --wsl       WSL environment (no sshd, no system services)
+
+Exactly one mode must be specified.
+EOF
+  exit 1
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --desktop) MODE_DESKTOP=true ;;
+    --vps)     MODE_VPS=true ;;
+    --wsl)     MODE_WSL=true ;;
+    -h|--help) usage ;;
+    *) echo "Unknown argument: $1"; usage ;;
+  esac
+  shift
+done
+
+mode_count=0
+$MODE_DESKTOP && ((mode_count++))
+$MODE_VPS && ((mode_count++))
+$MODE_WSL && ((mode_count++))
+
+if [[ "$mode_count" -ne 1 ]]; then
+  usage
+fi
+
 ### PLATFORM ##################################################################
-is_debian() {
-  grep -qi debian /etc/os-release 2>/dev/null
-}
-
-is_ubuntu() {
-  grep -qi ubuntu /etc/os-release 2>/dev/null
-}
-
-is_wsl() {
-  grep -qi microsoft /proc/version 2>/dev/null
-}
-
 require_desktop() {
   [[ -n "${DISPLAY:-}" ]]
 }
 
 ### PACKAGE MANAGEMENT ########################################################
 pkg_install() {
-  local pkgs=("$@")
   sudo apt-get update -y
-  sudo apt-get install -y "${pkgs[@]}"
+  sudo apt-get install -y "$@"
+}
+
+### HELIX #####################################################################
+install_helix() {
+  command -v hx >/dev/null && return
+  log "Installing Helix editor"
+  pkg_install helix
 }
 
 ### SSH HARDENING #############################################################
@@ -110,18 +147,12 @@ install_steam() {
 
   log "Installing Steam (Debian)"
 
-  # Enable contrib + non-free repos if not already present
   sudo sed -i \
     's/^\(deb .* main\)$/\1 contrib non-free non-free-firmware/' \
     /etc/apt/sources.list
 
-  # Enable 32-bit architecture
   sudo dpkg --add-architecture i386
-
-  # Refresh package lists
   sudo apt-get update -y
-
-  # Install Steam bootstrap package
   pkg_install steam-installer
 }
 
@@ -129,33 +160,25 @@ install_steam() {
 install_gnome_extensions() {
   log "Installing GNOME extensions (Tier-2)"
 
-  # Tools required:
-  # - gnome-extensions: install extensions from zip
-  # - curl: fetch metadata and zips
-  # - jq: parse JSON from extensions.gnome.org
   pkg_install gnome-shell-extension-manager curl jq
 
-  # Extension UUIDs (source of truth = your dconf enabled-extensions)
   local uuids=(
     "autohide-battery@sitnik.ru"
-    # "aztaskbar@aztaskbar.gitlab.com"   # ❌ GNOME 48 incompatible
+    # "aztaskbar@aztaskbar.gitlab.com"   # GNOME 48 incompatible
     "autohide-volume@unboiled.info"
-    "ddterm@amezin.github.com"          # ✅ GNOME 48 compatible
-    "tilingshell@ferrarodomenico.com"   # ✅ GNOME 48 compatible
+    "ddterm@amezin.github.com"
+    "tilingshell@ferrarodomenico.com"
     "quicksettings-audio-devices-hider@marcinjahn.com"
     "emoji-copy@felipeftn"
   )
 
-  # Extract GNOME Shell major version (e.g. 48 from 48.7)
   local shell_version
   shell_version="$(gnome-shell --version | awk '{print $3}' | cut -d. -f1)"
-
   log "Detected GNOME Shell $shell_version"
 
   for uuid in "${uuids[@]}"; do
     log "Resolving extension $uuid"
 
-    # Query GNOME Extensions metadata API
     local info
     if ! info="$(curl -fsSL \
       "https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$shell_version")"; then
@@ -163,30 +186,20 @@ install_gnome_extensions() {
       continue
     fi
 
-    # Extract download path
     local download_path
     download_path="$(echo "$info" | jq -r '.download_url')"
 
     if [[ -z "$download_path" || "$download_path" == "null" ]]; then
-      log "No compatible release for $uuid (Shell $shell_version)"
+      log "No compatible release for $uuid"
       continue
     fi
 
-    # Download extension zip
     local tmp
     tmp="$(mktemp)"
-    if ! curl -fsSL "https://extensions.gnome.org$download_path" -o "$tmp"; then
-      log "Download failed for $uuid"
-      rm -f "$tmp"
-      continue
-    fi
+    curl -fsSL "https://extensions.gnome.org$download_path" -o "$tmp"
 
-    # Install (idempotent with --force)
     log "Installing $uuid"
-    if ! gnome-extensions install --force "$tmp"; then
-      log "Install failed for $uuid"
-    fi
-
+    gnome-extensions install --force "$tmp" || true
     rm -f "$tmp"
   done
 }
@@ -195,24 +208,39 @@ install_gnome_extensions() {
 main() {
   log "Starting Tier-2 post-bootstrap"
 
-  if is_wsl; then
-    log "WSL detected — skipping post-bootstrap"
-    exit 0
+  install_helix
+
+  if $MODE_WSL; then
+    log "Mode: WSL — skipping sshd and desktop components"
+    log "Post-bootstrap complete (WSL)"
+    return
   fi
 
-  ssh_hardening
-  enable_byobu
-
-  if require_desktop; then
-    install_chrome
-    install_edge
-    install_steam
-    install_gnome_extensions
-  else
-    log "No desktop detected — skipping desktop packages"
+  if $MODE_VPS; then
+    log "Mode: VPS"
+    ssh_hardening
+    log "Post-bootstrap complete (VPS)"
+    return
   fi
 
-  log "Post-bootstrap complete"
+  if $MODE_DESKTOP; then
+    log "Mode: Desktop"
+
+    ssh_hardening
+    enable_byobu
+
+    if require_desktop; then
+      install_chrome
+      install_edge
+      install_steam
+      install_gnome_extensions
+    else
+      log "No desktop detected — skipping desktop packages"
+    fi
+
+    log "Post-bootstrap complete (Desktop)"
+    return
+  fi
 }
 
 main "$@"
