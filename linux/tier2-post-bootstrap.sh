@@ -154,13 +154,18 @@ https://packages.microsoft.com/repos/edge stable main" \
 install_steam() {
   command -v steam >/dev/null && return
 
-  log "Installing Steam (Debian)"
+  log "Installing Steam (Debian 13+)"
 
-  sudo sed -i \
-    's/^\(deb .* main\)$/\1 contrib non-free non-free-firmware/' \
-    /etc/apt/sources.list
-
+  # Enable i386 architecture (required)
   sudo dpkg --add-architecture i386
+
+  # Explicit non-free source (Debian 13 safe)
+  sudo tee /etc/apt/sources.list.d/steam-nonfree.list >/dev/null <<'EOF'
+deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware
+EOF
+
   sudo apt-get update -y
   pkg_install steam-installer
 }
