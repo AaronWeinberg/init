@@ -105,7 +105,8 @@ install_linux_dotfiles() {
   # Ensure ownership (cloud-init safety)
   sudo chown -R "$USER:$USER" "$HOME"
 
-  wget -q -O "$HOME/.bashrc"   "$LINUX_DOTFILES_URL/.bashrc"
+  wget -q -O "$HOME/.bashrc" "$LINUX_DOTFILES_URL/.bashrc"
+  wget -q -O "$HOME/.bash_aliases" "$LINUX_DOTFILES_URL/.bash_aliases"
   wget -q -O "$HOME/.inputrc" "$LINUX_DOTFILES_URL/.inputrc"
 }
 
