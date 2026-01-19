@@ -52,6 +52,16 @@ wget -O tier1.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/lin
   && rm tier1.sh
 ```
 
+**To Finish SSH config after running Tier 1 script, download id_ed25519 and config files. Move them to ~/.ssh. And then correct the permissions for them:**
+
+* Download id_ed25519 and config
+* Move to ~/.ssh
+* Correct their permissions:
+
+```sh
+chmod 600 ~/.ssh/id_ed25519 ~/.ssh/config
+```
+
 ---
 
 ## Tier 2 – Post-Bootstrap (System Configuration)
