@@ -42,7 +42,7 @@ apply_dconf() {
 
 log "Ensuring GNOME extensions are enabled (Tier-3)"
 
-local uuids=(
+uuids=(
   "autohide-battery@sitnik.ru"
   "autohide-volume@unboiled.info"
   "ddterm@amezin.github.com"
@@ -56,6 +56,11 @@ for uuid in "${uuids[@]}"; do
     gnome-extensions enable "$uuid" || true
   fi
 done
+
+if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+  log "NOTE: ddterm enabled — log out/in required on Wayland"
+fi
+
 
 # ### GNOME EXTENSIONS ##########################################################
 # enable_extensions_from_dconf() {
