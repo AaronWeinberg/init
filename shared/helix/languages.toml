@@ -1,0 +1,35 @@
+# Helix language configuration overrides
+# Only languages explicitly listed here are affected
+
+########################################
+# Go
+########################################
+
+[[language]]
+name = "go"
+auto-format = true
+formatter = { command = "gofmt" }
+
+########################################
+# JavaScript / TypeScript
+########################################
+
+[[language]]
+name = "javascript"
+auto-format = true
+formatter = { command = "prettier", args = ["--stdin-filepath", "{file}"] }
+
+[[language]]
+name = "typescript"
+auto-format = true
+formatter = { command = "prettier", args = ["--stdin-filepath", "{file}"] }
+
+[[language]]
+name = "tsx"
+auto-format = true
+formatter = { command = "prettier", args = ["--stdin-filepath", "{file}"] }
+
+[[language]]
+name = "jsx"
+auto-format = true
+formatter = { command = "prettier", args = ["--stdin-filepath", "{file}"] }
