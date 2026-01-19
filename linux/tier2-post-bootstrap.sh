@@ -51,9 +51,18 @@ while [[ $# -gt 0 ]]; do
 done
 
 mode_count=0
-$MODE_DESKTOP && ((mode_count++))
-$MODE_VPS && ((mode_count++))
-$MODE_WSL && ((mode_count++))
+
+if [[ "$MODE_DESKTOP" == true ]]; then
+  ((mode_count+=1))
+fi
+
+if [[ "$MODE_VPS" == true ]]; then
+  ((mode_count+=1))
+fi
+
+if [[ "$MODE_WSL" == true ]]; then
+  ((mode_count+=1))
+fi
 
 if [[ "$mode_count" -ne 1 ]]; then
   usage
@@ -74,7 +83,7 @@ pkg_install() {
 install_helix() {
   command -v hx >/dev/null && return
   log "Installing Helix editor"
-  pkg_install helix
+  pkg_install hx
 }
 
 ### SSH HARDENING #############################################################
@@ -210,23 +219,22 @@ main() {
 
   install_helix
 
-  if $MODE_WSL; then
+  if [[ "$MODE_WSL" == true ]]; then
     log "Mode: WSL — skipping sshd and desktop components"
     log "Post-bootstrap complete (WSL)"
     return
   fi
 
-  if $MODE_VPS; then
+  if [[ "$MODE_VPS" == true ]]; then
     log "Mode: VPS"
     ssh_hardening
     log "Post-bootstrap complete (VPS)"
     return
   fi
 
-  if $MODE_DESKTOP; then
+  if [[ "$MODE_DESKTOP" == true ]]; then
     log "Mode: Desktop"
 
-    ssh_hardening
     enable_byobu
 
     if require_desktop; then
