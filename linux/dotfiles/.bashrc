@@ -66,16 +66,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # --- Custom Prompt (Git branch aware) ---
-PS1='
-\[\e[0;32m\]
-\u@\h
-\[\e[m\]
-:
-\[\e[0;34m\]
-\w
-\[\e[m\]
-$(branch=$(git branch 2>/dev/null | grep \* | sed "s/* //") && [ -n "$branch" ] && echo "|
-\[\e[0;33m\]
-$branch")
-\[\e[m\]
-$ '
+PS1='\[\e[0;32m\]\u@\h\[\e[m\]:\[\e[0;34m\]\w\[\e[m\]$(branch=$(git branch 2>/dev/null | grep \* | sed "s/* //") && [ -n "$branch" ] && echo "|\[\e[0;33m\]$branch")\[\e[m\]$ '
