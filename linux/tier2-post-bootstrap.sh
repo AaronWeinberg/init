@@ -112,7 +112,7 @@ ssh_hardening() {
     log "Setting SSH port to: $port (from --ssh-port)"
 
     sudo wget -q -O /etc/ssh/sshd_config "$DOTFILES_URL/sshd_config"
-    sudo sed -i "s/^#\?Port .*/Port ${port}/" /etc/ssh/sshd_config"
+    sudo sed -i "s/^#\?Port .*/Port ${port}/" /etc/ssh/sshd_config
   else
     log "No --ssh-port provided — leaving SSH port unchanged"
   fi
