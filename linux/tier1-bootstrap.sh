@@ -83,12 +83,17 @@ install_base_packages() {
   log "Installing base packages"
 
   local pkgs=(
-    curl
-    wget
-    git
     ca-certificates
-    htop
+    curl
     dos2unix
+    git
+    htop
+    wget
+
+    # Python (system tooling)
+    python3
+    python3-pip
+    python3-venv
   )
 
   # Desktop + WSL (human-facing systems)
