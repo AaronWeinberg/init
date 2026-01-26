@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 # Tier 2 – Post-Bootstrap
 # Explicit, role-based configuration with side effects
-#
-# Modes (exactly one required):
-#   --desktop   Workstation / GNOME system
-#   --vps       Server / VPS (sshd only, no desktop)
-#   --wsl       WSL environment (no sshd, no system services)
 
 set -euo pipefail
 
@@ -15,6 +10,10 @@ LINUX_URL="$BASE_URL/linux"
 DOTFILES_URL="$LINUX_URL/dotfiles"
 
 DEFAULT_SSH_PORT=22
+SSH_PORT=""
+
+GO_VERSION="1.22.1"
+GO_TARBALL="go${GO_VERSION}.linux-amd64.tar.gz"
 
 ### LOGGING ###################################################################
 log() {
@@ -28,11 +27,12 @@ MODE_WSL=false
 
 usage() {
   cat <<EOF
-Usage: $0 [--desktop | --vps | --wsl]
+Usage: $0 [--desktop | --vps | --wsl] [--ssh-port PORT]
 
-  --desktop   Desktop / workstation setup (GNOME, browsers, Steam)
-  --vps       Server / VPS setup (SSH hardening only)
-  --wsl       WSL environment (no sshd, no system services)
+  --desktop        Desktop / workstation setup
+  --vps            Server / VPS setup (SSH hardening only)
+  --wsl            WSL environment
+  --ssh-port PORT  SSH port (VPS mode only, optional)
 
 Exactly one mode must be specified.
 EOF
@@ -44,6 +44,10 @@ while [[ $# -gt 0 ]]; do
     --desktop) MODE_DESKTOP=true ;;
     --vps)     MODE_VPS=true ;;
     --wsl)     MODE_WSL=true ;;
+    --ssh-port)
+      SSH_PORT="${2:-}"
+      shift
+      ;;
     -h|--help) usage ;;
     *) echo "Unknown argument: $1"; usage ;;
   esac
@@ -51,22 +55,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 mode_count=0
+[[ "$MODE_DESKTOP" == true ]] && ((mode_count+=1))
+[[ "$MODE_VPS" == true ]]     && ((mode_count+=1))
+[[ "$MODE_WSL" == true ]]     && ((mode_count+=1))
 
-if [[ "$MODE_DESKTOP" == true ]]; then
-  ((mode_count+=1))
-fi
-
-if [[ "$MODE_VPS" == true ]]; then
-  ((mode_count+=1))
-fi
-
-if [[ "$MODE_WSL" == true ]]; then
-  ((mode_count+=1))
-fi
-
-if [[ "$mode_count" -ne 1 ]]; then
-  usage
-fi
+[[ "$mode_count" -ne 1 ]] && usage
 
 ### PLATFORM ##################################################################
 require_desktop() {
@@ -86,29 +79,54 @@ install_helix() {
   pkg_install hx
 }
 
+### GO ########################################################################
+install_go() {
+  command -v go >/dev/null && return
+
+  log "Installing Go ${GO_VERSION}"
+
+  curl -fsSL "https://go.dev/dl/${GO_TARBALL}" -o "/tmp/${GO_TARBALL}"
+  sudo rm -rf /usr/local/go
+  sudo tar -C /usr/local -xzf "/tmp/${GO_TARBALL}"
+  rm -f "/tmp/${GO_TARBALL}"
+
+  log "Go installed"
+}
+
 ### SSH HARDENING #############################################################
 ssh_hardening() {
   log "Applying SSH hardening"
 
   pkg_install openssh-server
 
-  local port
-  read -rp "Enter SSH port for this host [${DEFAULT_SSH_PORT}]: " port
-  port="${port:-$DEFAULT_SSH_PORT}"
+  # Only act on port if explicitly provided
+  if [[ -n "${SSH_PORT:-}" ]]; then
+    local port="$SSH_PORT"
 
-  if ! [[ "$port" =~ ^[0-9]+$ ]] || (( port < 1 || port > 65535 )); then
-    echo "Invalid SSH port: $port"
-    exit 1
+    # Validate provided port
+    if ! [[ "$port" =~ ^[0-9]+$ ]] || (( port < 1 || port > 65535 )); then
+      echo "ERROR: Invalid SSH port: $port"
+      exit 1
+    fi
+
+    log "Setting SSH port to: $port (from --ssh-port)"
+
+    sudo wget -q -O /etc/ssh/sshd_config "$DOTFILES_URL/sshd_config"
+    sudo sed -i "s/^#\?Port .*/Port ${port}/" /etc/ssh/sshd_config"
+  else
+    log "No --ssh-port provided — leaving SSH port unchanged"
   fi
 
-  log "Using SSH port: $port"
-
-  sudo wget -q -O /etc/ssh/sshd_config "$DOTFILES_URL/sshd_config"
-  sudo sed -i "s/^#\?Port .*/Port ${port}/" /etc/ssh/sshd_config
+  # Always validate config before restart
   sudo /usr/sbin/sshd -t
 
   pkg_install ufw
-  sudo ufw allow "${port}/tcp"
+
+  # Only open firewall port if we changed it
+  if [[ -n "${SSH_PORT:-}" ]]; then
+    sudo ufw allow "${SSH_PORT}/tcp"
+  fi
+
   sudo systemctl restart ssh
 
   log "SSH hardening complete"
@@ -156,7 +174,6 @@ install_steam() {
 
   log "Installing Steam"
 
-  # Enable i386 architecture (idempotent)
   if ! dpkg --print-foreign-architectures | grep -qx i386; then
     sudo dpkg --add-architecture i386
   fi
@@ -173,7 +190,6 @@ install_gnome_extensions() {
 
   local uuids=(
     "autohide-battery@sitnik.ru"
-    # "aztaskbar@aztaskbar.gitlab.com"   # GNOME 48 incompatible
     "autohide-volume@unboiled.info"
     "ddterm@amezin.github.com"
     "tilingshell@ferrarodomenico.com"
@@ -183,31 +199,20 @@ install_gnome_extensions() {
 
   local shell_version
   shell_version="$(gnome-shell --version | awk '{print $3}' | cut -d. -f1)"
-  log "Detected GNOME Shell $shell_version"
 
   for uuid in "${uuids[@]}"; do
-    log "Resolving extension $uuid"
-
     local info
-    if ! info="$(curl -fsSL \
-      "https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$shell_version")"; then
-      log "Metadata query failed for $uuid"
-      continue
-    fi
+    info="$(curl -fsSL \
+      "https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$shell_version" || true)"
 
     local download_path
     download_path="$(echo "$info" | jq -r '.download_url')"
 
-    if [[ -z "$download_path" || "$download_path" == "null" ]]; then
-      log "No compatible release for $uuid"
-      continue
-    fi
+    [[ -z "$download_path" || "$download_path" == "null" ]] && continue
 
     local tmp
     tmp="$(mktemp)"
     curl -fsSL "https://extensions.gnome.org$download_path" -o "$tmp"
-
-    log "Installing $uuid"
     gnome-extensions install --force "$tmp" || true
     rm -f "$tmp"
   done
@@ -220,21 +225,19 @@ main() {
   install_helix
 
   if [[ "$MODE_WSL" == true ]]; then
-    log "Mode: WSL — skipping sshd and desktop components"
+    install_go
     log "Post-bootstrap complete (WSL)"
     return
   fi
 
   if [[ "$MODE_VPS" == true ]]; then
-    log "Mode: VPS"
     ssh_hardening
     log "Post-bootstrap complete (VPS)"
     return
   fi
 
   if [[ "$MODE_DESKTOP" == true ]]; then
-    log "Mode: Desktop"
-
+    install_go
     enable_byobu
 
     if require_desktop; then
@@ -242,12 +245,9 @@ main() {
       install_edge
       install_steam
       install_gnome_extensions
-    else
-      log "No desktop detected — skipping desktop packages"
     fi
 
     log "Post-bootstrap complete (Desktop)"
-    return
   fi
 }
 
