@@ -57,6 +57,15 @@ update(){
   fi
 }
 
+# --- Go ---
+if [ -d /usr/local/go/bin ]; then
+  export PATH="/usr/local/go/bin:$PATH"
+fi
+
+# Go workspace (for `go install`)
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
+
 # --- npm global bin path ---
 export PATH="${HOME}/.npm-global/bin:$PATH"
 
