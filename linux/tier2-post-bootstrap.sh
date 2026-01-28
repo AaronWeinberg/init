@@ -99,7 +99,9 @@ ssh_hardening() {
 
   pkg_install openssh-server
 
-  # Only act on port if explicitly provided
+  local port_conf="/etc/ssh/sshd_config.d/99-port.conf"
+
+  # Apply port override only if explicitly provided
   if [[ -n "${SSH_PORT:-}" ]]; then
     local port="$SSH_PORT"
 
@@ -109,25 +111,30 @@ ssh_hardening() {
       exit 1
     fi
 
-    log "Setting SSH port to: $port (from --ssh-port)"
+    log "Setting SSH port to ${port} via drop-in config"
 
-    sudo wget -q -O /etc/ssh/sshd_config "$DOTFILES_URL/sshd_config"
-    sudo sed -i "s/^#\?Port .*/Port ${port}/" /etc/ssh/sshd_config
+    echo "Port ${port}" | sudo tee "$port_conf" >/dev/null
+    sudo chmod 644 "$port_conf"
   else
     log "No --ssh-port provided — leaving SSH port unchanged"
   fi
 
-  # Always validate config before restart
+  # Validate SSH configuration before restart
   sudo /usr/sbin/sshd -t
 
   pkg_install ufw
 
-  # Only open firewall port if we changed it
+  # Open firewall port only if we set one
   if [[ -n "${SSH_PORT:-}" ]]; then
     sudo ufw allow "${SSH_PORT}/tcp"
   fi
 
   sudo systemctl restart ssh
+
+  # Log effective SSH port
+  local effective_port
+  effective_port="$(sudo sshd -T | awk '/^port / {print $2}')"
+  log "Effective SSH port: ${effective_port}"
 
   log "SSH hardening complete"
 }
