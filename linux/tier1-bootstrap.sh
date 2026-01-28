@@ -16,7 +16,7 @@ SHARED_SSH_URL="$SHARED_URL/ssh"
 SHARED_HELIX_URL="$SHARED_URL/helix"
 
 PRIMARY_USER="aaron"
-SSH_AUTH_KEYS_URL="$SHARED_SSH_URL/authorized_keys"
+SSH_AUTH_KEYS_URL="$SHARED_SSH_URL/id_ed25519.pub"
 
 ### LOGGING ###################################################################
 log() {
