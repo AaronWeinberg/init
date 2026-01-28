@@ -109,6 +109,18 @@ install_base_packages() {
   pkg_install "${pkgs[@]}"
 }
 
+### LOCALE ####################################################################
+configure_locale() {
+  log "Configuring system locale"
+
+  sudo apt-get install -y locales
+
+  sudo sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+  sudo locale-gen
+
+  sudo update-locale LANG=en_US.UTF-8
+}
+
 ### HOSTNAME ##################################################################
 set_hostname() {
   local current
@@ -235,6 +247,7 @@ main() {
   log "Starting Tier-1 bootstrap"
 
   install_base_packages
+  configure_locale
   set_hostname
   install_linux_dotfiles
   install_git_config
