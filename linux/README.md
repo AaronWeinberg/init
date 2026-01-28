@@ -52,13 +52,18 @@ wget -O tier1.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/lin
   && rm tier1.sh
 ```
 
-**To Finish SSH config after running Tier 1 script, download id_ed25519 and config files. Move them to ~/.ssh. And then correct the permissions for them:**
+**To Finish client-side SSH config (desktop / WSL Linux versions) after running Tier 1 script, download id_ed25519 and config files. Move them to ~/.ssh. And then correct the permissions for them:**
 
 * Download id_ed25519 and config
 * Move to ~/.ssh
 * Correct their permissions:
 
 ```sh
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+dos2unix ~/Downloads/id_ed25519 ~/Downloads/config
+mv ~/Downloads/id_ed25519 ~/Downloads/config ~/.ssh/
 chmod 600 ~/.ssh/id_ed25519 ~/.ssh/config
 ```
 
@@ -150,7 +155,14 @@ For a **desktop workstation**:
 For a **VPS**:
 
 1. Tier 1 – bootstrap user environment
-2. Tier 2 – system hardening
+
+2. **Reboot the VPS** (required to complete user handoff and deferred default-user removal)
+
+3. Tier 2 – system hardening
+
+4. Tier 1 – bootstrap user environment
+
+5. Tier 2 – system hardening
 
 For **WSL**:
 
