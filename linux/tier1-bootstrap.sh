@@ -341,13 +341,14 @@ install_npm_globals() {
 main() {
   log "Starting Tier-1 bootstrap"
 
+  install_base_packages
+  
   if [[ "$MODE_VPS" == true ]]; then
     ensure_primary_user
     disable_cloud_init_user_management
     schedule_default_user_removal
   fi
 
-  install_base_packages
   configure_locale
   set_hostname
   install_linux_dotfiles
