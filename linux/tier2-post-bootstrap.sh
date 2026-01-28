@@ -20,6 +20,44 @@ log() {
   echo "[post-bootstrap] $*"
 }
 
+### IDENTITY FAILSAFE ##########################################################
+PRIMARY_USER="aaron"
+
+fail_if_wrong_user() {
+  local current
+  current="$(id -un)"
+
+  if [[ "$current" != "$PRIMARY_USER" ]]; then
+    echo "[post-bootstrap] ERROR: must be run as '$PRIMARY_USER' (current: $current)"
+    echo "[post-bootstrap] Aborting to prevent system corruption"
+    exit 1
+  fi
+}
+
+ensure_no_cloud_users() {
+  local candidates=(
+    debian
+    ubuntu
+    ec2-user
+    rocky
+    almalinux
+    oracle
+    centos
+    admin
+  )
+
+  for user in "${candidates[@]}"; do
+    if id "$user" &>/dev/null; then
+      echo "[post-bootstrap] ERROR: cloud user '$user' still exists"
+      echo "[post-bootstrap] Tier-1 may not have completed successfully"
+      exit 1
+    fi
+  done
+}
+
+fail_if_wrong_user
+ensure_no_cloud_users
+
 ### MODE FLAGS ###############################################################
 MODE_DESKTOP=false
 MODE_VPS=false
