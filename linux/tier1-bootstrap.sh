@@ -15,6 +15,9 @@ SHARED_GIT_URL="$SHARED_URL/git"
 SHARED_SSH_URL="$SHARED_URL/ssh"
 SHARED_HELIX_URL="$SHARED_URL/helix"
 
+PRIMARY_USER="aaron"
+SSH_AUTH_KEYS_URL="$SHARED_SSH_URL/authorized_keys"
+
 ### LOGGING ###################################################################
 log() {
   echo "[bootstrap] $*"
@@ -135,12 +138,104 @@ set_hostname() {
   sudo hostnamectl set-hostname "$DESIRED_HOSTNAME"
 }
 
+### CLOUD USER DETECTION #######################################################
+detect_default_cloud_user() {
+  local candidates=(
+    debian
+    ubuntu
+    ec2-user
+    rocky
+    almalinux
+    oracle
+    centos
+    admin
+  )
+
+  for user in "${candidates[@]}"; do
+    if id "$user" &>/dev/null && [[ "$user" != "$PRIMARY_USER" ]]; then
+      echo "$user"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+### USER MANAGEMENT ###########################################################
+ensure_primary_user() {
+  if id "$PRIMARY_USER" &>/dev/null; then
+    log "Primary user '$PRIMARY_USER' already exists"
+    return
+  fi
+
+  log "Creating primary user '$PRIMARY_USER'"
+
+  sudo adduser --disabled-password --gecos "" "$PRIMARY_USER"
+  sudo usermod -aG sudo "$PRIMARY_USER"
+
+  sudo install -d -m 700 "/home/$PRIMARY_USER/.ssh"
+  sudo curl -fsSL "$SSH_AUTH_KEYS_URL" \
+    -o "/home/$PRIMARY_USER/.ssh/authorized_keys"
+
+  sudo chown -R "$PRIMARY_USER:$PRIMARY_USER" "/home/$PRIMARY_USER/.ssh"
+  sudo chmod 600 "/home/$PRIMARY_USER/.ssh/authorized_keys"
+}
+
+disable_cloud_init_user_management() {
+  if [[ ! -d /etc/cloud/cloud.cfg.d ]]; then
+    return
+  fi
+
+  log "Disabling cloud-init user management"
+
+  sudo tee /etc/cloud/cloud.cfg.d/99-disable-user-management.cfg >/dev/null <<EOF
+users: []
+disable_root: true
+preserve_hostname: true
+EOF
+}
+
+schedule_default_user_removal() {
+  if systemctl is-enabled remove-default-user.service &>/dev/null; then
+    log "Default user removal already scheduled"
+    return
+  fi
+
+  local user
+  user="$(detect_default_cloud_user || true)"
+
+  if [[ -z "$user" ]]; then
+    log "No default cloud user detected"
+    return
+  fi
+
+  log "Scheduling removal of '$user' on next boot"
+
+  sudo tee /etc/systemd/system/remove-default-user.service >/dev/null <<EOF
+[Unit]
+Description=Remove default cloud user
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/deluser --remove-home $user
+ExecStartPost=/bin/rm -f /etc/systemd/system/remove-default-user.service
+ExecStartPost=/bin/systemctl daemon-reload
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+  sudo systemctl daemon-reload
+  sudo systemctl enable remove-default-user.service
+}
+
 ### DOTFILES ##################################################################
 install_linux_dotfiles() {
   log "Installing Linux dotfiles"
 
   # Ensure ownership (cloud-init safety)
-  sudo chown -R "$USER:$USER" "$HOME"
+  sudo chown -R "$(id -un):$(id -gn)" "$HOME"
 
   wget -q -O "$HOME/.bashrc"        "$LINUX_DOTFILES_URL/.bashrc"
   wget -q -O "$HOME/.bash_aliases" "$LINUX_DOTFILES_URL/.bash_aliases"
@@ -245,6 +340,12 @@ install_npm_globals() {
 ### MAIN ######################################################################
 main() {
   log "Starting Tier-1 bootstrap"
+
+  if [[ "$MODE_VPS" == true ]]; then
+    ensure_primary_user
+    disable_cloud_init_user_management
+    schedule_default_user_removal
+  fi
 
   install_base_packages
   configure_locale
