@@ -46,7 +46,12 @@ ensure_no_cloud_users() {
     admin
   )
 
+  local current
+  current="$(id -un)"
+
   for user in "${candidates[@]}"; do
+    [[ "$user" == "$current" ]] && continue
+
     if id "$user" &>/dev/null; then
       echo "[post-bootstrap] ERROR: cloud user '$user' still exists"
       echo "[post-bootstrap] Tier-1 may not have completed successfully"
@@ -167,7 +172,7 @@ ssh_hardening() {
     sudo ufw allow "${SSH_PORT}/tcp"
   fi
 
-  sudo systemctl restart ssh
+  sudo systemctl restart ssh || sudo systemctl restart sshd
 
   # Log effective SSH port
   local effective_port
