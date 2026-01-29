@@ -11,6 +11,14 @@ Start-Transcript -Path $LOG_FILE -Force
 
 Write-Host ">>> Initializing Windows setup. Log: $LOG_FILE"
 
+# --- Elevation Check ---
+if (-not ([Security.Principal.WindowsPrincipal] `
+    [Security.Principal.WindowsIdentity]::GetCurrent()
+).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Error "This script must be run as Administrator."
+    exit 1
+}
+
 # --- Repo Paths ---
 $baseUrl          = "https://raw.githubusercontent.com/AaronWeinberg/init/master"
 $windowsConfigUrl = "$baseUrl/windows/dotfiles"
@@ -20,9 +28,11 @@ $sharedSshUrl     = "$baseUrl/shared/ssh"
 $sharedHelixUrl   = "$baseUrl/shared/helix"
 
 # --- Windows Update ---
+Install-PackageProvider NuGet -Force -Confirm:$false
 Install-Module PSWindowsUpdate -Force
 Import-Module PSWindowsUpdate
 Install-WindowsUpdate -AcceptAll -IgnoreReboot
+Write-Warning "Windows Updates installed but reboot was skipped."
 
 # --- Winget Installs ---
 winget list --accept-source-agreements | Out-Null
@@ -67,8 +77,10 @@ foreach ($app in $removeList) {
 }
 
 # --- Disable Nvidia Container Service ---
-sc.exe config "NVDisplay.ContainerLocalSystem" start= disabled
-sc.exe stop "NVDisplay.ContainerLocalSystem"
+# if (Get-Service NVDisplay.ContainerLocalSystem -ErrorAction SilentlyContinue) {
+#   sc.exe config "NVDisplay.ContainerLocalSystem" start= disabled
+#   sc.exe stop "NVDisplay.ContainerLocalSystem"
+# }
 
 # --- Remove Gallery from Explorer ---
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /f
