@@ -1,8 +1,7 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    "actions": 
-    [
+    "actions": [
         {
             "command": "paste",
             "id": "Terminal.PasteFromClipboard",
@@ -42,23 +41,19 @@
     "copyOnSelect": true,
     "defaultProfile": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
     "firstWindowPreference": "persistedWindowLayout",
-    "launchMode": "fullscreen",
+    "launchMode": "minimized",
     "minimizeToNotificationArea": true,
-    "newTabMenu": 
-    [
+    "newTabMenu": [
         {
             "type": "remainingProfiles"
         }
     ],
-    "profiles": 
-    {
-        "defaults": 
-        {
-            "elevate": true,
+    "profiles": {
+        "defaults": {
+            "elevate": false,
             "opacity": 80
         },
-        "list": 
-        [
+        "list": [
             {
                 "guid": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
                 "hidden": false,
@@ -72,8 +67,7 @@
                 "colorScheme": "Campbell",
                 "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
                 "cursorShape": "bar",
-                "font": 
-                {
+                "font": {
                     "face": "Cascadia Mono",
                     "size": 12
                 },
@@ -94,8 +88,7 @@
             }
         ]
     },
-    "schemes": 
-    [
+    "schemes": [
         {
             "background": "#300A24",
             "black": "#171421",
@@ -120,7 +113,7 @@
             "yellow": "#A2734C"
         }
     ],
-    "startOnUserLogin": false,
+    "startOnUserLogin": true,
     "themes": [],
     "windowingBehavior": "useAnyExisting"
 }
