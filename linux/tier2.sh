@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Tier 3 – Desktop UX (GNOME only)
+# Tier 2 (GNOME only)
 # Applies dconf and enables GNOME extensions referenced by dconf
 
 set -euo pipefail
 
 ### CONFIG ####################################################################
 BASE_URL="https://raw.githubusercontent.com/AaronWeinberg/init/master"
-DCONF_URL="$BASE_URL/linux/dotfiles/.dconf"
+DCONF_URL="$BASE_URL/dotfiles/linux/.dconf"
 
 ### LOGGING ###################################################################
 log() {
-  printf '[tier3-desktop] %s\n' "$*"
+  printf '[tier2-desktop] %s\n' "$*"
 }
 
 ### GUARDS ####################################################################
@@ -28,7 +28,7 @@ fi
 
 # Must not be root
 if [[ "$EUID" -eq 0 ]]; then
-  log "Do not run Tier-3 as root"
+  log "Do not run Tier-2 as root"
   exit 1
 fi
 
@@ -40,7 +40,7 @@ apply_dconf() {
 
 ### GNOME EXTENSIONS ##########################################################
 
-log "Ensuring GNOME extensions are enabled (Tier-3)"
+log "Ensuring GNOME extensions are enabled"
 
 uuids=(
   "autohide-battery@sitnik.ru"
@@ -87,11 +87,11 @@ fi
 
 ### MAIN ######################################################################
 main() {
-  log "Starting Tier-3 GNOME configuration"
+  log "Starting Tier-2 GNOME configuration"
 
   apply_dconf
 
-  log "Tier-3 GNOME configuration complete"
+  log "Tier-2 GNOME configuration complete"
 }
 
 main "$@"

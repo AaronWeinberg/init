@@ -140,7 +140,7 @@ New-ItemProperty `
 Write-Host ">>> Installing PowerShell profile"
 
 $baseUrl        = "https://raw.githubusercontent.com/AaronWeinberg/init/master"
-$windowsConfig = "$baseUrl/windows/dotfiles"
+$windowsConfig = "$baseUrl/dotfiles/windows"
 
 $psProfileDir  = "$env:USERPROFILE\Documents\WindowsPowerShell"
 $psProfileFile = "$psProfileDir\Microsoft.PowerShell_profile.ps1"

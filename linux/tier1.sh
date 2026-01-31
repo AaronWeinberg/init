@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-# Tier 2 – Post-Bootstrap
+# Tier 1
 # Explicit, role-based configuration with side effects
 
 set -euo pipefail
 
 ### CONFIG ####################################################################
 BASE_URL="https://raw.githubusercontent.com/AaronWeinberg/init/master"
-LINUX_URL="$BASE_URL/linux"
-DOTFILES_URL="$LINUX_URL/dotfiles"
+DOTFILES_URL="$BASE_URL/dotfiles/linux"
 
 DEFAULT_SSH_PORT=22
 SSH_PORT=""
@@ -270,19 +269,19 @@ install_gnome_extensions() {
 
 ### MAIN ######################################################################
 main() {
-  log "Starting Tier-2 post-bootstrap"
+  log "Starting Tier-1 post-bootstrap"
 
   install_helix
 
   if [[ "$MODE_WSL" == true ]]; then
     install_go
-    log "Post-bootstrap complete (WSL)"
+    log "Tier-1 complete (WSL)"
     return
   fi
 
   if [[ "$MODE_VPS" == true ]]; then
     ssh_hardening
-    log "Post-bootstrap complete (VPS)"
+    log "Tier-1 complete (VPS)"
     return
   fi
 
@@ -297,7 +296,7 @@ main() {
       install_gnome_extensions
     fi
 
-    log "Post-bootstrap complete (Desktop)"
+    log "Tier-1 complete (Desktop)"
   fi
 }
 

@@ -4,9 +4,9 @@
 
 | Environment               | Commands to Run                                 | Notes                                             |
 | ------------------------- | ----------------------------------------------- | ------------------------------------------------- |
-| **Desktop / Workstation** | `tier1 --desktop` → `tier2 --desktop` → `tier3` | GNOME system with browsers, extensions, UX config |
-| **VPS / Server**          | `tier1 --vps` → `tier2 --vps`                   | SSH hardening, no desktop components              |
-| **WSL**                   | `tier1 --wsl` → `tier2 --wsl`                   | No system services, no sshd                       |
+| **Desktop / Workstation** | `tier0 --desktop` → `tier1 --desktop` → `tier2` | GNOME system with browsers, extensions, UX config |
+| **VPS / Server**          | `tier0 --vps` → `tier1 --vps`                   | SSH hardening, no desktop components              |
+| **WSL**                   | `tier0 --wsl` → `tier1 --wsl`                   | No system services, no sshd                       |
 
 ---
 
@@ -20,7 +20,7 @@ Each tier has a **strict responsibility boundary**. You should run them **in ord
 
 ---
 
-## Tier 1 – Bootstrap (User Environment)
+## Tier 0 – Bootstrap (User Environment)
 
 **Purpose:**
 Establish a consistent *user-level* environment with no system services or destructive changes.
@@ -43,13 +43,13 @@ Establish a consistent *user-level* environment with no system services or destr
 
 **Run exactly once per user account.**
 
-### Run Tier 1
+### Run Tier 0
 
 ```sh
-wget -O tier1.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/tier1-bootstrap.sh \
-  && chmod +x tier1.sh \
-  && ./tier1.sh --desktop   # or --vps | --wsl \
-  && rm tier1.sh
+wget -O tier0.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/tier0.sh \
+  && chmod +x tier0.sh \
+  && ./tier0.sh --desktop   # or --vps | --wsl \
+  && rm tier0.sh
 ```
 
 **To Finish client-side SSH config (desktop / WSL Linux versions) after running Tier 1 script, download id_ed25519 and config files. Move them to ~/.ssh. And then correct the permissions for them:**
@@ -69,7 +69,7 @@ chmod 600 ~/.ssh/id_ed25519 ~/.ssh/config
 
 ---
 
-## Tier 2 – Post-Bootstrap (System Configuration)
+## Tier 1 – Post-Bootstrap (System Configuration)
 
 **Purpose:**
 Apply **system-level changes** and install opinionated tools.
@@ -98,18 +98,18 @@ This tier has side effects and is **explicitly role-driven**.
 | `--vps`     | Server / cloud VM               |
 | `--wsl`     | WSL environment (no services)   |
 
-### Run Tier 2
+### Run Tier 1
 
 ```sh
-wget -O tier2.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/tier2-post-bootstrap.sh \
-  && chmod +x tier2.sh \
-  && ./tier2.sh --desktop   # or --vps | --wsl \
-  && rm tier2.sh
+wget -O tier1.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/tier1.sh \
+  && chmod +x tier1.sh \
+  && ./tier1.sh --desktop   # or --vps | --wsl \
+  && rm tier1.sh
 ```
 
 ---
 
-## Tier 3 – Desktop UX (GNOME Only)
+## Tier 2 – Desktop UX (GNOME Only)
 
 **Purpose:**
 Configure **GNOME runtime state**. This tier assumes:
@@ -132,13 +132,13 @@ Configure **GNOME runtime state**. This tier assumes:
 
 **Only run on GNOME desktops.**
 
-### Run Tier 3
+### Run Tier 2
 
 ```sh
-wget -O tier3.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/tier3-desktop.sh \
-  && chmod +x tier3.sh \
-  && ./tier3.sh \
-  && rm tier3.sh
+wget -O tier2.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/tier2.sh \
+  && chmod +x tier2.sh \
+  && ./tier2.sh \
+  && rm tier2.sh
 ```
 
 ---
@@ -147,27 +147,27 @@ wget -O tier3.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/lin
 
 For a **desktop workstation**:
 
-1. Tier 1 – bootstrap user environment
-2. Tier 2 – system + desktop packages
+1. Tier 0 – bootstrap user environment
+2. Tier 1 – system + desktop packages
 3. Log out / log in (if prompted)
-4. Tier 3 – GNOME configuration
+4. Tier 2 – GNOME configuration
 
 For a **VPS**:
 
-1. Tier 1 – bootstrap user environment
+1. Tier 0 – bootstrap user environment
 
 2. **Reboot the VPS** (required to complete user handoff and deferred default-user removal)
 
-3. Tier 2 – system hardening
+3. Tier 1 – system hardening
 
-4. Tier 1 – bootstrap user environment
+4. Tier 0 – bootstrap user environment
 
-5. Tier 2 – system hardening
+5. Tier 1 – system hardening
 
 For **WSL**:
 
-1. Tier 1 – bootstrap user environment
-2. Tier 2 – minimal tooling
+1. Tier 0 – bootstrap user environment
+2. Tier 1 – minimal tooling
 
 ---
 
@@ -185,12 +185,12 @@ For **WSL**:
 
 | Tier   | Scope                | Safe to re-run | Role-aware |
 | ------ | -------------------- | -------------- | ---------- |
-| Tier 1 | User environment     | Yes            | Yes        |
-| Tier 2 | System configuration | Mostly         | Yes        |
-| Tier 3 | GNOME runtime        | Yes            | GNOME only |
+| Tier 0 | User environment     | Yes            | Yes        |
+| Tier 1 | System configuration | Mostly         | Yes        |
+| Tier 2 | GNOME runtime        | Yes            | GNOME only |
 
 If you’re unsure which tier to modify:
 
-* **User preferences → Tier 1**
-* **System changes → Tier 2**
-* **Desktop behavior → Tier 3**
+* **User preferences → Tier 0**
+* **System changes → Tier 1**
+* **Desktop behavior → Tier 2**

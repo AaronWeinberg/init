@@ -25,10 +25,6 @@ Start-Transcript -Path $LOG_FILE -Force
 Write-Host ">>> Tier 0: OS Foundation"
 Write-Host "Log: $LOG_FILE"
 
-# --- Repo URLs ---
-$baseUrl          = "https://raw.githubusercontent.com/AaronWeinberg/init/master"
-$windowsScriptUrl = "$baseUrl/windows/scripts"
-
 # ================================
 # Package Infrastructure
 # ================================

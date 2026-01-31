@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #cloud-config
-# Tier 1 – Bootstrap
+# Tier 0
 # Minimal, role-aware, platform-agnostic user setup
 
 set -euo pipefail
@@ -8,8 +8,8 @@ set -euo pipefail
 ### CONFIG ####################################################################
 BASE_URL="https://raw.githubusercontent.com/AaronWeinberg/init/master"
 
-SHARED_URL="$BASE_URL/shared"
-LINUX_DOTFILES_URL="$BASE_URL/linux/dotfiles"
+SHARED_URL="$BASE_URL/dotfiles/shared"
+LINUX_DOTFILES_URL="$BASE_URL/dotfiles/linux"
 
 SHARED_GIT_URL="$SHARED_URL/git"
 SHARED_SSH_URL="$SHARED_URL/ssh"
@@ -339,7 +339,7 @@ install_npm_globals() {
 
 ### MAIN ######################################################################
 main() {
-  log "Starting Tier-1 bootstrap"
+  log "Starting Tier-0"
 
   install_base_packages
   
@@ -358,7 +358,7 @@ main() {
 
   if [[ "$MODE_WSL" == true ]]; then
     log "Mode: WSL — skipping Node.js toolchain"
-    log "Bootstrap complete (WSL)"
+    log "Tier-0 complete (WSL)"
     return
   fi
 
@@ -368,12 +368,12 @@ main() {
   install_npm_globals
 
   if [[ "$MODE_VPS" == true ]]; then
-    log "Bootstrap complete (VPS)"
+    log "Tier-0 complete (VPS)"
     return
   fi
 
   if [[ "$MODE_DESKTOP" == true ]]; then
-    log "Bootstrap complete (Desktop)"
+    log "Tier-0 complete (Desktop)"
     return
   fi
 }

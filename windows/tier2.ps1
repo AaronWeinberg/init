@@ -28,10 +28,11 @@ Write-Host "Log: $LOG_FILE"
 
 # --- Repo URLs ---
 $baseUrl        = "https://raw.githubusercontent.com/AaronWeinberg/init/master"
-$windowsConfig  = "$baseUrl/windows/dotfiles"
-$sharedGitUrl   = "$baseUrl/shared/git"
-$sharedSshUrl   = "$baseUrl/shared/ssh"
-$sharedHelixUrl = "$baseUrl/shared/helix"
+$sharedUrl      = "$baseUrl/dotfiles/shared"
+$windowsConfig  = "$baseUrl/dotfiles/windows"
+$sharedGitUrl   = "$sharedUrl/git"
+$sharedSshUrl   = "$sharedUrl/ssh"
+$sharedHelixUrl = "$sharedUrl/helix"
 
 # ================================
 # Gaming Stack
