@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #cloud-config
-# Tier 0
-# Minimal, role-aware, platform-agnostic user setup
+# Tier 0 – minimal, deterministic system bootstrap
 
 set -euo pipefail
 
@@ -10,13 +9,11 @@ BASE_URL="https://raw.githubusercontent.com/AaronWeinberg/init/master"
 
 SHARED_URL="$BASE_URL/dotfiles/shared"
 LINUX_DOTFILES_URL="$BASE_URL/dotfiles/linux"
-
 SHARED_GIT_URL="$SHARED_URL/git"
-SHARED_SSH_URL="$SHARED_URL/ssh"
 SHARED_HELIX_URL="$SHARED_URL/helix"
 
 PRIMARY_USER="aaron"
-SSH_AUTH_KEYS_URL="$SHARED_SSH_URL/id_ed25519.pub"
+SSH_AUTH_KEYS_URL="$SHARED_URL/ssh/id_ed25519.pub"
 
 DEFAULT_USER_REMOVAL_SCHEDULED=0
 
@@ -32,11 +29,7 @@ MODE_WSL=0
 DESIRED_HOSTNAME=""
 
 usage() {
-  cat <<EOF
-Usage: $0 [--desktop | --vps | --wsl]
-
-Exactly one mode must be specified.
-EOF
+  echo "Usage: $0 [--desktop | --vps | --wsl]"
   exit 1
 }
 
@@ -45,25 +38,23 @@ while [[ $# -gt 0 ]]; do
     --desktop) MODE_DESKTOP=1 ;;
     --vps)     MODE_VPS=1 ;;
     --wsl)     MODE_WSL=1 ;;
-    -h|--help) usage ;;
-    *) echo "Unknown argument: $1"; usage ;;
+    *) usage ;;
   esac
   shift
 done
 
-if [[ "$MODE_VPS" -eq 1 && "$(id -u)" -ne 0 ]]; then
-  echo "ERROR: Tier 0 must be run as root in --vps mode"
-  exit 1
-fi
-
-mode_count=$(( MODE_DESKTOP + MODE_VPS + MODE_WSL ))
-[[ "$mode_count" -eq 1 ]] || usage
+(( MODE_DESKTOP + MODE_VPS + MODE_WSL == 1 )) || usage
 
 [[ "$MODE_DESKTOP" -eq 1 ]] && DESIRED_HOSTNAME="desktop"
 [[ "$MODE_VPS"     -eq 1 ]] && DESIRED_HOSTNAME="vps"
 [[ "$MODE_WSL"     -eq 1 ]] && DESIRED_HOSTNAME="wsl"
 
-### PACKAGE MANAGEMENT ########################################################
+if [[ "$MODE_VPS" -eq 1 && "$(id -u)" -ne 0 ]]; then
+  echo "ERROR: --vps mode must be run as root"
+  exit 1
+fi
+
+### PACKAGES ##################################################################
 pkg_install() {
   apt-get update -y
   apt-get install -y "$@"
@@ -73,16 +64,8 @@ install_base_packages() {
   log "Installing base packages"
 
   local pkgs=(
-    ca-certificates
-    curl
-    dos2unix
-    git
-    htop
-    wget
-    python3
-    python3-pip
-    python3-venv
-    build-essential
+    ca-certificates curl dos2unix git htop wget
+    python3 python3-pip python3-venv build-essential
   )
 
   [[ "$MODE_VPS" -eq 0 ]] && pkgs+=(xclip)
@@ -93,10 +76,9 @@ install_base_packages() {
 
 ### LOCALE ####################################################################
 configure_locale() {
-  log "Configuring system locale"
+  log "Configuring locale"
 
   apt-get install -y locales
-
   sed -i \
     -e 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' \
     -e 's/^# *en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' \
@@ -113,12 +95,11 @@ set_hostname() {
   hostnamectl set-hostname "$DESIRED_HOSTNAME"
 }
 
-### CLOUD USER ###############################################################
+### USERS #####################################################################
 detect_default_cloud_user() {
   for u in debian ubuntu ec2-user rocky almalinux oracle centos admin; do
-    id "$u" &>/dev/null && [[ "$u" != "$PRIMARY_USER" ]] && echo "$u" && return 0
+    id "$u" &>/dev/null && [[ "$u" != "$PRIMARY_USER" ]] && echo "$u" && return
   done
-  return 1
 }
 
 ensure_primary_user() {
@@ -131,6 +112,7 @@ ensure_primary_user() {
   install -d -m 700 "/home/$PRIMARY_USER/.ssh"
   curl -fsSL "$SSH_AUTH_KEYS_URL" \
     -o "/home/$PRIMARY_USER/.ssh/authorized_keys"
+
   chown -R "$PRIMARY_USER:$PRIMARY_USER" "/home/$PRIMARY_USER/.ssh"
   chmod 600 "/home/$PRIMARY_USER/.ssh/authorized_keys"
 }
@@ -160,7 +142,7 @@ After=multi-user.target cloud-init.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/sbin/deluser --remove-home ${user}
+ExecStart=/usr/sbin/deluser --remove-home $user
 ExecStartPost=/bin/rm -f /etc/systemd/system/remove-default-user.service
 ExecStartPost=/bin/systemctl daemon-reload
 
@@ -173,72 +155,45 @@ EOF
   DEFAULT_USER_REMOVAL_SCHEDULED=1
 }
 
-### USER CONTEXT EXECUTION ####################################################
+### USER-SCOPED (PURE) ########################################################
 run_as_primary_user() {
-  local fn="$1"
-
-  sudo -u "$PRIMARY_USER" -H bash -lc "
-    set -euo pipefail
-    $(declare -f log)
-    $(declare -f source_nvm)
-    $(declare -f install_linux_dotfiles)
-    $(declare -f install_git_config)
-    $(declare -f install_ssh_client)
-    $(declare -f install_helix_config)
-    $(declare -f install_nvm)
-    $(declare -f install_node)
-    $(declare -f install_npm_globals)
-    $fn
-  "
+  sudo -u "$PRIMARY_USER" -H bash -lc "$1"
 }
 
-### USER DOTFILES #############################################################
-install_linux_dotfiles() {
-  log "Installing Linux dotfiles"
-  wget -q -O \"\$HOME/.bashrc\"        \"$LINUX_DOTFILES_URL/.bashrc\"
-  wget -q -O \"\$HOME/.bash_aliases\" \"$LINUX_DOTFILES_URL/.bash_aliases\"
-  wget -q -O \"\$HOME/.inputrc\"      \"$LINUX_DOTFILES_URL/.inputrc\"
+user_install_dotfiles() {
+  wget -q -O "$HOME/.bashrc"        "$LINUX_DOTFILES_URL/.bashrc"
+  wget -q -O "$HOME/.bash_aliases" "$LINUX_DOTFILES_URL/.bash_aliases"
+  wget -q -O "$HOME/.inputrc"      "$LINUX_DOTFILES_URL/.inputrc"
 }
 
-install_git_config() {
-  log "Installing Git configuration"
-  wget -q -O \"\$HOME/.gitconfig\" \"$SHARED_GIT_URL/.gitconfig\"
-  wget -q -O \"\$HOME/.gitignore_global\" \"$SHARED_GIT_URL/.gitignore_global\"
+user_install_git() {
+  wget -q -O "$HOME/.gitconfig" "$SHARED_GIT_URL/.gitconfig"
+  wget -q -O "$HOME/.gitignore_global" "$SHARED_GIT_URL/.gitignore_global"
 }
 
-install_ssh_client() {
-  log "Setting up SSH client"
-  mkdir -p \"\$HOME/.ssh\"
-  chmod 700 \"\$HOME/.ssh\"
+user_install_helix() {
+  mkdir -p "$HOME/.config/helix"
+  wget -q -O "$HOME/.config/helix/config.toml" "$SHARED_HELIX_URL/config.toml"
+  wget -q -O "$HOME/.config/helix/languages.toml" "$SHARED_HELIX_URL/languages.toml"
 }
 
-install_helix_config() {
-  log "Installing Helix configuration"
-  mkdir -p \"\$HOME/.config/helix\"
-  wget -q -O \"\$HOME/.config/helix/config.toml\" \"$SHARED_HELIX_URL/config.toml\"
-  wget -q -O \"\$HOME/.config/helix/languages.toml\" \"$SHARED_HELIX_URL/languages.toml\"
-}
-
-### NODE ######################################################################
-source_nvm() {
-  set +u
-  source \"\$HOME/.nvm/nvm.sh\"
-  set -u
-}
-
-install_nvm() {
-  [[ -d \"\$HOME/.nvm\" ]] && return
+user_install_nvm() {
+  [[ -d "$HOME/.nvm" ]] && return
   curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 }
 
-install_node() {
-  source_nvm
+user_install_node() {
+  set +u
+  source "$HOME/.nvm/nvm.sh"
+  set -u
   nvm install --lts
   nvm use --lts --delete-prefix
 }
 
-install_npm_globals() {
-  source_nvm
+user_install_npm_globals() {
+  set +u
+  source "$HOME/.nvm/nvm.sh"
+  set -u
   npm install -g eslint prettier pnpm typescript
 }
 
@@ -268,24 +223,30 @@ main() {
   set_hostname
 
   if [[ "$MODE_VPS" -eq 1 ]]; then
-    run_as_primary_user install_linux_dotfiles
-    run_as_primary_user install_git_config
-    run_as_primary_user install_ssh_client
-    run_as_primary_user install_helix_config
-    run_as_primary_user install_nvm
-    run_as_primary_user install_node
-    run_as_primary_user install_npm_globals
+    log "Installing user dotfiles"
+    run_as_primary_user user_install_dotfiles
+
+    log "Installing git config"
+    run_as_primary_user user_install_git
+
+    log "Installing Helix config"
+    run_as_primary_user user_install_helix
+
+    log "Installing Node toolchain"
+    run_as_primary_user user_install_nvm
+    run_as_primary_user user_install_node
+    run_as_primary_user user_install_npm_globals
+
     prompt_vps_reboot
     return
   fi
 
-  install_linux_dotfiles
-  install_git_config
-  install_ssh_client
-  install_helix_config
-  install_nvm
-  install_node
-  install_npm_globals
+  user_install_dotfiles
+  user_install_git
+  user_install_helix
+  user_install_nvm
+  user_install_node
+  user_install_npm_globals
 
   log "Tier-0 complete"
 }
