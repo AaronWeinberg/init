@@ -99,10 +99,23 @@ This tier has side effects and is **explicitly role-driven**.
 | `--vps`     | Server / cloud VM               |
 | `--wsl`     | WSL environment (no services)   |
 
+### SSH Port Configuration (VPS / Server)
+
+By default, Tier 1 applies SSH hardening using the system’s current SSH port.
+You may explicitly specify a custom SSH port using the `--ssh-port` flag.
+
+This is **strongly recommended for VPS deployments**.
+
+**Example:**
+
+```sh
+./tier1.sh --vps --ssh-port 2222
+```
+
 ### Run Tier 1
 
 ```sh
-# use --desktop, --vps, or --wsl
+# use --desktop, --vps [--ssh-port <port>], or --wsl
 wget -O tier1.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/tier1.sh \
   && chmod +x tier1.sh \
   && ./tier1.sh --desktop \
