@@ -18,6 +18,8 @@ SHARED_HELIX_URL="$SHARED_URL/helix"
 PRIMARY_USER="aaron"
 SSH_AUTH_KEYS_URL="$SHARED_SSH_URL/id_ed25519.pub"
 
+DEFAULT_USER_REMOVAL_SCHEDULED=false
+
 ### LOGGING ###################################################################
 log() {
   echo "[bootstrap] $*"
@@ -53,6 +55,11 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
+if [[ "$MODE_VPS" == true && "$(id -u)" -ne 0 ]]; then
+  echo "ERROR: Tier 0 must be run as root in --vps mode"
+  exit 1
+fi
+
 ### MODE VALIDATION ###########################################################
 mode_count=0
 
@@ -77,8 +84,8 @@ fi
 
 ### PACKAGE MANAGEMENT ########################################################
 pkg_install() {
-  sudo apt-get update -y
-  sudo apt-get install -y "$@"
+  apt-get update -y
+  apt-get install -y "$@"
 }
 
 ### BASE PACKAGES #############################################################
@@ -92,19 +99,15 @@ install_base_packages() {
     git
     htop
     wget
-
-    # Python (system tooling)
     python3
     python3-pip
     python3-venv
   )
 
-  # Desktop + WSL (human-facing systems)
   if [[ "$MODE_VPS" == false ]]; then
     pkgs+=(xclip)
   fi
 
-  # Desktop-only UX packages
   if [[ "$MODE_DESKTOP" == true ]]; then
     pkgs+=(fonts-firacode)
   fi
@@ -116,12 +119,10 @@ install_base_packages() {
 configure_locale() {
   log "Configuring system locale"
 
-  sudo apt-get install -y locales
-
-  sudo sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
-  sudo locale-gen
-
-  sudo update-locale LANG=en_US.UTF-8
+  apt-get install -y locales
+  sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+  locale-gen
+  update-locale LANG=en_US.UTF-8
 }
 
 ### HOSTNAME ##################################################################
@@ -135,20 +136,13 @@ set_hostname() {
   fi
 
   log "Setting hostname to '$DESIRED_HOSTNAME'"
-  sudo hostnamectl set-hostname "$DESIRED_HOSTNAME"
+  hostnamectl set-hostname "$DESIRED_HOSTNAME"
 }
 
 ### CLOUD USER DETECTION #######################################################
 detect_default_cloud_user() {
   local candidates=(
-    debian
-    ubuntu
-    ec2-user
-    rocky
-    almalinux
-    oracle
-    centos
-    admin
+    debian ubuntu ec2-user rocky almalinux oracle centos admin
   )
 
   for user in "${candidates[@]}"; do
@@ -170,25 +164,23 @@ ensure_primary_user() {
 
   log "Creating primary user '$PRIMARY_USER'"
 
-  sudo adduser --disabled-password --gecos "" "$PRIMARY_USER"
-  sudo usermod -aG sudo "$PRIMARY_USER"
+  adduser --disabled-password --gecos "" "$PRIMARY_USER"
+  usermod -aG sudo "$PRIMARY_USER"
 
-  sudo install -d -m 700 "/home/$PRIMARY_USER/.ssh"
-  sudo curl -fsSL "$SSH_AUTH_KEYS_URL" \
+  install -d -m 700 "/home/$PRIMARY_USER/.ssh"
+  curl -fsSL "$SSH_AUTH_KEYS_URL" \
     -o "/home/$PRIMARY_USER/.ssh/authorized_keys"
 
-  sudo chown -R "$PRIMARY_USER:$PRIMARY_USER" "/home/$PRIMARY_USER/.ssh"
-  sudo chmod 600 "/home/$PRIMARY_USER/.ssh/authorized_keys"
+  chown -R "$PRIMARY_USER:$PRIMARY_USER" "/home/$PRIMARY_USER/.ssh"
+  chmod 600 "/home/$PRIMARY_USER/.ssh/authorized_keys"
 }
 
 disable_cloud_init_user_management() {
-  if [[ ! -d /etc/cloud/cloud.cfg.d ]]; then
-    return
-  fi
+  [[ -d /etc/cloud/cloud.cfg.d ]] || return
 
   log "Disabling cloud-init user management"
 
-  sudo tee /etc/cloud/cloud.cfg.d/99-disable-user-management.cfg >/dev/null <<EOF
+  tee /etc/cloud/cloud.cfg.d/99-disable-user-management.cfg >/dev/null <<EOF
 users: []
 disable_root: true
 preserve_hostname: true
@@ -197,7 +189,7 @@ EOF
 
 schedule_default_user_removal() {
   if systemctl is-enabled remove-default-user.service &>/dev/null; then
-    log "Default user removal already scheduled"
+    DEFAULT_USER_REMOVAL_SCHEDULED=true
     return
   fi
 
@@ -211,14 +203,14 @@ schedule_default_user_removal() {
 
   log "Scheduling removal of '$user' on next boot"
 
-  sudo tee /etc/systemd/system/remove-default-user.service >/dev/null <<EOF
+  tee /etc/systemd/system/remove-default-user.service >/dev/null <<EOF
 [Unit]
 Description=Remove default cloud user
-After=network.target
+After=multi-user.target cloud-init.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/sbin/deluser --remove-home $user
+ExecStart=/usr/sbin/deluser --remove-home ${user}
 ExecStartPost=/bin/rm -f /etc/systemd/system/remove-default-user.service
 ExecStartPost=/bin/systemctl daemon-reload
 
@@ -226,16 +218,17 @@ ExecStartPost=/bin/systemctl daemon-reload
 WantedBy=multi-user.target
 EOF
 
-  sudo systemctl daemon-reload
-  sudo systemctl enable remove-default-user.service
+  systemctl daemon-reload
+  systemctl enable remove-default-user.service
+
+  DEFAULT_USER_REMOVAL_SCHEDULED=true
 }
 
 ### DOTFILES ##################################################################
 install_linux_dotfiles() {
   log "Installing Linux dotfiles"
 
-  # Ensure ownership (cloud-init safety)
-  sudo chown -R "$(id -un):$(id -gn)" "$HOME"
+  chown -R "$(id -un):$(id -gn)" "$HOME"
 
   wget -q -O "$HOME/.bashrc"        "$LINUX_DOTFILES_URL/.bashrc"
   wget -q -O "$HOME/.bash_aliases" "$LINUX_DOTFILES_URL/.bash_aliases"
@@ -249,28 +242,21 @@ install_git_config() {
   wget -q -O "$HOME/.gitignore_global" "$SHARED_GIT_URL/.gitignore_global"
 }
 
-### SSH CLIENT / IDENTITY #####################################################
+### SSH CLIENT ################################################################
 install_ssh_client() {
   log "Setting up SSH client"
 
   local ssh_dir="$HOME/.ssh"
-  local pubkey="$ssh_dir/id_ed25519.pub"
-
   mkdir -p "$ssh_dir"
   chmod 700 "$ssh_dir"
 
-  # Only install public key on Desktop + WSL
   if [[ "$MODE_DESKTOP" == true || "$MODE_WSL" == true ]]; then
-    log "Installing SSH public key"
-    wget -q -O "$pubkey" "$SHARED_SSH_URL/id_ed25519.pub"
-    chmod 644 "$pubkey"
-    chown "$USER:$USER" "$pubkey"
-  else
-    log "Skipping SSH public key install (VPS mode)"
+    wget -q -O "$ssh_dir/id_ed25519.pub" "$SHARED_SSH_URL/id_ed25519.pub"
+    chmod 644 "$ssh_dir/id_ed25519.pub"
   fi
 }
 
-### HELIX CONFIG ##############################################################
+### HELIX #####################################################################
 install_helix_config() {
   log "Installing Helix configuration"
   mkdir -p "$HOME/.config/helix"
@@ -280,65 +266,33 @@ install_helix_config() {
     "$SHARED_HELIX_URL/languages.toml"
 }
 
-### NVM #######################################################################
+### NODE TOOLCHAIN ############################################################
 install_nvm() {
-  if [[ -d "$HOME/.nvm" ]]; then
-    log "NVM already installed"
-    return
-  fi
-
-  log "Installing NVM"
+  [[ -d "$HOME/.nvm" ]] && return
   curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 }
 
-### NODE ######################################################################
 install_node() {
   export NVM_DIR="$HOME/.nvm"
-
-  if [[ ! -s "$NVM_DIR/nvm.sh" ]]; then
-    log "ERROR: nvm.sh not found"
-    return 1
-  fi
-
-  log "Installing Node.js (LTS)"
-
-  set +u
-  # shellcheck source=/dev/null
   source "$NVM_DIR/nvm.sh"
-
   nvm install --lts
   nvm use --lts --delete-prefix
-
-  set -u
 }
 
-### NPM GLOBALS ###############################################################
 install_npm_globals() {
   export NVM_DIR="$HOME/.nvm"
-
-  if [[ ! -s "$NVM_DIR/nvm.sh" ]]; then
-    log "ERROR: nvm.sh not found"
-    return 1
-  fi
-
-  log "Installing npm global packages"
-
-  set +u
-  # shellcheck source=/dev/null
   source "$NVM_DIR/nvm.sh"
 
-  npm install -g \
-    eslint \
-    eslint-config-prettier \
-    pnpm \
-    prettier \
-    typescript
-
-  set -u
+  npm install -g eslint eslint-config-prettier pnpm prettier typescript
 }
 
 ### VPS REBOOT PROMPT ##########################################################
 prompt_vps_reboot() {
+  if [[ "$DEFAULT_USER_REMOVAL_SCHEDULED" != true ]]; then
+    log "Tier-0 complete (VPS — no reboot required)"
+    return
+  fi
+
   echo
   echo "================================================="
   echo " Tier 0 complete (VPS)"
@@ -352,14 +306,8 @@ prompt_vps_reboot() {
   read -r answer
 
   case "$answer" in
-    [yY]|[yY][eE][sS])
-      log "Rebooting now"
-      sudo reboot
-      ;;
-    *)
-      log "Reboot skipped"
-      log "IMPORTANT: You must reboot manually before running Tier 1"
-      ;;
+    [yY]|[yY][eE][sS]) reboot ;;
+    *) log "Reboot skipped — reboot manually before Tier 1" ;;
   esac
 }
 
@@ -368,7 +316,7 @@ main() {
   log "Starting Tier-0"
 
   install_base_packages
-  
+
   if [[ "$MODE_VPS" == true ]]; then
     ensure_primary_user
     disable_cloud_init_user_management
@@ -383,12 +331,10 @@ main() {
   install_helix_config
 
   if [[ "$MODE_WSL" == true ]]; then
-    log "Mode: WSL — skipping Node.js toolchain"
     log "Tier-0 complete (WSL)"
     return
   fi
 
-  # Desktop + VPS
   install_nvm
   install_node
   install_npm_globals
@@ -398,10 +344,7 @@ main() {
     return
   fi
 
-  if [[ "$MODE_DESKTOP" == true ]]; then
-    log "Tier-0 complete (Desktop)"
-    return
-  fi
+  log "Tier-0 complete (Desktop)"
 }
 
 main "$@"
