@@ -26,6 +26,21 @@ Write-Host ">>> Tier 0: OS Foundation"
 Write-Host "Log: $LOG_FILE"
 
 # ================================
+# Hostname
+# ================================
+
+$desiredHostname = "windows"
+$currentHostname = $env:COMPUTERNAME
+
+if ($currentHostname -ne $desiredHostname) {
+    Write-Host ">>> Renaming computer from '$currentHostname' to '$desiredHostname'"
+    Rename-Computer -NewName $desiredHostname -Force
+    $global:REBOOT_REQUIRED = $true
+} else {
+    Write-Host ">>> Hostname already set to '$desiredHostname'"
+}
+
+# ================================
 # Package Infrastructure
 # ================================
 
