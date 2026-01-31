@@ -1,258 +1,104 @@
-# Init Scripts & System Setup
+# init
 
-A reproducible, deterministic setup workflow for Linux desktops, VPS environments, and Windows systems.
-This repository contains **explicit, auditable, idempotent scripts** designed to bootstrap a clean system with minimal assumptions and no hidden state.
+A personal, deterministic system bootstrap repository for **Linux** and **Windows**.
 
-The Linux bootstrap script is:
+This repository exists to make new machines boring.
 
-* **Idempotent** (safe to re-run)
-* **Cloud-init compatible**
-* **Non-interactive**
-* **Dry-run capable**
-* Modular, with all side-effects isolated and explicit
+It provides a small set of **explicit, auditable initialization scripts** that transform a fresh OS install into a predictable, usable environment — without hidden state, background automation, or opaque tooling.
 
 ---
 
-## 🐧 Linux Desktop Setup (GNOME)
+## What This Is
 
-### Save Current Settings (Before Reinstall)
+- A **reproducible starting point** for new systems
+- A way to encode *how I want my machines to behave*
+- A guard against configuration drift
+- A replacement for “I’ll remember to set that later”
 
-Run this **once** on your existing system to capture GNOME state:
-
-```sh
-dconf dump / > .dconf
-```
-
-Commit `.dconf` to this repository so it can be restored automatically.
+This is **not** a general-purpose provisioning framework.
+It is intentionally opinionated and personal.
 
 ---
 
-### Run Bootstrap Script
+## Design Principles
 
-```sh
-wget -O bootstrap.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/bootstrap.sh \
-  && chmod +x bootstrap.sh \
-  && ./bootstrap.sh \
-  && rm bootstrap.sh
-```
+Across all platforms, the same rules apply:
 
-### Dry-Run (No Changes)
+- **Explicit over clever**
+- **Manual phase boundaries** (especially around reboots)
+- **No implicit persistence**
+- **No background agents**
+- **No “resume magic”**
+- **No side effects without a name**
 
-```sh
-./bootstrap.sh --dry-run
-```
-
-This prints every command that *would* run without modifying the system.
-
----
-
-### What the Linux Script Does
-
-**Core**
-
-* Installs base packages (`curl`, `wget`, `git`, `ufw`)
-* Installs dotfiles (`.bashrc`, `.gitconfig`)
-* Installs NVM + Node LTS
-* Enables Byobu (explicit side effect)
-
-**Desktop (non-WSL only)**
-
-* Restores GNOME settings from `.dconf`
-* Installs GNOME extension tooling
-* Installs & enables:
-
-  * Dash-to-Dock
-  * User Themes
-
-**VPS / Virtualized Hosts**
-
-* Applies SSH hardening:
-
-  * Custom port
-  * Key-only auth
-  * Root login disabled
-  * Config validated before restart
-
-All behavior is explicit and repeatable.
+If something modifies the system, it is:
+- Intentional
+- Logged
+- Reviewable in the script that caused it
 
 ---
 
-## 🖥️ VPS Setup
+## Platform Overview
 
-### Optional: Change Username (Before Running Bootstrap)
+### 🐧 Linux
 
-```sh
-sudo groupadd new_username
-sudo usermod -l new_username old_username
-sudo mv /home/old_username /home/new_username
-sudo usermod -d /home/new_username new_username
-sudo chown -R new_username:new_username /home/new_username
-```
+Linux initialization is handled by a **single bootstrap script** designed to work across:
 
-Log out and back in **before** running the bootstrap script.
+- Desktop systems
+- VPS / virtualized hosts
+- Cloud-init environments
 
----
+Key characteristics:
 
-### Run Bootstrap (VPS)
+- Idempotent (safe to re-run)
+- Non-interactive
+- Dry-run capable
+- Environment-aware (desktop vs server)
+- Explicit SSH hardening and validation
 
-```sh
-wget -O bootstrap.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/init/linux/bootstrap.sh \
-  && chmod +x bootstrap.sh \
-  && ./bootstrap.sh \
-  && rm bootstrap.sh
-```
-
-The script will automatically:
-
-* Detect virtualization
-* Harden SSH safely
-* Avoid desktop-only steps
+Linux favors **declarative convergence** where possible.
 
 ---
 
-### SSH Notes (Important)
+### 🪟 Windows
 
-* SSH configuration is **validated with `sshd -t` before restart**
-* Firewall rules are applied before restarting SSH
-* If SSH fails validation, the service is **not restarted**
+Windows initialization is intentionally **phase-based**, not monolithic.
 
----
+Setup is split into **tiers**, each representing a distinct responsibility:
 
-## ☁️ Cloud-Init Usage
+- OS foundation
+- Core tooling
+- Personal preferences
+- Experimental changes
 
-The Linux script is cloud-init safe and non-interactive.
+Each tier is:
+- A standalone script
+- Run manually
+- Logged independently
+- Separated by explicit reboot boundaries
 
-### Example cloud-init config
-
-```yaml
-#cloud-config
-runcmd:
-  - [ bash, /usr/local/bin/bootstrap.sh ]
-```
-
-### Dry-Run via Cloud-Init
-
-```yaml
-#cloud-config
-runcmd:
-  - [ bash, /usr/local/bin/bootstrap.sh, --dry-run ]
-```
+Windows favors **explicit sequencing** over pretending reboots don’t exist.
 
 ---
 
-## 🚀 Bare-Repo Deployment (“DIY Heroku”)
+## What This Is *Not*
 
-### Create Bare Repo
+- A configuration management system
+- A dotfile framework
+- An enterprise imaging solution
+- A zero-touch installer
+- A cross-user abstraction layer
 
-```sh
-mkdir -p ~/Development/myProj.git
-cd ~/Development/myProj.git
-git init --bare
-```
-
-### Add Post-Receive Hook
-
-```sh
-cd hooks
-touch post-receive
-chmod u+x post-receive
-```
-
-**post-receive**
-
-```sh
-#!/usr/bin/env bash
-set -euo pipefail
-
-proj=~/Development/myProj
-rm -rf "$proj"
-mkdir -p "$proj"
-
-echo "Checking out to $proj"
-git --work-tree="$proj" checkout -f
-
-echo "Deployment complete"
-```
-
-### Add Remote From Local Machine
-
-```sh
-git remote add prod box1:~/Development/myProj.git
-git push prod
-```
+This repo optimizes for:
+> *clarity, control, and future maintainability*  
+not automation for its own sake.
 
 ---
 
-## 🪟 Windows Setup
+## Repository Structure (High-Level)
 
-### Run Bootstrap Script (PowerShell as Administrator)
-
-```powershell
-Set-ExecutionPolicy Unrestricted -Scope Process -Force
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/AaronWeinberg/init/master/windows/bootstrap.ps1" -OutFile bootstrap.ps1
-.\bootstrap.ps1
-Remove-Item bootstrap.ps1
-```
-
----
-
-## ⚙️ Windows Configuration Checklist
-
-*(unchanged, manual by design)*
-
-* System
-
-  * Night light: **On**
-  * Notifications: **Off**
-* Personalization
-
-  * Theme: **Dark**
-  * Background slideshow (OneDrive)
-* Taskbar
-
-  * Disable search, widgets, chat
-* Apps
-
-  * Startup: **Disable all**
-* Privacy & Security
-
-  * Show file extensions
-  * Show hidden/system files
-* Windows Update
-
-  * Enable optional updates
-
----
-
-## 🔧 Common Setup
-
-### Printer Drivers
-
-* **Linux:**
-  [https://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=mfcl2690dw_us&os=128&dlid=dlf006893_000&flang=4&type3=625](https://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=mfcl2690dw_us&os=128&dlid=dlf006893_000&flang=4&type3=625)
-* **Windows:**
-  [https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=mfcl2690dw_us](https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=mfcl2690dw_us)
-
-### Browsers
-
-* Install extensions and sync settings for:
-
-  * Edge
-  * Firefox
-  * Chrome
-
-### Networking
-
-* Import WireGuard tunnel from `.conf` file
-
----
-
-## Philosophy
-
-* No implicit state
-* No magic prompts
-* All side effects are isolated and intentional
-* Safe to re-run
-* Easy to audit
-
-If something changes your system, it’s in a function and named clearly.
+```text
+init/
+├── linux/      # Linux tiered initialization scripts
+├── windows/    # Windows tiered initialization scripts
+└── README.md   # This file
