@@ -197,7 +197,7 @@ schedule_default_user_removal() {
   user="$(detect_default_cloud_user || true)"
 
   if [[ -z "$user" ]]; then
-    log "No default cloud user detected"
+    log "No default cloud user detected — reboot not required"
     return
   fi
 
@@ -224,11 +224,14 @@ EOF
   DEFAULT_USER_REMOVAL_SCHEDULED=true
 }
 
+### USER CONTEXT EXECUTION ####################################################
+run_as_primary_user() {
+  sudo -u "$PRIMARY_USER" -H bash -lc "$1"
+}
+
 ### DOTFILES ##################################################################
 install_linux_dotfiles() {
   log "Installing Linux dotfiles"
-
-  chown -R "$(id -un):$(id -gn)" "$HOME"
 
   wget -q -O "$HOME/.bashrc"        "$LINUX_DOTFILES_URL/.bashrc"
   wget -q -O "$HOME/.bash_aliases" "$LINUX_DOTFILES_URL/.bash_aliases"
@@ -267,6 +270,12 @@ install_helix_config() {
 }
 
 ### NODE TOOLCHAIN ############################################################
+source_nvm() {
+  set +u
+  source "$NVM_DIR/nvm.sh"
+  set -u
+}
+
 install_nvm() {
   [[ -d "$HOME/.nvm" ]] && return
   curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
@@ -274,15 +283,14 @@ install_nvm() {
 
 install_node() {
   export NVM_DIR="$HOME/.nvm"
-  source "$NVM_DIR/nvm.sh"
+  source_nvm
   nvm install --lts
   nvm use --lts --delete-prefix
 }
 
 install_npm_globals() {
   export NVM_DIR="$HOME/.nvm"
-  source "$NVM_DIR/nvm.sh"
-
+  source_nvm
   npm install -g eslint eslint-config-prettier pnpm prettier typescript
 }
 
@@ -316,6 +324,7 @@ main() {
   log "Starting Tier-0"
 
   install_base_packages
+  configure_locale
 
   if [[ "$MODE_VPS" == true ]]; then
     ensure_primary_user
@@ -323,26 +332,36 @@ main() {
     schedule_default_user_removal
   fi
 
-  configure_locale
   set_hostname
-  install_linux_dotfiles
-  install_git_config
-  install_ssh_client
-  install_helix_config
+
+  if [[ "$MODE_VPS" == true ]]; then
+    run_as_primary_user install_linux_dotfiles
+    run_as_primary_user install_git_config
+    run_as_primary_user install_ssh_client
+    run_as_primary_user install_helix_config
+  else
+    install_linux_dotfiles
+    install_git_config
+    install_ssh_client
+    install_helix_config
+  fi
 
   if [[ "$MODE_WSL" == true ]]; then
     log "Tier-0 complete (WSL)"
     return
   fi
 
-  install_nvm
-  install_node
-  install_npm_globals
-
   if [[ "$MODE_VPS" == true ]]; then
+    run_as_primary_user install_nvm
+    run_as_primary_user install_node
+    run_as_primary_user install_npm_globals
     prompt_vps_reboot
     return
   fi
+
+  install_nvm
+  install_node
+  install_npm_globals
 
   log "Tier-0 complete (Desktop)"
 }
