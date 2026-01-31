@@ -35,10 +35,6 @@ usage() {
   cat <<EOF
 Usage: $0 [--desktop | --vps | --wsl]
 
-  --desktop   Workstation bootstrap
-  --vps       Server / VPS bootstrap
-  --wsl       WSL bootstrap
-
 Exactly one mode must be specified.
 EOF
   exit 1
@@ -60,27 +56,12 @@ if [[ "$MODE_VPS" == true && "$(id -u)" -ne 0 ]]; then
   exit 1
 fi
 
-### MODE VALIDATION ###########################################################
-mode_count=0
+mode_count=$(( MODE_DESKTOP + MODE_VPS + MODE_WSL ))
+[[ "$mode_count" -eq 1 ]] || usage
 
-if [[ "$MODE_DESKTOP" == true ]]; then
-  ((mode_count+=1))
-  DESIRED_HOSTNAME="desktop"
-fi
-
-if [[ "$MODE_VPS" == true ]]; then
-  ((mode_count+=1))
-  DESIRED_HOSTNAME="vps"
-fi
-
-if [[ "$MODE_WSL" == true ]]; then
-  ((mode_count+=1))
-  DESIRED_HOSTNAME="wsl"
-fi
-
-if [[ "$mode_count" -ne 1 ]]; then
-  usage
-fi
+[[ "$MODE_DESKTOP" == true ]] && DESIRED_HOSTNAME="desktop"
+[[ "$MODE_VPS" == true     ]] && DESIRED_HOSTNAME="vps"
+[[ "$MODE_WSL" == true     ]] && DESIRED_HOSTNAME="wsl"
 
 ### PACKAGE MANAGEMENT ########################################################
 pkg_install() {
@@ -88,7 +69,6 @@ pkg_install() {
   apt-get install -y "$@"
 }
 
-### BASE PACKAGES #############################################################
 install_base_packages() {
   log "Installing base packages"
 
@@ -105,13 +85,8 @@ install_base_packages() {
     build-essential
   )
 
-  if [[ "$MODE_VPS" == false ]]; then
-    pkgs+=(xclip)
-  fi
-
-  if [[ "$MODE_DESKTOP" == true ]]; then
-    pkgs+=(fonts-firacode)
-  fi
+  [[ "$MODE_VPS" == false ]] && pkgs+=(xclip)
+  [[ "$MODE_DESKTOP" == true ]] && pkgs+=(fonts-firacode)
 
   pkg_install "${pkgs[@]}"
 }
@@ -133,57 +108,35 @@ configure_locale() {
 
 ### HOSTNAME ##################################################################
 set_hostname() {
-  local current
-  current="$(hostname)"
-
-  if [[ "$current" == "$DESIRED_HOSTNAME" ]]; then
-    log "Hostname already set to '$current'"
-    return
-  fi
-
+  [[ "$(hostname)" == "$DESIRED_HOSTNAME" ]] && return
   log "Setting hostname to '$DESIRED_HOSTNAME'"
   hostnamectl set-hostname "$DESIRED_HOSTNAME"
 }
 
-### CLOUD USER DETECTION #######################################################
+### CLOUD USER ###############################################################
 detect_default_cloud_user() {
-  local candidates=(
-    debian ubuntu ec2-user rocky almalinux oracle centos admin
-  )
-
-  for user in "${candidates[@]}"; do
-    if id "$user" &>/dev/null && [[ "$user" != "$PRIMARY_USER" ]]; then
-      echo "$user"
-      return 0
-    fi
+  for u in debian ubuntu ec2-user rocky almalinux oracle centos admin; do
+    id "$u" &>/dev/null && [[ "$u" != "$PRIMARY_USER" ]] && echo "$u" && return 0
   done
-
   return 1
 }
 
-### USER MANAGEMENT ###########################################################
 ensure_primary_user() {
-  if id "$PRIMARY_USER" &>/dev/null; then
-    log "Primary user '$PRIMARY_USER' already exists"
-    return
-  fi
+  id "$PRIMARY_USER" &>/dev/null && return
 
   log "Creating primary user '$PRIMARY_USER'"
-
   adduser --disabled-password --gecos "" "$PRIMARY_USER"
   usermod -aG sudo "$PRIMARY_USER"
 
   install -d -m 700 "/home/$PRIMARY_USER/.ssh"
   curl -fsSL "$SSH_AUTH_KEYS_URL" \
     -o "/home/$PRIMARY_USER/.ssh/authorized_keys"
-
   chown -R "$PRIMARY_USER:$PRIMARY_USER" "/home/$PRIMARY_USER/.ssh"
   chmod 600 "/home/$PRIMARY_USER/.ssh/authorized_keys"
 }
 
 disable_cloud_init_user_management() {
   [[ -d /etc/cloud/cloud.cfg.d ]] || return
-
   log "Disabling cloud-init user management"
 
   tee /etc/cloud/cloud.cfg.d/99-disable-user-management.cfg >/dev/null <<EOF
@@ -194,18 +147,10 @@ EOF
 }
 
 schedule_default_user_removal() {
-  if systemctl is-enabled remove-default-user.service &>/dev/null; then
-    DEFAULT_USER_REMOVAL_SCHEDULED=true
-    return
-  fi
-
   local user
   user="$(detect_default_cloud_user || true)"
 
-  if [[ -z "$user" ]]; then
-    log "No default cloud user detected — reboot not required"
-    return
-  fi
+  [[ -z "$user" ]] && return
 
   log "Scheduling removal of '$user' on next boot"
 
@@ -226,61 +171,51 @@ EOF
 
   systemctl daemon-reload
   systemctl enable remove-default-user.service
-
   DEFAULT_USER_REMOVAL_SCHEDULED=true
 }
 
 ### USER CONTEXT EXECUTION ####################################################
 run_as_primary_user() {
-  sudo -u "$PRIMARY_USER" -H bash -lc "$1"
+  local fn="$1"
+
+  sudo -u "$PRIMARY_USER" -H bash -lc "
+    set -euo pipefail
+    $(declare -f "$fn")
+    $fn
+  "
 }
 
-export -f run_as_primary_user
-
-### DOTFILES ##################################################################
+### USER DOTFILES #############################################################
 install_linux_dotfiles() {
   log "Installing Linux dotfiles"
-
   wget -q -O "$HOME/.bashrc"        "$LINUX_DOTFILES_URL/.bashrc"
   wget -q -O "$HOME/.bash_aliases" "$LINUX_DOTFILES_URL/.bash_aliases"
   wget -q -O "$HOME/.inputrc"      "$LINUX_DOTFILES_URL/.inputrc"
 }
 
-### GIT CONFIG ################################################################
 install_git_config() {
   log "Installing Git configuration"
-  wget -q -O "$HOME/.gitconfig"        "$SHARED_GIT_URL/.gitconfig"
+  wget -q -O "$HOME/.gitconfig" "$SHARED_GIT_URL/.gitconfig"
   wget -q -O "$HOME/.gitignore_global" "$SHARED_GIT_URL/.gitignore_global"
 }
 
-### SSH CLIENT ################################################################
 install_ssh_client() {
   log "Setting up SSH client"
-
-  local ssh_dir="$HOME/.ssh"
-  mkdir -p "$ssh_dir"
-  chmod 700 "$ssh_dir"
-
-  if [[ "$MODE_DESKTOP" == true || "$MODE_WSL" == true ]]; then
-    wget -q -O "$ssh_dir/id_ed25519.pub" "$SHARED_SSH_URL/id_ed25519.pub"
-    chmod 644 "$ssh_dir/id_ed25519.pub"
-  fi
+  mkdir -p "$HOME/.ssh"
+  chmod 700 "$HOME/.ssh"
 }
 
-### HELIX #####################################################################
 install_helix_config() {
   log "Installing Helix configuration"
   mkdir -p "$HOME/.config/helix"
-  wget -q -O "$HOME/.config/helix/config.toml" \
-    "$SHARED_HELIX_URL/config.toml"
-  wget -q -O "$HOME/.config/helix/languages.toml" \
-    "$SHARED_HELIX_URL/languages.toml"
+  wget -q -O "$HOME/.config/helix/config.toml" "$SHARED_HELIX_URL/config.toml"
+  wget -q -O "$HOME/.config/helix/languages.toml" "$SHARED_HELIX_URL/languages.toml"
 }
 
-### NODE TOOLCHAIN ############################################################
+### NODE ######################################################################
 source_nvm() {
   set +u
-  source "$NVM_DIR/nvm.sh"
+  source "$HOME/.nvm/nvm.sh"
   set -u
 }
 
@@ -290,52 +225,24 @@ install_nvm() {
 }
 
 install_node() {
-  export NVM_DIR="$HOME/.nvm"
   source_nvm
   nvm install --lts
   nvm use --lts --delete-prefix
 }
 
 install_npm_globals() {
-  export NVM_DIR="$HOME/.nvm"
   source_nvm
-  npm install -g eslint eslint-config-prettier pnpm prettier typescript
+  npm install -g eslint prettier pnpm typescript
 }
 
-### EXPORT USER-SCOPED FUNCTIONS ##############################################
-export -f \
-  install_linux_dotfiles \
-  install_git_config \
-  install_ssh_client \
-  install_helix_config \
-  install_nvm \
-  install_node \
-  install_npm_globals \
-  source_nvm
-
-### VPS REBOOT PROMPT ##########################################################
+### REBOOT ####################################################################
 prompt_vps_reboot() {
-  if [[ "$DEFAULT_USER_REMOVAL_SCHEDULED" != true ]]; then
-    log "Tier-0 complete (VPS — no reboot required)"
-    return
-  fi
+  [[ "$DEFAULT_USER_REMOVAL_SCHEDULED" != true ]] && return
 
   echo
-  echo "================================================="
-  echo " Tier 0 complete (VPS)"
-  echo
-  echo " A reboot is required before running Tier 1:"
-  echo "  - Completes user handoff"
-  echo "  - Allows safe removal of the default cloud user"
-  echo
-  echo " Reboot now? [y/N]"
-  echo "================================================="
-  read -r answer
-
-  case "$answer" in
-    [yY]|[yY][eE][sS]) reboot ;;
-    *) log "Reboot skipped — reboot manually before Tier 1" ;;
-  esac
+  echo "Tier 0 complete (VPS). Reboot required before Tier 1."
+  read -r -p "Reboot now? [y/N] " ans
+  [[ "$ans" =~ ^[yY] ]] && reboot
 }
 
 ### MAIN ######################################################################
@@ -358,19 +265,6 @@ main() {
     run_as_primary_user install_git_config
     run_as_primary_user install_ssh_client
     run_as_primary_user install_helix_config
-  else
-    install_linux_dotfiles
-    install_git_config
-    install_ssh_client
-    install_helix_config
-  fi
-
-  if [[ "$MODE_WSL" == true ]]; then
-    log "Tier-0 complete (WSL)"
-    return
-  fi
-
-  if [[ "$MODE_VPS" == true ]]; then
     run_as_primary_user install_nvm
     run_as_primary_user install_node
     run_as_primary_user install_npm_globals
@@ -378,11 +272,15 @@ main() {
     return
   fi
 
+  install_linux_dotfiles
+  install_git_config
+  install_ssh_client
+  install_helix_config
   install_nvm
   install_node
   install_npm_globals
 
-  log "Tier-0 complete (Desktop)"
+  log "Tier-0 complete"
 }
 
 main "$@"
