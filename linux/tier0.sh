@@ -18,7 +18,7 @@ SHARED_HELIX_URL="$SHARED_URL/helix"
 PRIMARY_USER="aaron"
 SSH_AUTH_KEYS_URL="$SHARED_SSH_URL/id_ed25519.pub"
 
-DEFAULT_USER_REMOVAL_SCHEDULED=false
+DEFAULT_USER_REMOVAL_SCHEDULED=0
 
 ### LOGGING ###################################################################
 log() {
@@ -26,9 +26,9 @@ log() {
 }
 
 ### MODE FLAGS ###############################################################
-MODE_DESKTOP=false
-MODE_VPS=false
-MODE_WSL=false
+MODE_DESKTOP=0
+MODE_VPS=0
+MODE_WSL=0
 DESIRED_HOSTNAME=""
 
 usage() {
@@ -42,16 +42,16 @@ EOF
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --desktop) MODE_DESKTOP=true ;;
-    --vps)     MODE_VPS=true ;;
-    --wsl)     MODE_WSL=true ;;
+    --desktop) MODE_DESKTOP=1 ;;
+    --vps)     MODE_VPS=1 ;;
+    --wsl)     MODE_WSL=1 ;;
     -h|--help) usage ;;
     *) echo "Unknown argument: $1"; usage ;;
   esac
   shift
 done
 
-if [[ "$MODE_VPS" == true && "$(id -u)" -ne 0 ]]; then
+if [[ "$MODE_VPS" -eq 1 && "$(id -u)" -ne 0 ]]; then
   echo "ERROR: Tier 0 must be run as root in --vps mode"
   exit 1
 fi
@@ -59,9 +59,9 @@ fi
 mode_count=$(( MODE_DESKTOP + MODE_VPS + MODE_WSL ))
 [[ "$mode_count" -eq 1 ]] || usage
 
-[[ "$MODE_DESKTOP" == true ]] && DESIRED_HOSTNAME="desktop"
-[[ "$MODE_VPS" == true     ]] && DESIRED_HOSTNAME="vps"
-[[ "$MODE_WSL" == true     ]] && DESIRED_HOSTNAME="wsl"
+[[ "$MODE_DESKTOP" -eq 1 ]] && DESIRED_HOSTNAME="desktop"
+[[ "$MODE_VPS"     -eq 1 ]] && DESIRED_HOSTNAME="vps"
+[[ "$MODE_WSL"     -eq 1 ]] && DESIRED_HOSTNAME="wsl"
 
 ### PACKAGE MANAGEMENT ########################################################
 pkg_install() {
@@ -85,8 +85,8 @@ install_base_packages() {
     build-essential
   )
 
-  [[ "$MODE_VPS" == false ]] && pkgs+=(xclip)
-  [[ "$MODE_DESKTOP" == true ]] && pkgs+=(fonts-firacode)
+  [[ "$MODE_VPS" -eq 0 ]] && pkgs+=(xclip)
+  [[ "$MODE_DESKTOP" -eq 1 ]] && pkgs+=(fonts-firacode)
 
   pkg_install "${pkgs[@]}"
 }
@@ -149,7 +149,6 @@ EOF
 schedule_default_user_removal() {
   local user
   user="$(detect_default_cloud_user || true)"
-
   [[ -z "$user" ]] && return
 
   log "Scheduling removal of '$user' on next boot"
@@ -171,7 +170,7 @@ EOF
 
   systemctl daemon-reload
   systemctl enable remove-default-user.service
-  DEFAULT_USER_REMOVAL_SCHEDULED=true
+  DEFAULT_USER_REMOVAL_SCHEDULED=1
 }
 
 ### USER CONTEXT EXECUTION ####################################################
@@ -237,7 +236,7 @@ install_npm_globals() {
 
 ### REBOOT ####################################################################
 prompt_vps_reboot() {
-  [[ "$DEFAULT_USER_REMOVAL_SCHEDULED" != true ]] && return
+  [[ "$DEFAULT_USER_REMOVAL_SCHEDULED" -eq 0 ]] && return
 
   echo
   echo "Tier 0 complete (VPS). Reboot required before Tier 1."
@@ -252,7 +251,7 @@ main() {
   install_base_packages
   configure_locale
 
-  if [[ "$MODE_VPS" == true ]]; then
+  if [[ "$MODE_VPS" -eq 1 ]]; then
     ensure_primary_user
     disable_cloud_init_user_management
     schedule_default_user_removal
@@ -260,7 +259,7 @@ main() {
 
   set_hostname
 
-  if [[ "$MODE_VPS" == true ]]; then
+  if [[ "$MODE_VPS" -eq 1 ]]; then
     run_as_primary_user install_linux_dotfiles
     run_as_primary_user install_git_config
     run_as_primary_user install_ssh_client
