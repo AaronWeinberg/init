@@ -102,6 +102,7 @@ install_base_packages() {
     python3
     python3-pip
     python3-venv
+    build-essential
   )
 
   if [[ "$MODE_VPS" == false ]]; then
@@ -120,7 +121,12 @@ configure_locale() {
   log "Configuring system locale"
 
   apt-get install -y locales
-  sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+
+  sed -i \
+    -e 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' \
+    -e 's/^# *en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' \
+    /etc/locale.gen
+
   locale-gen
   update-locale LANG=en_US.UTF-8
 }
@@ -229,6 +235,8 @@ run_as_primary_user() {
   sudo -u "$PRIMARY_USER" -H bash -lc "$1"
 }
 
+export -f run_as_primary_user
+
 ### DOTFILES ##################################################################
 install_linux_dotfiles() {
   log "Installing Linux dotfiles"
@@ -293,6 +301,17 @@ install_npm_globals() {
   source_nvm
   npm install -g eslint eslint-config-prettier pnpm prettier typescript
 }
+
+### EXPORT USER-SCOPED FUNCTIONS ##############################################
+export -f \
+  install_linux_dotfiles \
+  install_git_config \
+  install_ssh_client \
+  install_helix_config \
+  install_nvm \
+  install_node \
+  install_npm_globals \
+  source_nvm
 
 ### VPS REBOOT PROMPT ##########################################################
 prompt_vps_reboot() {
