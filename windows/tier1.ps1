@@ -46,7 +46,7 @@ $apps = @(
     "Google.Chrome",
     "Mozilla.Firefox",
     "WireGuard.WireGuard",
-    "Balena.Etcher"
+    "Ventoy.Ventoy"
 )
 
 foreach ($app in $apps) {
