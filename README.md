@@ -99,6 +99,7 @@ not automation for its own sake.
 
 ```text
 init/
-├── linux/      # Linux tiered initialization scripts
-├── windows/    # Windows tiered initialization scripts
-└── README.md   # This file
+├── linux/        # Linux bootstrap scripts and platform-specific config
+├── windows/      # Windows tiered initialization scripts
+├── dotfiles/     # Version-controlled configuration files (shared + per-OS)
+└── README.md     # Repository overview
