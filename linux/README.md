@@ -46,9 +46,10 @@ Establish a consistent *user-level* environment with no system services or destr
 ### Run Tier 0
 
 ```sh
+# use --desktop, --vps, or --wsl
 wget -O tier0.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/tier0.sh \
   && chmod +x tier0.sh \
-  && ./tier0.sh --desktop   # or --vps | --wsl \
+  && ./tier0.sh --desktop \
   && rm tier0.sh
 ```
 
@@ -101,10 +102,12 @@ This tier has side effects and is **explicitly role-driven**.
 ### Run Tier 1
 
 ```sh
+# use --desktop, --vps, or --wsl
 wget -O tier1.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/tier1.sh \
   && chmod +x tier1.sh \
-  && ./tier1.sh --desktop   # or --vps | --wsl \
+  && ./tier1.sh --desktop \
   && rm tier1.sh
+
 ```
 
 ---
