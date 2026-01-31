@@ -152,25 +152,30 @@ For a **desktop workstation**:
 
 1. Tier 0 – bootstrap user environment
 2. Tier 1 – system + desktop packages
-3. Log out / log in (if prompted)
+3. Log out / log in (if required)
 4. Tier 2 – GNOME configuration
 
 For a **VPS**:
 
-1. Tier 0 – bootstrap user environment
+1. **Tier 0 — Bootstrap user environment**
+   - Create the intended user
+   - Configure SSH access
+   - Stage removal of the default provider user
 
-2. **Reboot the VPS** (required to complete user handoff and deferred default-user removal)
+2. **Reboot the VPS** (required)
+   - Completes user handoff
+   - Ensures no active sessions for the default provider user
 
-3. Tier 1 – system hardening
-
-4. Tier 0 – bootstrap user environment
-
-5. Tier 1 – system hardening
+3. **Tier 1 — System hardening**
+   - SSH hardening
+   - Firewall configuration
+   - Removal of the default provider user
 
 For **WSL**:
 
 1. Tier 0 – bootstrap user environment
-2. Tier 1 – minimal tooling
+2. Tier 1 – minimal tooling  
+   (No system hardening or desktop configuration in WSL)
 
 ---
 
