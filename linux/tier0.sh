@@ -179,7 +179,15 @@ run_as_primary_user() {
 
   sudo -u "$PRIMARY_USER" -H bash -lc "
     set -euo pipefail
-    $(declare -f "$fn")
+    $(declare -f log)
+    $(declare -f source_nvm)
+    $(declare -f install_linux_dotfiles)
+    $(declare -f install_git_config)
+    $(declare -f install_ssh_client)
+    $(declare -f install_helix_config)
+    $(declare -f install_nvm)
+    $(declare -f install_node)
+    $(declare -f install_npm_globals)
     $fn
   "
 }
@@ -187,39 +195,39 @@ run_as_primary_user() {
 ### USER DOTFILES #############################################################
 install_linux_dotfiles() {
   log "Installing Linux dotfiles"
-  wget -q -O "$HOME/.bashrc"        "$LINUX_DOTFILES_URL/.bashrc"
-  wget -q -O "$HOME/.bash_aliases" "$LINUX_DOTFILES_URL/.bash_aliases"
-  wget -q -O "$HOME/.inputrc"      "$LINUX_DOTFILES_URL/.inputrc"
+  wget -q -O \"\$HOME/.bashrc\"        \"$LINUX_DOTFILES_URL/.bashrc\"
+  wget -q -O \"\$HOME/.bash_aliases\" \"$LINUX_DOTFILES_URL/.bash_aliases\"
+  wget -q -O \"\$HOME/.inputrc\"      \"$LINUX_DOTFILES_URL/.inputrc\"
 }
 
 install_git_config() {
   log "Installing Git configuration"
-  wget -q -O "$HOME/.gitconfig" "$SHARED_GIT_URL/.gitconfig"
-  wget -q -O "$HOME/.gitignore_global" "$SHARED_GIT_URL/.gitignore_global"
+  wget -q -O \"\$HOME/.gitconfig\" \"$SHARED_GIT_URL/.gitconfig\"
+  wget -q -O \"\$HOME/.gitignore_global\" \"$SHARED_GIT_URL/.gitignore_global\"
 }
 
 install_ssh_client() {
   log "Setting up SSH client"
-  mkdir -p "$HOME/.ssh"
-  chmod 700 "$HOME/.ssh"
+  mkdir -p \"\$HOME/.ssh\"
+  chmod 700 \"\$HOME/.ssh\"
 }
 
 install_helix_config() {
   log "Installing Helix configuration"
-  mkdir -p "$HOME/.config/helix"
-  wget -q -O "$HOME/.config/helix/config.toml" "$SHARED_HELIX_URL/config.toml"
-  wget -q -O "$HOME/.config/helix/languages.toml" "$SHARED_HELIX_URL/languages.toml"
+  mkdir -p \"\$HOME/.config/helix\"
+  wget -q -O \"\$HOME/.config/helix/config.toml\" \"$SHARED_HELIX_URL/config.toml\"
+  wget -q -O \"\$HOME/.config/helix/languages.toml\" \"$SHARED_HELIX_URL/languages.toml\"
 }
 
 ### NODE ######################################################################
 source_nvm() {
   set +u
-  source "$HOME/.nvm/nvm.sh"
+  source \"\$HOME/.nvm/nvm.sh\"
   set -u
 }
 
 install_nvm() {
-  [[ -d "$HOME/.nvm" ]] && return
+  [[ -d \"\$HOME/.nvm\" ]] && return
   curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 }
 
