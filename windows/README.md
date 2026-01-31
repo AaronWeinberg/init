@@ -58,6 +58,7 @@ Invoke-WebRequest `
   -OutFile tier0.ps1
 
 .\tier0.ps1
+```
 
 ➡ **Reboot immediately after Tier 0 completes.**
 
@@ -108,10 +109,6 @@ Invoke-WebRequest `
 * Bloatware removal
 * Startup pruning (known offenders)
 * NVIDIA container service disabling
-
-This tier explicitly answers:
-
-> *“This machine is mine.”*
 
 ### Run
 
