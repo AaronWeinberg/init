@@ -40,14 +40,27 @@ if ! shopt -oq posix; then
 fi
 
 # --- update() function ---
-update(){
-  sudo apt update &&
-  sudo apt -y full-upgrade &&
-  sudo apt -y autoremove &&
-  rm -rf "$HOME/.local/share/Trash/"*
+update() {
+  sudo apt update -qq
 
-  # Only run fwupdmgr if not WSL or VPS
-  if ! grep -qi microsoft /proc/version && [ "$(systemd-detect-virt)" = "none" ]; then
+  UPGRADES=$(apt list --upgradable 2>/dev/null | grep -vc Listing)
+
+  if [ "$UPGRADES" -gt 0 ]; then
+    echo "📦 $UPGRADES package(s) can be upgraded, upgrading..."
+    sudo apt -y full-upgrade
+    sudo apt -y autoremove
+  else
+    echo "📦 System already up to date"
+  fi
+
+  # Safely empty user trash
+  rm -rf "$HOME/.local/share/Trash/files/"* \
+         "$HOME/.local/share/Trash/info/"*
+
+  # Firmware updates (non-WSL, non-virtualized)
+  if ! grep -qi microsoft /proc/version && \
+     [ "$(systemd-detect-virt 2>/dev/null)" = "none" ]; then
+
     sudo fwupdmgr refresh >/dev/null 2>&1
 
     if sudo fwupdmgr get-updates | grep -q "Upgrade available"; then
@@ -67,12 +80,17 @@ export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 
 # --- npm global bin path ---
-export PATH="${HOME}/.npm-global/bin:$PATH"
+export PATH="$HOME/.npm-global/bin:$PATH"
 
 # --- NVM ---
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+
+# --- Git branch helper ---
+parse_git_branch() {
+  git rev-parse --abbrev-ref HEAD 2>/dev/null | sed 's/^/|/'
+}
 
 # --- Custom Prompt (Git branch aware) ---
-PS1='\[\e[0;32m\]\u@\h\[\e[m\]:\[\e[0;34m\]\w\[\e[m\]$(branch=$(git branch 2>/dev/null | grep \* | sed "s/* //") && [ -n "$branch" ] && echo "|\[\e[0;33m\]$branch")\[\e[m\]$ '
+PS1='\[\e[0;32m\]\u@\h\[\e[m\]:\[\e[0;34m\]\w\[\e[m\]\[\e[0;33m\]$(parse_git_branch)\[\e[m\]$ '
