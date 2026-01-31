@@ -337,6 +337,32 @@ install_npm_globals() {
   set -u
 }
 
+### VPS REBOOT PROMPT ##########################################################
+prompt_vps_reboot() {
+  echo
+  echo "================================================="
+  echo " Tier 0 complete (VPS)"
+  echo
+  echo " A reboot is required before running Tier 1:"
+  echo "  - Completes user handoff"
+  echo "  - Allows safe removal of the default cloud user"
+  echo
+  echo " Reboot now? [y/N]"
+  echo "================================================="
+  read -r answer
+
+  case "$answer" in
+    [yY]|[yY][eE][sS])
+      log "Rebooting now"
+      sudo reboot
+      ;;
+    *)
+      log "Reboot skipped"
+      log "IMPORTANT: You must reboot manually before running Tier 1"
+      ;;
+  esac
+}
+
 ### MAIN ######################################################################
 main() {
   log "Starting Tier-0"
@@ -368,7 +394,7 @@ main() {
   install_npm_globals
 
   if [[ "$MODE_VPS" == true ]]; then
-    log "Tier-0 complete (VPS)"
+    prompt_vps_reboot
     return
   fi
 
