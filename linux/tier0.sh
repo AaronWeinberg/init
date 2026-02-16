@@ -70,6 +70,10 @@ if [[ "$MODE_VPS" -eq 1 ]]; then
     adduser --disabled-password --gecos "" "$PRIMARY_USER"
     usermod -aG sudo "$PRIMARY_USER"
 
+    log "Configuring passwordless sudo for '$PRIMARY_USER'"
+    echo "$PRIMARY_USER ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/$PRIMARY_USER"
+    chmod 440 "/etc/sudoers.d/$PRIMARY_USER"
+    
     install -d -m 700 "/home/$PRIMARY_USER/.ssh"
     curl -fsSL "$SSH_AUTH_KEYS_URL" \
       -o "/home/$PRIMARY_USER/.ssh/authorized_keys"
