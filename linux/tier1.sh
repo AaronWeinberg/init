@@ -100,7 +100,6 @@ mode_count=0
 [[ "$MODE_DESKTOP" == true ]] && ((mode_count+=1))
 [[ "$MODE_VPS" == true ]]     && ((mode_count+=1))
 [[ "$MODE_WSL" == true ]]     && ((mode_count+=1))
-
 [[ "$mode_count" -ne 1 ]] && usage
 
 ### PLATFORM ##################################################################
@@ -142,12 +141,11 @@ ssh_hardening() {
   pkg_install openssh-server
 
   local port_conf="/etc/ssh/sshd_config.d/99-port.conf"
+  local port_changed=false
 
-  # Apply port override only if explicitly provided
   if [[ -n "${SSH_PORT:-}" ]]; then
     local port="$SSH_PORT"
 
-    # Validate provided port
     if ! [[ "$port" =~ ^[0-9]+$ ]] || (( port < 1 || port > 65535 )); then
       echo "ERROR: Invalid SSH port: $port"
       exit 1
@@ -157,6 +155,11 @@ ssh_hardening() {
 
     echo "Port ${port}" | sudo tee "$port_conf" >/dev/null
     sudo chmod 644 "$port_conf"
+
+    pkg_install ufw
+    sudo ufw allow "${port}/tcp"
+
+    port_changed=true
   else
     log "No --ssh-port provided — leaving SSH port unchanged"
   fi
@@ -164,16 +167,20 @@ ssh_hardening() {
   # Validate SSH configuration before restart
   sudo /usr/sbin/sshd -t
 
-  pkg_install ufw
-
-  # Open firewall port only if we set one
-  if [[ -n "${SSH_PORT:-}" ]]; then
-    sudo ufw allow "${SSH_PORT}/tcp"
+  if [[ "$port_changed" == true ]]; then
+    echo
+    echo "SSH port changed to ${SSH_PORT}"
+    echo "Your session may disconnect."
+    echo
+    echo "Reconnect using:"
+    echo "  ssh -p ${SSH_PORT} ${PRIMARY_USER}@$(hostname -I | awk '{print $1}')"
+    echo
   fi
 
-  sudo systemctl restart ssh || sudo systemctl restart sshd
+  if [[ "$port_changed" == true ]]; then
+    sudo systemctl restart ssh || sudo systemctl restart sshd
+  fi
 
-  # Log effective SSH port
   local effective_port
   effective_port="$(sudo sshd -T | awk '/^port / {print $2}')"
   log "Effective SSH port: ${effective_port}"
