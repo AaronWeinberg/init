@@ -32,15 +32,30 @@ usage() {
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --vps) MODE_VPS=1 ;;
-    --desktop) MODE_DESKTOP=1 ;;
-    --wsl) MODE_WSL=1 ;;
-    *) usage ;;
+    --vps)
+      MODE_VPS=1
+      NEW_HOSTNAME="vps"
+      ;;
+    --desktop)
+      MODE_DESKTOP=1
+      NEW_HOSTNAME="desktop"
+      ;;
+    --wsl)
+      MODE_WSL=1
+      NEW_HOSTNAME="wsl"
+      ;;
+    *)
+      usage
+      ;;
   esac
   shift
 done
 
 (( MODE_VPS + MODE_DESKTOP + MODE_WSL == 1 )) || usage
+
+### HOSTNAME ##################################################################
+log "Setting hostname to '$NEW_HOSTNAME'"
+hostnamectl set-hostname "$NEW_HOSTNAME"
 
 if [[ "$MODE_VPS" -eq 1 && "$(id -u)" -ne 0 ]]; then
   echo "ERROR: --vps must be run as root"
