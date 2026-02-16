@@ -49,7 +49,7 @@ Establish a consistent *user-level* environment with no system services or destr
 # use --desktop, --vps, or --wsl
 wget -O tier0.sh https://raw.githubusercontent.com/AaronWeinberg/init/master/linux/tier0.sh \
   && chmod +x tier0.sh \
-  && ./tier0.sh --desktop \
+  && sudo ./tier0.sh --desktop \
   && rm tier0.sh
 ```
 
