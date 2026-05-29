@@ -224,6 +224,30 @@ https://packages.microsoft.com/repos/edge stable main" \
   pkg_install microsoft-edge-stable
 }
 
+### PROTON VPN ###############################################################
+install_protonvpn() {
+  dpkg -s proton-vpn-gnome-desktop >/dev/null 2>&1 && return
+
+  log "Installing Proton VPN"
+
+  sudo mkdir -p /etc/apt/keyrings
+
+  curl -fsSL https://repo.protonvpn.com/debian/public_key.asc \
+    | sudo gpg --dearmor -o /etc/apt/keyrings/protonvpn.gpg
+
+  echo "deb [signed-by=/etc/apt/keyrings/protonvpn.gpg] \
+https://repo.protonvpn.com/debian stable main" \
+    | sudo tee /etc/apt/sources.list.d/protonvpn.list >/dev/null
+
+  sudo apt-get update -y
+
+  pkg_install \
+    proton-vpn-gnome-desktop \
+    wireguard \
+    wireguard-tools \
+    network-manager-wireguard
+}
+
 ### STEAM ######################################################################
 install_steam() {
   command -v steam >/dev/null && return
@@ -299,6 +323,7 @@ main() {
     if require_desktop; then
       install_chrome
       install_edge
+      install_protonvpn
       install_steam
       install_gnome_extensions
     fi
