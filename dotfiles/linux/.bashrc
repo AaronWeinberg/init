@@ -63,7 +63,7 @@ update() {
 
     sudo fwupdmgr refresh >/dev/null 2>&1
 
-    if sudo fwupdmgr get-updates | grep -q "Upgrade available"; then
+    if sudo fwupdmgr get-updates --no-unreported-check | grep -q "Upgrade available"; then
       echo "🔧 Firmware updates found, applying..."
       sudo fwupdmgr update
     fi
