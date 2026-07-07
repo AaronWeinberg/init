@@ -98,6 +98,10 @@ function update {
     } else {
         Write-Warning "Skipping Windows Update (PSWindowsUpdate not installed)"
     }
+
+    Write-Host ">>> UPDATE DRIVERS <<<"
+        Get-WindowsUpdate -MicrosoftUpdate -Category "Drivers" | Out-Null
+        Install-WindowsUpdate -MicrosoftUpdate -Category "Drivers" -AcceptAll
 }
 
 Set-Location -Path "~"
