@@ -77,31 +77,44 @@ function ll {
 }
 
 function update {
-    Write-Host ">>> EMPTY RECYCLE BIN <<<"
-    Clear-RecycleBin -Force -ErrorAction SilentlyContinue
+Write-Host ">>> EMPTY RECYCLE BIN <<<"
+Clear-RecycleBin -Force -ErrorAction SilentlyContinue
 
-    Write-Host ">>> UPDATE WINGET APPS <<<"
-    winget update --all --include-unknown
+Write-Host ">>> UPDATE WINGET APPS <<<"
+winget upgrade --all --include-unknown
 
-    # Only attempt Windows Update if elevated and module exists
-    $isAdmin = ([Security.Principal.WindowsPrincipal] `
-        [Security.Principal.WindowsIdentity]::GetCurrent()
-    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+# Check for Administrator privileges
+$isAdmin = ([Security.Principal.WindowsPrincipal] `
+    [Security.Principal.WindowsIdentity]::GetCurrent()
+).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-    if ($isAdmin -and (Get-Module -ListAvailable PSWindowsUpdate)) {
-        Write-Host ">>> WINDOWS UPDATES <<<"
-        Import-Module PSWindowsUpdate -ErrorAction SilentlyContinue
-        Get-WindowsUpdate | Out-Null
-        Install-WindowsUpdate -AcceptAll
-    } elseif (-not $isAdmin) {
-        Write-Warning "Skipping Windows Update (not running as Administrator)"
-    } else {
-        Write-Warning "Skipping Windows Update (PSWindowsUpdate not installed)"
-    }
+if (-not $isAdmin) {
+    Write-Warning "Skipping Windows and driver updates (not running as Administrator)"
+    return
+}
 
-    Write-Host ">>> UPDATE DRIVERS <<<"
-        Get-WindowsUpdate -MicrosoftUpdate -Category "Drivers" | Out-Null
-        Install-WindowsUpdate -MicrosoftUpdate -Category "Drivers" -AcceptAll
+# Check for PSWindowsUpdate
+if (-not (Get-Module -ListAvailable PSWindowsUpdate)) {
+    Write-Warning "Skipping Windows and driver updates (PSWindowsUpdate not installed)"
+    return
+}
+
+Import-Module PSWindowsUpdate -ErrorAction Stop
+
+Write-Host ">>> UPDATE WINDOWS <<<"
+Install-WindowsUpdate `
+    -MicrosoftUpdate `
+    -NotCategory "Drivers" `
+    -AcceptAll
+
+Write-Host ">>> UPDATE DRIVERS <<<"
+Install-WindowsUpdate `
+    -MicrosoftUpdate `
+    -Category "Drivers" `
+    -AcceptAll
+
+Write-Host ">>> UPDATE COMPLETE <<<"
+
 }
 
 Set-Location -Path "~"
